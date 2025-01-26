@@ -1,0 +1,31 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: calc(100vh - 60px);
+}
+
+.hone_wrapper {
+  flex: 1;
+}
+
+.footer {
+  padding: 10px 20px;
+}
+.main-title h3 {
+  color: #000 !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .card-inner > .card_icon {
+    font-size: 20px;
+  }
+  .card-inner h3 {
+    font-size: 15px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .card-inner h3 {
+    font-size: 18px !important;
+  }
+}

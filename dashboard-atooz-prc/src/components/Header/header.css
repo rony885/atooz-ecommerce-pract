@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 10px 20px; */
+  /* background-color: #333; */
+  background-color: #2e7d32;
+  color: white;
+}
+.header-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-icon .icon,
+.header-left .icon,
+.header-right .icon {
+  font-size: 20px;
+  cursor: pointer;
+  /* margin: 0 10px; */
+  /* margin: 0 20px; */
+  margin: 0 6px;
+}
+
+.account-icon {
+  position: relative;
+}
+
+.dropDown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  color: black;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  z-index: 1000;
+  text-align: center;
+  margin-left: 50px;
+}
+
+.dropDown li {
+  padding: 5px 20px;
+  cursor: pointer;
+}
+
+.dropDown li:hover {
+  background-color: #f0f0f0;
+}
