@@ -37,6 +37,7 @@ const Brand = () => {
     fetchBrand();
   }, [fetchBrand]);
 
+  // modal
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -48,6 +49,102 @@ const Brand = () => {
   const closeAddModal = () => setIsAddModalOpen(false);
   const closeEditModal = () => setIsEditModalOpen(false);
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
+
+  const [message, setMessage] = useState();
+  const [item, setItem] = useState({});
+  const [receivedId, setReceivedId] = useState(null);
+
+  // add
+  const AddBrandFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("name", values.name);
+    formfield.append("status", values.status);
+
+    if (values.image) {
+      formfield.append("image", values.image);
+    }
+
+    await axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_brand/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(response.success, "Product brand is successfuly created...");
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitAddBrandForm = async (
+    values,
+    { setErrors, setSubmitting, resetForm }
+  ) => {
+    try {
+      AddBrandFunc(values);
+      setSubmitting(false);
+      // resetForm();
+    } catch (error) {
+      setErrors({ error: error.message });
+    }
+  };
+
+  // update
+  const updatedValues = {
+    name: item.name ? item.name : "",
+    status: item.status ? item.status : "",
+    image: item.image ? item.image : "",
+  };
+
+  const UpdateBrandFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("name", values.name);
+    formfield.append("status", values.status);
+
+    if (values.image !== item.image) {
+      formfield.append("image", values.image);
+    }
+
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_brand/${item.id}/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(
+          response.success,
+          "Product Brand  is successfully updated..."
+        );
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitUpdateBrandForm = async (
+    values,
+    { setErrors, setSubmitting }
+  ) => {
+    try {
+      UpdateBrandFunc(values);
+      setSubmitting(false);
+    } catch (error) {
+      setErrors({ err: error.message });
+    }
+  };
+
+  const updateBrand = async (id) => {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_brand/${id}/`
+    );
+    setItem(data);
+    // setShowImage(data.image);
+  };
 
   return (
     <Wrapper>
@@ -79,6 +176,7 @@ const Brand = () => {
                     data={brand}
                     openEditModal={openEditModal}
                     openDeleteModal={openDeleteModal}
+                    updateBrand={updateBrand}
                   />
                 </div>
               </div>
@@ -92,29 +190,90 @@ const Brand = () => {
                     &times;
                   </span>
                   <h2 className="">Add Brand</h2>
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={schema}
+                    onSubmit={submitAddBrandForm}
+                    validate={validate}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      values,
+                      touched,
+                      errors,
+                      isSubmitting,
+                      setFieldValue,
+                    }) => (
+                      <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Category Name<span>*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
 
-                  <form>
-                    <label>
-                      Brand Name<span className="text-danger">*</span>
-                    </label>
-                    <input type="text" placeholder="Enter unit name" />
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
 
-                    <label>Status</label>
-                    <select>
-                      <option value="Select">Select</option>
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
+                        <div className="modal-actions">
+                          <button type="reset" className="cancel-btn">
+                            Cancel
+                          </button>
 
-                    <div className="modal-actions">
-                      <button type="reset" className="cancel-btn">
-                        Cancel
-                      </button>
-                      <button type="submit" className="add-btn">
-                        Add Brand
-                      </button>
-                    </div>
-                  </form>
+                          <button
+                            type="submit"
+                            className="add-btn"
+                            disabled={isSubmitting}
+                          >
+                            Add Category
+                          </button>
+                        </div>
+
+                        {/* message  */}
+                        {message && (
+                          <h2 className="text-center m-5">{message}</h2>
+                        )}
+                      </FormikForm>
+                    )}
+                  </Formik>
                 </div>
               </div>
             )}
@@ -130,8 +289,9 @@ const Brand = () => {
                   >
                     &times;
                   </span>
-                  <h2>Update Category</h2>
-                  <form>
+                  <h2>Update Brand</h2>
+
+                  {/* <form>
                     <label>
                       Category Name<span className="text-danger">*</span>
                     </label>
@@ -151,7 +311,92 @@ const Brand = () => {
                         Update
                       </button>
                     </div>
-                  </form>
+                  </form> */}
+
+                  <Formik
+                    initialValues={updatedValues}
+                    validationSchema={schema}
+                    onSubmit={submitUpdateBrandForm}
+                    validate={validate}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      values,
+                      touched,
+                      errors,
+                      isSubmitting,
+                      setFieldValue,
+                    }) => (
+                      <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Brand Name<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <div className="modal-actions">
+                          <button type="reset" className="cancel-btn">
+                            Cancel
+                          </button>
+
+                          <button
+                            type="submit"
+                            className="add-btn"
+                            disabled={isSubmitting}
+                          >
+                            Edit Brand
+                          </button>
+                        </div>
+
+                        {/* message  */}
+                        {message && (
+                          <h2 className="text-center m-5">{message}</h2>
+                        )}
+                      </FormikForm>
+                    )}
+                  </Formik>
                 </div>
               </div>
             )}

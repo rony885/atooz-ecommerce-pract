@@ -8,7 +8,7 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const BrandDataTable = ({ data }) => {
+const BrandDataTable = ({ data, openEditModal, updateBrand }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -105,6 +105,10 @@ const BrandDataTable = ({ data }) => {
                       <button
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
                         // onClick={() => handleEdit(item)}
+                        onClick={() => {
+                          openEditModal();
+                          updateBrand(item.id);
+                        }}
                       >
                         <PiPencilLight />
                       </button>
