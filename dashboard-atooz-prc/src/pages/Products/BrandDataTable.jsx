@@ -8,7 +8,13 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const BrandDataTable = ({ data, openEditModal, updateBrand }) => {
+const BrandDataTable = ({
+  data,
+  openEditModal,
+  updateBrand,
+  openDeleteModal,
+  getId,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -117,6 +123,10 @@ const BrandDataTable = ({ data, openEditModal, updateBrand }) => {
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
                         // onClick={() => handleDelete(item)}
+                        onClick={() => {
+                          openDeleteModal();
+                          getId(item.id);
+                        }}
                       >
                         <IoTrashOutline />
                       </button>

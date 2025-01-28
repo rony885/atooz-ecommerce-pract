@@ -15,13 +15,11 @@ import { useApiContext } from "../../context/ApiContext";
 const initialValues = {
   name: "",
   status: "",
-  //   image: "",
 };
 
 const schema = yup.object().shape({
   name: yup.string().required("Brand Name is a required field!"),
   status: yup.boolean(),
-  //   image: yup.mixed(),
 });
 
 const validate = (values) => {
@@ -54,7 +52,7 @@ const Brand = () => {
   const [item, setItem] = useState({});
   const [receivedId, setReceivedId] = useState(null);
 
-  // add
+  // ======= add =======
   const AddBrandFunc = async (values) => {
     let formfield = new FormData();
 
@@ -92,11 +90,10 @@ const Brand = () => {
     }
   };
 
-  // update
+  // ======= update =======
   const updatedValues = {
     name: item.name ? item.name : "",
     status: item.status ? item.status : "",
-    image: item.image ? item.image : "",
   };
 
   const UpdateBrandFunc = async (values) => {
@@ -104,10 +101,6 @@ const Brand = () => {
 
     formfield.append("name", values.name);
     formfield.append("status", values.status);
-
-    if (values.image !== item.image) {
-      formfield.append("image", values.image);
-    }
 
     await axios({
       method: "PUT",
@@ -143,7 +136,18 @@ const Brand = () => {
       `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_brand/${id}/`
     );
     setItem(data);
-    // setShowImage(data.image);
+  };
+
+  // delete
+  const getId = (id) => {
+    setReceivedId(id);
+  };
+
+  const deleteBrand = async (id) => {
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_brand/${id}/`
+    );
+    window.location.reload(false);
   };
 
   return (
@@ -163,7 +167,7 @@ const Brand = () => {
                   <div className="d-flex justify-content-end align-items-center add_unit">
                     <i className="bi bi-plus-circle align-baseline me-1"></i>
                     <button className="buttn" onClick={openAddModal}>
-                      <TbCirclePlus className="fs-6" />{" "}
+                      <TbCirclePlus className="fs-6" />
                       <span className="bttn_title">Add Brand</span>
                     </button>
                   </div>
@@ -177,6 +181,7 @@ const Brand = () => {
                     openEditModal={openEditModal}
                     openDeleteModal={openDeleteModal}
                     updateBrand={updateBrand}
+                    getId={getId}
                   />
                 </div>
               </div>
@@ -282,36 +287,10 @@ const Brand = () => {
             {isEditModalOpen && (
               <div className="custom-modal">
                 <div className="modal-content">
-                  <span
-                    className="close"
-                    // onClick={() => setIsEditModalOpen(false)}
-                    onClick={closeEditModal}
-                  >
+                  <span className="close" onClick={closeEditModal}>
                     &times;
                   </span>
                   <h2>Update Brand</h2>
-
-                  {/* <form>
-                    <label>
-                      Category Name<span className="text-danger">*</span>
-                    </label>
-                    <input type="text" placeholder="Enter category name" />
-                    <label>Status</label>
-
-                    <select>
-                      <option value="Select">Select</option>
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                    <div className="modal-actions">
-                      <button type="reset" className="cancel-btn">
-                        Cancel
-                      </button>
-                      <button type="submit" className="add-btn">
-                        Update
-                      </button>
-                    </div>
-                  </form> */}
 
                   <Formik
                     initialValues={updatedValues}
@@ -436,7 +415,11 @@ const Brand = () => {
                       >
                         Close
                       </button>
-                      <button type="button" className="delete_btn">
+                      <button
+                        type="button"
+                        className="delete_btn"
+                        onClick={() => deleteBrand(receivedId)}
+                      >
                         Yes, Delete It!
                       </button>
                     </div>

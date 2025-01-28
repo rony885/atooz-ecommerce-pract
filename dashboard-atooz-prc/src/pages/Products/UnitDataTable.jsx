@@ -6,9 +6,9 @@ import {
   PiCaretLineRightBold,
 } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
-import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const UnitDataTable = ({ data }) => {
+const UnitDataTable = ({ data, openEditModal, openDeleteModal }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -16,9 +16,6 @@ const UnitDataTable = ({ data }) => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
   const handleSort = (key) => {
@@ -44,22 +41,9 @@ const UnitDataTable = ({ data }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleEdit = (item) => {
-    setIsEditModalOpen(true); // Open edit modal
-  };
-
-  const handleDelete = (item) => {
-    setIsDeleteModalOpen(true); // Open delete modal
-  };
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
 
   return (
     <Wrapper>
@@ -121,7 +105,7 @@ const UnitDataTable = ({ data }) => {
                     <li>
                       <button
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
-                        onClick={() => handleEdit(item)}
+                        // onClick={() => handleEdit(item)}
                       >
                         <PiPencilLight />
                       </button>
@@ -129,7 +113,7 @@ const UnitDataTable = ({ data }) => {
                     <li>
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                        onClick={() => handleDelete(item)}
+                        // onClick={() => handleDelete(item)}
                       >
                         <IoTrashOutline />
                       </button>
@@ -203,79 +187,6 @@ const UnitDataTable = ({ data }) => {
             </button>
           </div>
         </div>
-
-        {/* ===== Edit Modal ===== */}
-        {isEditModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-content">
-              <span className="close" onClick={() => setIsEditModalOpen(false)}>
-                &times;
-              </span>
-              <h2>Update Unit</h2>
-              <form>
-                <label>
-                  Unit Name<span className="text-danger">*</span>
-                </label>
-                <input type="text" placeholder="Enter unit name" />
-                <label>Status</label>
-
-                <select>
-                  <option value="Select">Select</option>
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <div className="modal-actions">
-                  <button type="reset" className="cancel-btn">
-                    Cancel
-                  </button>
-                  <button type="submit" className="add-btn">
-                    Update
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* ===== Delete Confirmation Modal ===== */}
-        {isDeleteModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button
-                    type="button"
-                    className="btn-close no-hover-border ms-auto"
-                    onClick={closeDeleteModal}
-                    aria-label="Close"
-                  ></button>
-                </div>
-
-                <div className="modal-body p-md-5">
-                  <div className="text-center">
-                    <div className="text-danger fs-1">
-                      <FaTrashAlt />
-                    </div>
-                    <div className="mt-4">
-                      <h3 className="mb-2 fs-5">Are you sure?</h3>
-                      <p className="text-muted fs-lg mx-3 mb-0">
-                        Are you sure you want to remove this record?
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
-                  <button type="button" className="close_btn">
-                    Close
-                  </button>
-                  <button type="button" className="delete_btn">
-                    Yes, Delete It!
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </Wrapper>
   );
