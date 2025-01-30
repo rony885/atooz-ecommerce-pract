@@ -297,6 +297,7 @@ const Brand = () => {
                     validationSchema={schema}
                     onSubmit={submitUpdateBrandForm}
                     validate={validate}
+                    enableReinitialize={true}
                   >
                     {({
                       handleSubmit,

@@ -11,7 +11,6 @@ import * as yup from "yup";
 import axios from "axios";
 
 import Footer from "../../components/Footer";
-import CategoryDataTable from "./CategoryDataTable";
 import { useApiContext } from "../../context/ApiContext";
 
 const initialValues = {
@@ -90,6 +89,69 @@ const Unit = () => {
     }
   };
 
+  // ======= update =======
+  const updatedValues = {
+    name: item.name ? item.name : "",
+    status: item.status ? item.status : "",
+    image: item.image ? item.image : "",
+  };
+
+  const UpdateUnitFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("name", values.name);
+    formfield.append("status", values.status);
+
+    if (values.image !== item.image) {
+      formfield.append("image", values.image);
+    }
+
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_unit/${item.id}/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(
+          response.success,
+          "Product Unit is successfully updated..."
+        );
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitUpdateUnitForm = async (values, { setErrors, setSubmitting }) => {
+    try {
+      UpdateUnitFunc(values);
+      setSubmitting(false);
+    } catch (error) {
+      setErrors({ err: error.message });
+    }
+  };
+
+  const updateUnit = async (id) => {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_unit/${id}/`
+    );
+    setItem(data);
+  };
+
+   // ======= delete =======
+   const getId = (id) => {
+    setReceivedId(id);
+  };
+
+  const deleteUnit = async (id) => {
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_unit/${id}/`
+    );
+    window.location.reload(false);
+  };
+
+
   return (
     <Wrapper>
       <div className="layout">
@@ -120,6 +182,8 @@ const Unit = () => {
                     data={unit}
                     openEditModal={openEditModal}
                     openDeleteModal={openDeleteModal}
+                    updateUnit={updateUnit}
+                    getId={getId}
                   />
                 </div>
               </div>
@@ -229,27 +293,91 @@ const Unit = () => {
                     &times;
                   </span>
                   <h2>Update Unit</h2>
-                  <form>
-                    <label>
-                      Unit Name<span className="text-danger">*</span>
-                    </label>
-                    <input type="text" placeholder="Enter unit name" />
-                    <label>Status</label>
 
-                    <select>
-                      <option value="Select">Select</option>
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                    <div className="modal-actions">
-                      <button type="reset" className="cancel-btn">
-                        Cancel
-                      </button>
-                      <button type="submit" className="add-btn">
-                        Update
-                      </button>
-                    </div>
-                  </form>
+                  <Formik
+                    initialValues={updatedValues}
+                    validationSchema={schema}
+                    onSubmit={submitUpdateUnitForm}
+                    validate={validate}
+                    enableReinitialize={true}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      values,
+                      touched,
+                      errors,
+                      isSubmitting,
+                      setFieldValue,
+                    }) => (
+                      <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Unit Name<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <div className="modal-actions">
+                          <button type="reset" className="cancel-btn">
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="add-btn"
+                            disabled={isSubmitting}
+                          >
+                            Edit Unit
+                          </button>
+                        </div>
+
+                        {/* message  */}
+                        {message && (
+                          <h2 className="text-center m-5">{message}</h2>
+                        )}
+                      </FormikForm>
+                    )}
+                  </Formik>
                 </div>
               </div>
             )}
@@ -286,10 +414,11 @@ const Unit = () => {
                         type="button"
                         className="close_btn"
                         onClick={closeDeleteModal}
+                        
                       >
                         Close
                       </button>
-                      <button type="button" className="delete_btn">
+                      <button type="button" className="delete_btn" onClick={() => deleteUnit(receivedId)}>
                         Yes, Delete It!
                       </button>
                     </div>
@@ -299,6 +428,9 @@ const Unit = () => {
             )}
           </div>
         </div>
+
+        <hr />
+        <Footer className="footer" />
       </div>
     </Wrapper>
   );
@@ -448,6 +580,34 @@ const Wrapper = styled.section`
 
   .modal-actions .add-btn:hover {
     background-color: #4497f0;
+  }
+
+  /* ===== Delete Modal ===== */
+  .close_btn {
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+    background-color: #d3d4d5;
+  }
+  .delete_btn {
+    background-color: #dc3546;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .no-hover-border {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .no-hover-border:focus,
+  .no-hover-border:hover {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
   }
   @media screen and (max-width: 425px) {
     .modal-content {

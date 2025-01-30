@@ -11,38 +11,23 @@ const ProductsAdd = () => {
             <div className="">
               <h2 className="fs-5">Add Product</h2>
               <form>
-                <div className="form-outline mb-4 col-lg-12">
-                  <label className="form-label">
-                    Product Name<span>*</span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name="name"
-                      type="text"
-                      id="name"
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-
                 <div className="row">
                   <div className="form-outline mb-4 col-lg-4">
                     <label className="form-label">
-                      Category<span></span>
+                      Product Type<span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
                       <select className="form-control">
                         <option value="">Select</option>
-                        <option value="1">Gift</option>
-                        <option value="2">Table 02</option>
+                        <option value="1">Standard</option>
+                        <option value="2">Combination</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="form-outline mb-4 col-lg-4">
                     <label className="form-label">
-                      Status<span></span>
+                      Product Code<span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
                       <select className="form-control">
@@ -67,10 +52,25 @@ const ProductsAdd = () => {
                   </div>
                 </div>
 
+                <div className="form-outline mb-4 col-lg-12">
+                  <label className="form-label">
+                    Product Name<span>*</span>
+                  </label>
+                  <div className="input-group">
+                    <input
+                      name="name"
+                      type="text"
+                      id="name"
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+
                 <div className="row">
                   <div className="form-outline mb-4 col-lg-6">
                     <label className="form-label">
-                      Unit<span>*</span>
+                      Unit Type<span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
                       <select className="form-control">
@@ -79,12 +79,61 @@ const ProductsAdd = () => {
                       </select>
                     </div>
                   </div>
+
                   <div className="form-outline mb-4 col-lg-6">
                     <label className="form-label">
-                      Initial Stock<span></span>
+                      Unit Quantity<span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
-                      <input type="text" className="form-control" />
+                      <select className="form-control">
+                        <option value="">Select</option>
+                        <option value="1">.5</option>
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">5</option>
+                        <option value="1">10</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="form-outline mb-4 col-lg-4">
+                    <label className="form-label">
+                    Is Feature<span className="text-danger">*</span>
+                    </label>
+                    <div className="input-group">
+                      <select className="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Standard</option>
+                        <option value="2">Combination</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-outline mb-4 col-lg-4">
+                    <label className="form-label">
+                    Is Top Selling<span className="text-danger">*</span>
+                    </label>
+                    <div className="input-group">
+                      <select className="form-control">
+                        <option value="">Select</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-outline mb-4 col-lg-4">
+                    <label className="form-label">
+                    Is New Arrival<span></span>
+                    </label>
+                    <div className="input-group">
+                      <select className="form-control">
+                        <option value="">Select</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                      </select>
                     </div>
                   </div>
                 </div>

@@ -8,7 +8,13 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const UnitDataTable = ({ data, openEditModal, openDeleteModal }) => {
+const UnitDataTable = ({
+  data,
+  openEditModal,
+  openDeleteModal,
+  updateUnit,
+  getId,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -106,6 +112,10 @@ const UnitDataTable = ({ data, openEditModal, openDeleteModal }) => {
                       <button
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
                         // onClick={() => handleEdit(item)}
+                        onClick={() => {
+                          openEditModal();
+                          updateUnit(item.id);
+                        }}
                       >
                         <PiPencilLight />
                       </button>
@@ -113,7 +123,10 @@ const UnitDataTable = ({ data, openEditModal, openDeleteModal }) => {
                     <li>
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                        // onClick={() => handleDelete(item)}
+                        onClick={() => {
+                          openDeleteModal();
+                          getId(item.id);
+                        }}
                       >
                         <IoTrashOutline />
                       </button>
@@ -262,34 +275,6 @@ const Wrapper = styled.section`
     .btn-link {
       padding: 2px 8px !important;
     }
-  }
-
-  /* ===== Delete Modal ===== */
-  .close_btn {
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    padding: 6px 10px;
-    background-color: #d3d4d5;
-  }
-  .delete_btn {
-    background-color: #dc3546;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-  .no-hover-border {
-    outline: none;
-    box-shadow: none;
-  }
-
-  .no-hover-border:focus,
-  .no-hover-border:hover {
-    outline: none;
-    box-shadow: none;
-    border-color: transparent;
   }
 `;
 
