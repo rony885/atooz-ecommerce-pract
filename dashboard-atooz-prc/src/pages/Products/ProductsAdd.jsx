@@ -85,6 +85,15 @@ const ProductsAdd = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState();
 
+  const [showImage, setShowImage] = useState(null);
+
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [brandOptions, setBrandOptions] = useState([]);
   const [unitOptions, setunitOptions] = useState([]);
@@ -97,14 +106,14 @@ const ProductsAdd = () => {
     }));
     setCategoryOptions(userCategoryOptions);
 
-    // category
+    // brand
     const userBrandOptions = brand.map((user) => ({
       value: user.id,
       label: user.name,
     }));
     setBrandOptions(userBrandOptions);
 
-    // category
+    // unit
     const userUnitOptions = unit.map((user) => ({
       value: user.id,
       label: user.name,
@@ -126,6 +135,15 @@ const ProductsAdd = () => {
     }),
   };
 
+  const [checkSizesArray, setCheckSizesArray] = useState([]);
+  const [checkColorsArray, setCheckColorsArray] = useState([]);
+
+  // const [selectedValue, setSelectedValue] = useState('');
+
+  // const handleSelectChange = (event) => {
+  //   setSelectedValue(event.target.value);
+  // };
+
   // add
   const AddProductFunc = async (values) => {
     let formfield = new FormData();
@@ -141,9 +159,11 @@ const ProductsAdd = () => {
     formfield.append("isFeatureProducts", values.isFeatureProducts);
     formfield.append("isTopSellingProducts", values.isTopSellingProducts);
     formfield.append("isNewArrivalProducts", values.isNewArrivalProducts);
+    formfield.append("sizes", JSON.stringify(checkSizesArray));
+    formfield.append("colors", JSON.stringify(checkColorsArray));
 
-    if (values.image) {
-      formfield.append("image", values.image);
+    if (values.mainImage) {
+      formfield.append("mainImage", values.mainImage);
     }
 
     await axios({
@@ -450,6 +470,635 @@ const ProductsAdd = () => {
                               </Field>
                             </InputGroup>
                           </Form.Group>
+                        </div>
+
+                        <div className="form-outline col-lg-6 mb-0">
+                        <Form.Group className="form-outline mb-0">
+                            <Form.Label>
+                              Unit Quantity
+                              <span className="text-danger">*</span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Select
+                                name="unit_quantity"
+                                id="unit_quantity"
+                                value={values.unit_quantity}
+                                onChange={handleChange}
+                                isInvalid={
+                                  !!touched.unit_quantity &&
+                                  !!errors.unit_quantity
+                                }
+                                isValid={
+                                  touched.unit_quantity && !errors.unit_quantity
+                                }
+                                className="form-control mb-0"
+                              >
+                                <option value="">Select</option>
+                                <option value={`.5`}>.5</option>
+                                <option value={`1`}>1</option>
+                                <option value={`2`}>2</option>
+                                <option value={`5`}>5</option>
+                                <option value={`10`}>10</option>
+                              </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.unit_quantity}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+                        </div>
+
+                        <div className="row mb-2">
+                          <div className="form-outline col-lg-4 mb-0">
+                            <Form.Group className="form-outline mb-0">
+                              <Form.Label>
+                                Is Feature<span></span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Select
+                                  name="isFeatureProducts"
+                                  id="isFeatureProducts"
+                                  value={values.isFeatureProducts}
+                                  onChange={handleChange}
+                                  isInvalid={
+                                    !!touched.isFeatureProducts &&
+                                    !!errors.isFeatureProducts
+                                  }
+                                  isValid={
+                                    touched.isFeatureProducts &&
+                                    !errors.isFeatureProducts
+                                  }
+                                  className="form-control mb-0"
+                                >
+                                  <option value="">Select</option>
+                                  <option value={`${true}`}>Active</option>
+                                  <option value={`${false}`}>Inactive</option>
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.isFeatureProducts}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                          </div>
+
+                          <div className="form-outline col-lg-4 mb-0">
+                            <Form.Group className="form-outline mb-0">
+                              <Form.Label>
+                                Is Top Selling<span></span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Select
+                                  name="isTopSellingProducts"
+                                  id="isTopSellingProducts"
+                                  value={values.isTopSellingProducts}
+                                  // onChange={handleChange}
+                                  isInvalid={
+                                    !!touched.isTopSellingProducts &&
+                                    !!errors.isTopSellingProducts
+                                  }
+                                  isValid={
+                                    touched.isTopSellingProducts &&
+                                    !errors.isTopSellingProducts
+                                  }
+                                  className="form-control mb-0"
+                                >
+                                  <option value="">Select</option>
+                                  <option value={`${true}`}>Active</option>
+                                  <option value={`${false}`}>Inactive</option>
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.isTopSellingProducts}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                          </div>
+
+                          <div className="form-outline col-lg-4 mb-0">
+                            <Form.Group className="form-outline mb-0">
+                              <Form.Label>
+                                Is New Arrival<span></span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Select
+                                  name="isNewArrivalProducts"
+                                  id="isNewArrivalProducts"
+                                  value={values.isNewArrivalProducts}
+                                  onChange={handleChange}
+                                  isInvalid={
+                                    !!touched.isNewArrivalProducts &&
+                                    !!errors.isNewArrivalProducts
+                                  }
+                                  isValid={
+                                    touched.isNewArrivalProducts &&
+                                    !errors.isNewArrivalProducts
+                                  }
+                                  className="form-control mb-0"
+                                >
+                                  <option value="">Select</option>
+                                  <option value={`${true}`}>Active</option>
+                                  <option value={`${false}`}>Inactive</option>
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.isNewArrivalProducts}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                          </div>
+
+                          <div className="row mb-2">
+                            <div className="form-outline col-lg-12 mb-0">
+                              <Form.Group className="form-outline mb-0">
+                                <Form.Label>
+                                  Sizes
+                                  <span className="text-danger"></span>
+                                </Form.Label>
+                                <InputGroup hasValidation>
+                                  <div
+                                    role="group"
+                                    aria-labelledby="checkbox-group"
+                                    className="checkbox-group d-flex flex-column"
+                                  >
+                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                      <b>(Shirt & T-shirt sizes) : &nbsp;</b>
+
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="M"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("M")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "M",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "M"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        M
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="L"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("L")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "L",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "L"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        L
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="XL"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("XL")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "XL",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "XL"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        XL
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="XXL"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("XXL")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "XXL",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "XXL"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        XXL
+                                      </label>
+                                    </div>
+
+                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                      <b>(Pant sizes) : &nbsp;</b>
+
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="30"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("30")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "30",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "30"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        30
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="32"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("32")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "32",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "32"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        32
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="34"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("34")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "34",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "34"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        34
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="36"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("36")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "36",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "36"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        36
+                                      </label>
+                                    </div>
+
+                                    <div className="d-flex justify-content-start align-items-center gap-2">
+                                      <b>(Shoe sizes) : &nbsp;</b>
+
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="38"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("38")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "38",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "38"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        38
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="39"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("39")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "39",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "39"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        39
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="40"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("40")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "40",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "40"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        40
+                                      </label>
+                                      <label>
+                                        <Field
+                                          type="checkbox"
+                                          name="sizes"
+                                          value="41"
+                                          onClick={() => {
+                                            if (
+                                              !checkSizesArray.includes("41")
+                                            ) {
+                                              setCheckSizesArray([
+                                                ...checkSizesArray,
+                                                "41",
+                                              ]);
+                                            } else {
+                                              setCheckSizesArray(
+                                                checkSizesArray.filter(
+                                                  (size) => size !== "41"
+                                                )
+                                              );
+                                            }
+                                          }}
+                                        />
+                                        41
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.sizes}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                            </div>
+                          </div>
+
+                          <div className="row mb-2">
+                            <div className="form-outline col-lg-12 mb-0">
+                              <Form.Group className="form-outline mb-0">
+                                <Form.Label>
+                                  Colors
+                                  <span className="text-danger"></span>
+                                </Form.Label>
+                                <InputGroup hasValidation>
+                                  <div
+                                    role="group"
+                                    aria-labelledby="checkbox-group"
+                                    className="checkbox-group"
+                                  >
+                                    <label>
+                                      <Field
+                                        type="checkbox"
+                                        className="text-capitalize"
+                                        name="colors"
+                                        value="red"
+                                        onClick={() => {
+                                          if (
+                                            !checkColorsArray.includes("red")
+                                          ) {
+                                            setCheckColorsArray([
+                                              ...checkColorsArray,
+                                              "red",
+                                            ]);
+                                          } else {
+                                            setCheckColorsArray(
+                                              checkColorsArray.filter(
+                                                (size) => size !== "red"
+                                              )
+                                            );
+                                          }
+                                        }}
+                                      />
+                                      red
+                                    </label>
+                                    <label>
+                                      <Field
+                                        type="checkbox"
+                                        className="text-capitalize"
+                                        name="colors"
+                                        value="green"
+                                        onClick={() => {
+                                          if (
+                                            !checkColorsArray.includes("green")
+                                          ) {
+                                            setCheckColorsArray([
+                                              ...checkColorsArray,
+                                              "green",
+                                            ]);
+                                          } else {
+                                            setCheckColorsArray(
+                                              checkColorsArray.filter(
+                                                (size) => size !== "green"
+                                              )
+                                            );
+                                          }
+                                        }}
+                                      />
+                                      green
+                                    </label>
+                                    <label>
+                                      <Field
+                                        type="checkbox"
+                                        className="text-capitalize"
+                                        name="colors"
+                                        value="black"
+                                        onClick={() => {
+                                          if (
+                                            !checkColorsArray.includes("black")
+                                          ) {
+                                            setCheckColorsArray([
+                                              ...checkColorsArray,
+                                              "black",
+                                            ]);
+                                          } else {
+                                            setCheckColorsArray(
+                                              checkColorsArray.filter(
+                                                (size) => size !== "black"
+                                              )
+                                            );
+                                          }
+                                        }}
+                                      />
+                                      black
+                                    </label>
+                                    <label>
+                                      <Field
+                                        type="checkbox"
+                                        className="text-capitalize"
+                                        name="colors"
+                                        value="gray"
+                                        onClick={() => {
+                                          if (
+                                            !checkColorsArray.includes("gray")
+                                          ) {
+                                            setCheckColorsArray([
+                                              ...checkColorsArray,
+                                              "gray",
+                                            ]);
+                                          } else {
+                                            setCheckColorsArray(
+                                              checkColorsArray.filter(
+                                                (size) => size !== "gray"
+                                              )
+                                            );
+                                          }
+                                        }}
+                                      />
+                                      gray
+                                    </label>
+                                  </div>
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.colors}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                            </div>
+                          </div>
+
+                          <div className="row mb-3">
+                            <div className="form-outline col-lg-6 mb-0">
+                              <Form.Group className="form-outline mb-0  imgDiv divv">
+                                <Form.Label>
+                                  Main Image<span></span>
+                                </Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  name="mainImage"
+                                  id="mainImage"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "mainImage",
+                                      event.currentTarget.files[0]
+                                    );
+                                    onImageChange(event);
+                                  }}
+                                  isInvalid={
+                                    !!touched.mainImage && !!errors.mainImage
+                                  }
+                                  isValid={
+                                    touched.mainImage && !errors.mainImage
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.mainImage}
+                                </Form.Control.Feedback>
+
+                                {showImage && (
+                                  <div>
+                                    <img
+                                      alt="product preview img"
+                                      style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        marginTop: "20px",
+                                        borderRadius: "50%",
+                                      }}
+                                      src={showImage}
+                                    />
+                                  </div>
+                                )}
+                              </Form.Group>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
