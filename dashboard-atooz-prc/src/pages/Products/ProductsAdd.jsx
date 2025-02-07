@@ -86,6 +86,8 @@ const ProductsAdd = () => {
   const [message, setMessage] = useState();
 
   const [showImage, setShowImage] = useState(null);
+  const [showImage1, setShowImage1] = useState(null);
+  const [showImage2, setShowImage2] = useState(null);
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -93,6 +95,17 @@ const ProductsAdd = () => {
     }
   };
 
+  const onImageChange1 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage1(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange2 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage2(URL.createObjectURL(event.target.files[0]));
+    }
+  };
 
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [brandOptions, setBrandOptions] = useState([]);
@@ -138,12 +151,6 @@ const ProductsAdd = () => {
   const [checkSizesArray, setCheckSizesArray] = useState([]);
   const [checkColorsArray, setCheckColorsArray] = useState([]);
 
-  // const [selectedValue, setSelectedValue] = useState('');
-
-  // const handleSelectChange = (event) => {
-  //   setSelectedValue(event.target.value);
-  // };
-
   // add
   const AddProductFunc = async (values) => {
     let formfield = new FormData();
@@ -164,6 +171,12 @@ const ProductsAdd = () => {
 
     if (values.mainImage) {
       formfield.append("mainImage", values.mainImage);
+    }
+    if (values.sliderImage1) {
+      formfield.append("sliderImage1", values.sliderImage1);
+    }
+    if (values.sliderImage2) {
+      formfield.append("sliderImage2", values.sliderImage2);
     }
 
     await axios({
@@ -473,7 +486,7 @@ const ProductsAdd = () => {
                         </div>
 
                         <div className="form-outline col-lg-6 mb-0">
-                        <Form.Group className="form-outline mb-0">
+                          <Form.Group className="form-outline mb-0">
                             <Form.Label>
                               Unit Quantity
                               <span className="text-danger">*</span>
@@ -1098,6 +1111,143 @@ const ProductsAdd = () => {
                                 )}
                               </Form.Group>
                             </div>
+
+                            <div className="form-outline col-lg-6 mb-0">
+                              <Form.Group className="form-outline mb-0  imgDiv divv">
+                                <Form.Label>
+                                  Slider Image 1<span></span>
+                                </Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  name="sliderImage1"
+                                  id="sliderImage1"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "sliderImage1",
+                                      event.currentTarget.files[0]
+                                    );
+                                    onImageChange1(event);
+                                  }}
+                                  isInvalid={
+                                    !!touched.sliderImage1 &&
+                                    !!errors.sliderImage1
+                                  }
+                                  isValid={
+                                    touched.sliderImage1 && !errors.sliderImage1
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.sliderImage1}
+                                </Form.Control.Feedback>
+
+                                {showImage1 && (
+                                  <div>
+                                    <img
+                                      alt="product preview img"
+                                      style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        marginTop: "20px",
+                                        borderRadius: "50%",
+                                      }}
+                                      src={showImage1}
+                                    />
+                                  </div>
+                                )}
+                              </Form.Group>
+                            </div>
+                          </div>
+
+                          <div className="row mb-3">
+                            <div className="form-outline col-lg-6 mb-0">
+                              <Form.Group className="form-outline mb-0  imgDiv divv">
+                                <Form.Label>
+                                  Slider Image 2<span></span>
+                                </Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  name="sliderImage2"
+                                  id="sliderImage2"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "sliderImage2",
+                                      event.currentTarget.files[0]
+                                    );
+                                    onImageChange2(event);
+                                  }}
+                                  isInvalid={
+                                    !!touched.sliderImage2 &&
+                                    !!errors.sliderImage2
+                                  }
+                                  isValid={
+                                    touched.sliderImage2 && !errors.sliderImage2
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.sliderImage2}
+                                </Form.Control.Feedback>
+
+                                {showImage2 && (
+                                  <div>
+                                    <img
+                                      alt="product preview img"
+                                      style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        marginTop: "20px",
+                                        borderRadius: "50%",
+                                      }}
+                                      src={showImage2}
+                                    />
+                                  </div>
+                                )}
+                              </Form.Group>
+                            </div>
+
+                            {/* <div className="form-outline col-lg-6 mb-0">
+                              <Form.Group className="form-outline mb-0  imgDiv divv">
+                                <Form.Label>
+                                  Slider Image 3<span></span>
+                                </Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  name="sliderImage1"
+                                  id="sliderImage1"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "sliderImage1",
+                                      event.currentTarget.files[0]
+                                    );
+                                    onImageChange1(event);
+                                  }}
+                                  isInvalid={
+                                    !!touched.sliderImage1 &&
+                                    !!errors.sliderImage1
+                                  }
+                                  isValid={
+                                    touched.sliderImage1 && !errors.sliderImage1
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.sliderImage1}
+                                </Form.Control.Feedback>
+
+                                {showImage1 && (
+                                  <div>
+                                    <img
+                                      alt="product preview img"
+                                      style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        marginTop: "20px",
+                                        borderRadius: "50%",
+                                      }}
+                                      src={showImage1}
+                                    />
+                                  </div>
+                                )}
+                              </Form.Group>
+                            </div> */}
                           </div>
                         </div>
                       </div>
