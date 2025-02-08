@@ -85,9 +85,15 @@ const ProductsAdd = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState();
 
+  const editor = useRef(null);
+  const [content1, setContent1] = useState("");
+
   const [showImage, setShowImage] = useState(null);
   const [showImage1, setShowImage1] = useState(null);
   const [showImage2, setShowImage2] = useState(null);
+  const [showImage3, setShowImage3] = useState(null);
+  const [showImage4, setShowImage4] = useState(null);
+  const [showImage5, setShowImage5] = useState(null);
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -104,6 +110,24 @@ const ProductsAdd = () => {
   const onImageChange2 = (event) => {
     if (event.target.files && event.target.files[0]) {
       setShowImage2(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange3 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage3(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange4 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage4(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange5 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage5(URL.createObjectURL(event.target.files[0]));
     }
   };
 
@@ -177,6 +201,16 @@ const ProductsAdd = () => {
     }
     if (values.sliderImage2) {
       formfield.append("sliderImage2", values.sliderImage2);
+    }
+    if (values.sliderImage3) {
+      formfield.append("sliderImage3", values.sliderImage3);
+    }
+    if (values.sliderImage4) {
+      formfield.append("sliderImage4", values.sliderImage3);
+    }
+
+    if (values.sliderImage5) {
+      formfield.append("sliderImage5", values.sliderImage3);
     }
 
     await axios({
@@ -1204,35 +1238,35 @@ const ProductsAdd = () => {
                               </Form.Group>
                             </div>
 
-                            {/* <div className="form-outline col-lg-6 mb-0">
+                            <div className="form-outline col-lg-6 mb-0">
                               <Form.Group className="form-outline mb-0  imgDiv divv">
                                 <Form.Label>
                                   Slider Image 3<span></span>
                                 </Form.Label>
                                 <Form.Control
                                   type="file"
-                                  name="sliderImage1"
-                                  id="sliderImage1"
+                                  name="sliderImage3"
+                                  id="sliderImage3"
                                   onChange={(event) => {
                                     setFieldValue(
-                                      "sliderImage1",
+                                      "sliderImage3",
                                       event.currentTarget.files[0]
                                     );
-                                    onImageChange1(event);
+                                    onImageChange3(event);
                                   }}
                                   isInvalid={
-                                    !!touched.sliderImage1 &&
-                                    !!errors.sliderImage1
+                                    !!touched.sliderImage3 &&
+                                    !!errors.sliderImage3
                                   }
                                   isValid={
-                                    touched.sliderImage1 && !errors.sliderImage1
+                                    touched.sliderImage3 && !errors.sliderImage3
                                   }
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                  {errors.sliderImage1}
+                                  {errors.sliderImage3}
                                 </Form.Control.Feedback>
 
-                                {showImage1 && (
+                                {showImage3 && (
                                   <div>
                                     <img
                                       alt="product preview img"
@@ -1242,12 +1276,104 @@ const ProductsAdd = () => {
                                         marginTop: "20px",
                                         borderRadius: "50%",
                                       }}
-                                      src={showImage1}
+                                      src={showImage3}
                                     />
                                   </div>
                                 )}
                               </Form.Group>
-                            </div> */}
+                            </div>
+                          </div>
+
+                          <div className="row mb-3">
+                            <div className="form-outline col-lg-6 mb-0">
+                              <Form.Group className="form-outline mb-0  imgDiv divv">
+                                <Form.Label>
+                                  Slider Image 4<span></span>
+                                </Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  name="sliderImage4"
+                                  id="sliderImage4"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "sliderImage4",
+                                      event.currentTarget.files[0]
+                                    );
+                                    onImageChange4(event);
+                                  }}
+                                  isInvalid={
+                                    !!touched.sliderImage4 &&
+                                    !!errors.sliderImage4
+                                  }
+                                  isValid={
+                                    touched.sliderImage4 && !errors.sliderImage4
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.sliderImage4}
+                                </Form.Control.Feedback>
+
+                                {showImage4 && (
+                                  <div>
+                                    <img
+                                      alt="product preview img"
+                                      style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        marginTop: "20px",
+                                        borderRadius: "50%",
+                                      }}
+                                      src={showImage4}
+                                    />
+                                  </div>
+                                )}
+                              </Form.Group>
+                            </div>
+
+                            <div className="form-outline col-lg-6 mb-0">
+                              <Form.Group className="form-outline mb-0  imgDiv divv">
+                                <Form.Label>
+                                  Slider Image 5<span></span>
+                                </Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  name="sliderImage5"
+                                  id="sliderImage5"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "sliderImage5",
+                                      event.currentTarget.files[0]
+                                    );
+                                    onImageChange5(event);
+                                  }}
+                                  isInvalid={
+                                    !!touched.sliderImage5 &&
+                                    !!errors.sliderImage5
+                                  }
+                                  isValid={
+                                    touched.sliderImage5 && !errors.sliderImage5
+                                  }
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.sliderImage5}
+                                </Form.Control.Feedback>
+
+                                {showImage5 && (
+                                  <div>
+                                    <img
+                                      alt="product preview img"
+                                      style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        marginTop: "20px",
+                                        borderRadius: "50%",
+                                      }}
+                                      src={showImage5}
+                                    />
+                                  </div>
+                                )}
+                              </Form.Group>
+                            </div>
                           </div>
                         </div>
                       </div>
