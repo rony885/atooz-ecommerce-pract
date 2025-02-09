@@ -8,8 +8,9 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import FractionDigits from "../../components/FractionDigits";
 
-const ProdListTable = ({ data, openDeleteModal }) => {
+const ProdListTable = ({ data, openDeleteModal, getId }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -17,8 +18,6 @@ const ProdListTable = ({ data, openDeleteModal }) => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
   const handleSort = (key) => {
@@ -44,18 +43,9 @@ const ProdListTable = ({ data, openDeleteModal }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  // const handleDelete = (item) => {
-  //   setIsDeleteModalOpen(true); // Open delete modal
-  // };
-
-  // const closeDeleteModal = () => {
-  //   setIsDeleteModalOpen(false);
-  // };
 
   return (
     <Wrapper>
@@ -83,6 +73,14 @@ const ProdListTable = ({ data, openDeleteModal }) => {
                     : "▼"
                   : ""}
               </th>
+              <th className="texxt" onClick={() => handleSort("product_id")}>
+                Product ID{" "}
+                {sortConfig.key === "product_id"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
               <th className="texxt" onClick={() => handleSort("name")}>
                 Name{" "}
                 {sortConfig.key === "name"
@@ -91,21 +89,15 @@ const ProdListTable = ({ data, openDeleteModal }) => {
                     : "▼"
                   : ""}
               </th>
-              <th className="texxt" onClick={() => handleSort("status")}>
-                Status{" "}
-                {sortConfig.key === "status"
-                  ? sortConfig.direction === "ascending"
-                    ? "▲"
-                    : "▼"
-                  : ""}
-              </th>
-              <th>Unit</th>
-              <th>Quantity</th>
-              <th>Discount</th>
-              <th>Buying Price</th>
-              <th>Selling Price</th>
-              <th>Image</th>
-              <th>Action</th>
+              <th className="texxt">Status </th>
+              <th className="texxt">Category</th>
+              <th className="texxt">Brand</th>
+              <th className="texxt">Buying Price</th>
+              <th className="texxt">Selling Price</th>
+              <th className="texxt">Discount</th>
+              <th className="texxt">Special Price</th>
+              <th className="texxt">Image</th>
+              <th className="texxt">Action</th>
             </tr>
           </thead>
 
@@ -116,22 +108,31 @@ const ProdListTable = ({ data, openDeleteModal }) => {
                   <input type="checkbox" aria-label={`select-row-${item.id}`} />
                 </td>
                 <td className="texxt">{item.id}</td>
+                <td className="texxt">{item.product_id}</td>
                 <td className="texxt">{item.name}</td>
-                <td className="texxt">{item.status}</td>
-                <td className="texxt">{item.unit}</td>
-                <td className="texxt">{item.quantity}</td>
-                <td className="texxt">{item.discount}</td>
-                <td className="texxt">{item.buyingPrice}</td>
-                <td className="texxt">{item.sellingPrice}</td>
-                {/* <td className="texxt">{item.image}</td> */}
                 <td className="texxt">
-                  <img src={item.image} alt="" className="imgg" />
+                  <p>{item.status === true ? "Active" : "Inactive"}</p>
+                </td>
+                <td className="texxt">{item.category.name}</td>
+                <td className="texxt">{item.brand.name}</td>
+                <td className="texxt">{FractionDigits(item.purchase_price)}</td>
+                <td className="texxt">{FractionDigits(item.regularPrice)}</td>
+                <td className="texxt">{FractionDigits(item.discount)}</td>
+                <td className="texxt">{FractionDigits(item.specialPrice)}</td>
+                <td className="texxt">
+                  <img
+                    height={50}
+                    width={50}
+                    src={item.mainImage}
+                    alt={item.name}
+                    style={{ borderRadius: "50%" }}
+                  />
                 </td>
                 <td>
                   <ul className="d-flex gap-2 list-unstyled mb-0">
                     <li>
                       <button className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn">
-                        <Link to="/product-update">
+                        <Link to={`/product-update/${item.id}`}>
                           <PiPencilLight />
                         </Link>
                       </button>
@@ -140,7 +141,10 @@ const ProdListTable = ({ data, openDeleteModal }) => {
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
                         // onClick={() => handleDelete(item)}
-                        onClick={openDeleteModal}
+                        onClick={() => {
+                          openDeleteModal();
+                          getId(item.id);
+                        }}
                       >
                         <IoTrashOutline />
                       </button>
@@ -214,46 +218,6 @@ const ProdListTable = ({ data, openDeleteModal }) => {
             </button>
           </div>
         </div>
-
-        {/* ===== Delete Confirmation Modal ===== */}
-        {/* {isDeleteModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button
-                    type="button"
-                    className="btn-close no-hover-border ms-auto"
-                    onClick={closeDeleteModal}
-                    aria-label="Close"
-                  ></button>
-                </div>
-
-                <div className="modal-body p-md-5">
-                  <div className="text-center">
-                    <div className="text-danger fs-1">
-                      <FaTrashAlt />
-                    </div>
-                    <div className="mt-4">
-                      <h3 className="mb-2 fs-5">Are you sure?</h3>
-                      <p className="text-muted fs-lg mx-3 mb-0">
-                        Are you sure you want to remove this record?
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
-                  <button type="button" className="close_btn">
-                    Close
-                  </button>
-                  <button type="button" className="delete_btn">
-                    Yes, Delete It!
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )} */}
       </div>
     </Wrapper>
   );
@@ -344,7 +308,6 @@ const Wrapper = styled.section`
     }
   }
 
-  
   /* @media screen and (max-width: 425px) {
     .modal-content {
       max-width: 370px;

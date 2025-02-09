@@ -87,6 +87,9 @@ const ProductsAdd = () => {
 
   const editor = useRef(null);
   const [content1, setContent1] = useState("");
+  const [content2, setContent2] = useState("");
+  const [content3, setContent3] = useState("");
+  const [content4, setContent4] = useState("");
 
   const [showImage, setShowImage] = useState(null);
   const [showImage1, setShowImage1] = useState(null);
@@ -212,6 +215,11 @@ const ProductsAdd = () => {
     if (values.sliderImage5) {
       formfield.append("sliderImage5", values.sliderImage3);
     }
+
+    formfield.append("details", content1);
+    formfield.append("details", content2);
+    formfield.append("details", content3);
+    formfield.append("details", content4);
 
     await axios({
       method: "POST",
@@ -600,7 +608,7 @@ const ProductsAdd = () => {
                                   name="isTopSellingProducts"
                                   id="isTopSellingProducts"
                                   value={values.isTopSellingProducts}
-                                  // onChange={handleChange}
+                                  onChange={handleChange}
                                   isInvalid={
                                     !!touched.isTopSellingProducts &&
                                     !!errors.isTopSellingProducts
@@ -1373,6 +1381,100 @@ const ProductsAdd = () => {
                                   </div>
                                 )}
                               </Form.Group>
+                            </div>
+
+                            <div className="row mb-3">
+                              <div className="form-outline col-lg-6 mb-0">
+                                <Form.Group className="form-outline mb-0">
+                                  <Form.Label>
+                                    Details<span></span>
+                                  </Form.Label>
+                                  <InputGroup hasValidation>
+                                    <JoditEditor
+                                      name="details"
+                                      id="details"
+                                      ref={editor}
+                                      value={content1}
+                                      onChange={(newContent) =>
+                                        setContent1(newContent)
+                                      }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                      {errors.details}
+                                    </Form.Control.Feedback>
+                                  </InputGroup>
+                                </Form.Group>
+                              </div>
+
+                              <div className="form-outline col-lg-6 mb-0">
+                                <Form.Group className="form-outline mb-0">
+                                  <Form.Label>
+                                    Specification<span></span>
+                                  </Form.Label>
+                                  <InputGroup hasValidation>
+                                    <JoditEditor
+                                      name="specification"
+                                      id="specification"
+                                      ref={editor}
+                                      value={content2}
+                                      onChange={(newContent) =>
+                                        setContent2(newContent)
+                                      }
+                                    />
+
+                                    <Form.Control.Feedback type="invalid">
+                                      {errors.specification}
+                                    </Form.Control.Feedback>
+                                  </InputGroup>
+                                </Form.Group>
+                              </div>
+                            </div>
+
+                            <div className="row mb-3">
+                              <div className="form-outline col-lg-6 mb-0">
+                                <Form.Group className="form-outline mb-0">
+                                  <Form.Label>
+                                    QA<span></span>
+                                  </Form.Label>
+                                  <InputGroup hasValidation>
+                                    <JoditEditor
+                                      name="qa"
+                                      id="qa"
+                                      ref={editor}
+                                      value={content3}
+                                      onChange={(newContent) =>
+                                        setContent3(newContent)
+                                      }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                      {errors.qa}
+                                    </Form.Control.Feedback>
+                                  </InputGroup>
+                                </Form.Group>
+                              </div>
+
+                              <div className="form-outline col-lg-6 mb-0">
+                                <Form.Group className="form-outline mb-0">
+                                  <Form.Label>
+                                    Review<span></span>
+                                  </Form.Label>
+                                  <InputGroup hasValidation>
+                                    <JoditEditor
+                                      name="review"
+                                      id="review"
+                                      ref={editor}
+                                      value={content4}
+                                      onChange={(newContent) =>
+                                        setContent4(newContent)
+                                      }
+                                    />
+
+                                    <Form.Control.Feedback type="invalid">
+                                      {errors.review}
+                                    </Form.Control.Feedback>
+                                  </InputGroup>
+                                </Form.Group>
+                              </div>
                             </div>
                           </div>
                         </div>

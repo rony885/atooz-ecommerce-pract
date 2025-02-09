@@ -1,163 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
 import ProdListTable from "./ProdListTable";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { FaTrashAlt } from "react-icons/fa";
+import axios from "axios";
+import { useApiContext } from "../../context/ApiContext";
 
 const ProductLists = () => {
-  const sampleData = [
-    {
-      id: 1,
-      name: "Gift",
-      status: "Active",
-      unit: "Piece",
-      quantity: "750",
-      discount: "250.00",
-      buyingPrice: "450.00",
-      sellingPrice: "1000.00",
-      image:
-        "https://e7.pngegg.com/pngimages/596/587/png-clipart-t-shirt-gildan-activewear-sleeve-clothing-crew-neck-pure-cotton-tshirt-blue.png",
-    },
-    {
-      id: 2,
-      name: "Book",
-      status: "Inactive",
-      unit: "Piece",
-      quantity: "200",
-      discount: "50.00",
-      buyingPrice: "100.00",
-      sellingPrice: "200.00",
-      image: "images/book.jpg",
-    },
-    {
-      id: 3,
-      name: "Pen",
-      status: "Active",
-      unit: "Piece",
-      quantity: "1500",
-      discount: "5.00",
-      buyingPrice: "10.00",
-      sellingPrice: "20.00",
-      image: "images/pen.jpg",
-    },
-    {
-      id: 4,
-      name: "Laptop",
-      status: "Active",
-      unit: "Piece",
-      quantity: "50",
-      discount: "500.00",
-      buyingPrice: "1500.00",
-      sellingPrice: "2000.00",
-      image: "images/laptop.jpg",
-    },
-    {
-      id: 5,
-      name: "Notebook",
-      status: "Inactive",
-      unit: "Piece",
-      quantity: "300",
-      discount: "20.00",
-      buyingPrice: "50.00",
-      sellingPrice: "100.00",
-      image: "images/notebook.jpg",
-    },
-    {
-      id: 6,
-      name: "Bag",
-      status: "Active",
-      unit: "Piece",
-      quantity: "400",
-      discount: "100.00",
-      buyingPrice: "200.00",
-      sellingPrice: "300.00",
-      image: "images/bag.jpg",
-    },
-    {
-      id: 7,
-      name: "Shoes",
-      status: "Inactive",
-      unit: "Pair",
-      quantity: "150",
-      discount: "75.00",
-      buyingPrice: "100.00",
-      sellingPrice: "200.00",
-      image: "images/shoes.jpg",
-    },
-    {
-      id: 8,
-      name: "Watch",
-      status: "Active",
-      unit: "Piece",
-      quantity: "100",
-      discount: "200.00",
-      buyingPrice: "500.00",
-      sellingPrice: "1000.00",
-      image: "images/watch.jpg",
-    },
-    {
-      id: 9,
-      name: "Phone",
-      status: "Inactive",
-      unit: "Piece",
-      quantity: "80",
-      discount: "150.00",
-      buyingPrice: "300.00",
-      sellingPrice: "600.00",
-      image: "images/phone.jpg",
-    },
-    {
-      id: 10,
-      name: "Tablet",
-      status: "Active",
-      unit: "Piece",
-      quantity: "60",
-      discount: "100.00",
-      buyingPrice: "200.00",
-      sellingPrice: "500.00",
-      image: "images/tablet.jpg",
-    },
-    {
-      id: 11,
-      name: "Tablet1",
-      status: "Active",
-      unit: "Piece",
-      quantity: "55",
-      discount: "110.00",
-      buyingPrice: "220.00",
-      sellingPrice: "530.00",
-      image: "images/tablet1.jpg",
-    },
-    {
-      id: 12,
-      name: "Tablet2",
-      status: "Active",
-      unit: "Piece",
-      quantity: "70",
-      discount: "120.00",
-      buyingPrice: "250.00",
-      sellingPrice: "550.00",
-      image: "images/tablet2.jpg",
-    },
-    {
-      id: 13,
-      name: "Tablet3",
-      status: "Active",
-      unit: "Piece",
-      quantity: "65",
-      discount: "130.00",
-      buyingPrice: "240.00",
-      sellingPrice: "520.00",
-      image: "images/tablet3.jpg",
-    },
-  ];
+  const { product, fetchProduct } = useApiContext();
 
+  useEffect(() => {
+    fetchProduct();
+  }, [fetchProduct]);
+
+  const [receivedId, setReceivedId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const openDeleteModal = (item) => setIsDeleteModalOpen(true);
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
+
+  // delete
+  const getId = (id) => {
+    setReceivedId(id);
+  };
+
+  const deleteProduct = async (id) => {
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_product/${id}/`
+    );
+    window.location.reload(false);
+  };
 
   return (
     <Wrapper>
@@ -176,8 +50,8 @@ const ProductLists = () => {
                   <div className="d-flex justify-content-end align-items-center add_catry">
                     <i className="bi bi-plus-circle align-baseline me-1"></i>
                     <button className="buttn">
-                      <Link to="/productadd" className="buttn_link">
-                        <TbCirclePlus className="fs-6" />{" "}
+                      <Link to="/product-add" className="buttn_link">
+                        <TbCirclePlus className="fs-6" />
                         <span className="bttn_title">Add Product</span>
                       </Link>
                     </button>
@@ -188,8 +62,9 @@ const ProductLists = () => {
               <div className="row d-flex justify-content-between align-items-center">
                 <div className="col-lg-12">
                   <ProdListTable
-                    data={sampleData}
+                    data={product}
                     openDeleteModal={openDeleteModal}
+                    getId={getId}
                   />
                 </div>
               </div>
@@ -229,7 +104,11 @@ const ProductLists = () => {
                         >
                           Close
                         </button>
-                        <button type="button" className="delete_btn">
+                        <button
+                          type="button"
+                          className="delete_btn"
+                          onClick={() => deleteProduct(receivedId)}
+                        >
                           Yes, Delete It!
                         </button>
                       </div>
