@@ -12,31 +12,31 @@ import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { useApiContext } from "../../context/ApiContext";
 
-const initialValues = {
-  product_type: "",
-  name: "",
-  status: "",
-  product_code: "",
-  category: "",
-  brand: "",
-  unit_type: "",
-  unit_quantity: "",
-  isFeatureProducts: "",
-  isTopSellingProducts: "",
-  isNewArrivalProducts: "",
-  sizes: [],
-  colors: [],
-  mainImage: "",
-  sliderImage1: "",
-  sliderImage2: "",
-  sliderImage3: "",
-  sliderImage4: "",
-  sliderImage5: "",
-  details: "",
-  specification: "",
-  qa: "",
-  review: "",
-};
+// const initialValues = {
+//   product_type: "",
+//   name: "",
+//   status: "",
+//   product_code: "",
+//   category: "",
+//   brand: "",
+//   unit_type: "",
+//   unit_quantity: "",
+//   isFeatureProducts: "",
+//   isTopSellingProducts: "",
+//   isNewArrivalProducts: "",
+//   sizes: [],
+//   colors: [],
+//   mainImage: "",
+//   sliderImage1: "",
+//   sliderImage2: "",
+//   sliderImage3: "",
+//   sliderImage4: "",
+//   sliderImage5: "",
+//   details: "",
+//   specification: "",
+//   qa: "",
+//   review: "",
+// };
 
 const schema = yup.object().shape({
   product_type: yup.string().required("Product Type is a required field!"),
@@ -86,6 +86,63 @@ const ProductsUpdate = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState();
   const [item, setItem] = useState({});
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      const { data } = await axios.get(
+        `${
+          process.env.REACT_APP_BASE_URL
+        }/product_api/unpaginate_product/${Number(productId)}/`
+      );
+
+      setItem(data);
+      // setShowImage(data.mainImage);
+      // setShowImage1(data.sliderImage1);
+      // setShowImage2(data.sliderImage2);
+      // setShowImage3(data.sliderImage3);
+      // setShowImage4(data.sliderImage4);
+      // setShowImage5(data.sliderImage5);
+      // setCheckSizesArray(data.sizes);
+      // setCheckColorsArray(data.colors);
+      // setContent1(data.details);
+      // setContent2(data.specification);
+      // setContent3(data.qa);
+      // setContent4(data.review);
+    };
+
+    loadProducts();
+  }, [productId]);
+
+  // update
+  const updatedValues = {
+    product_type: item.product_type ? item.product_type : "",
+    name: item.name ? item.name : "",
+    status: item.status ? item.status : "",
+    product_code: item.product_code ? item.product_code : "",
+    category: item.category ? item.category : "",
+    brand: item.brand ? item.brand : "",
+    unit_type: item.unit_type ? item.unit_type : "",
+    unit_quantity: item.unit_quantity ? item.unit_quantity : "",
+    isFeatureProducts: item.isFeatureProducts ? item.isFeatureProducts : "",
+    isTopSellingProducts: item.isTopSellingProducts
+      ? item.isTopSellingProducts
+      : "",
+    isNewArrivalProducts: item.isNewArrivalProducts
+      ? item.isNewArrivalProducts
+      : "",
+    sizes: item.sizes ? item.sizes : "",
+    colors: item.colors ? item.colors : "",
+    mainImage: item.mainImage ? item.mainImage : "",
+    sliderImage1: item.sliderImage1 ? item.sliderImage1 : "",
+    sliderImage2: item.sliderImage2 ? item.sliderImage2 : "",
+    sliderImage3: item.sliderImage3 ? item.sliderImage3 : "",
+    sliderImage4: item.sliderImage4 ? item.sliderImage4 : "",
+    sliderImage5: item.sliderImage5 ? item.sliderImage5 : "",
+    details: item.details ? item.details : "",
+    specification: item.specification ? item.specification : "",
+    qa: item.qa ? item.qa : "",
+    review: item.review ? item.review : "",
+  };
 
   const UpdateProductFunc = async (values) => {
     let formfield = new FormData();
@@ -329,7 +386,7 @@ const ProductsUpdate = () => {
               </form> */}
 
               <Formik
-                initialValues={initialValues}
+                initialValues={updatedValues}
                 validationSchema={schema}
                 onSubmit={submitUpdateProductForm}
                 validate={validate}
