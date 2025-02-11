@@ -12,32 +12,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { useApiContext } from "../../context/ApiContext";
 
-// const initialValues = {
-//   product_type: "",
-//   name: "",
-//   status: "",
-//   product_code: "",
-//   category: "",
-//   brand: "",
-//   unit_type: "",
-//   unit_quantity: "",
-//   isFeatureProducts: "",
-//   isTopSellingProducts: "",
-//   isNewArrivalProducts: "",
-//   sizes: [],
-//   colors: [],
-//   mainImage: "",
-//   sliderImage1: "",
-//   sliderImage2: "",
-//   sliderImage3: "",
-//   sliderImage4: "",
-//   sliderImage5: "",
-//   details: "",
-//   specification: "",
-//   qa: "",
-//   review: "",
-// };
-
 const schema = yup.object().shape({
   product_type: yup.string().required("Product Type is a required field!"),
   name: yup.string().required("Product Name is a required field!"),
@@ -87,6 +61,97 @@ const ProductsUpdate = () => {
   const [message, setMessage] = useState();
   const [item, setItem] = useState({});
 
+  const editor = useRef(null);
+  const [content1, setContent1] = useState("");
+  const [content2, setContent2] = useState("");
+  const [content3, setContent3] = useState("");
+  const [content4, setContent4] = useState("");
+
+  const [showImage, setShowImage] = useState(null);
+  const [showImage1, setShowImage1] = useState(null);
+  const [showImage2, setShowImage2] = useState(null);
+  const [showImage3, setShowImage3] = useState(null);
+  const [showImage4, setShowImage4] = useState(null);
+  const [showImage5, setShowImage5] = useState(null);
+
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange1 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage1(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange2 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage2(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange3 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage3(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange4 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage4(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const onImageChange5 = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage5(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      borderBottom: "1px solid pink",
+      color: state.isSelected ? "white" : "black",
+      backgroundColor: state.isSelected ? "#009348" : "white",
+      "&:hover": {
+        backgroundColor: "#009348",
+        color: "white",
+      },
+      padding: 10,
+    }),
+  };
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [brandOptions, setBrandOptions] = useState([]);
+  const [unitOptions, setUnitOptions] = useState([]);
+
+  useEffect(() => {
+    // category
+    const userCategoryOptions = category.map((user) => ({
+      value: user.id,
+      label: user.name,
+    }));
+    setCategoryOptions(userCategoryOptions);
+
+    // brand
+    const userBrandOptions = brand.map((user) => ({
+      value: user.id,
+      label: user.name,
+    }));
+    setBrandOptions(userBrandOptions);
+
+    // brand
+    const userUnitOptions = unit.map((user) => ({
+      value: user.id,
+      label: user.name,
+    }));
+    setUnitOptions(userUnitOptions);
+  }, [brand, category, unit]);
+
+  const [checkSizesArray, setCheckSizesArray] = useState([]);
+  const [checkColorsArray, setCheckColorsArray] = useState([]);
+
   useEffect(() => {
     const loadProducts = async () => {
       const { data } = await axios.get(
@@ -96,18 +161,18 @@ const ProductsUpdate = () => {
       );
 
       setItem(data);
-      // setShowImage(data.mainImage);
-      // setShowImage1(data.sliderImage1);
-      // setShowImage2(data.sliderImage2);
-      // setShowImage3(data.sliderImage3);
-      // setShowImage4(data.sliderImage4);
-      // setShowImage5(data.sliderImage5);
-      // setCheckSizesArray(data.sizes);
-      // setCheckColorsArray(data.colors);
-      // setContent1(data.details);
-      // setContent2(data.specification);
-      // setContent3(data.qa);
-      // setContent4(data.review);
+      setShowImage(data.mainImage);
+      setShowImage1(data.sliderImage1);
+      setShowImage2(data.sliderImage2);
+      setShowImage3(data.sliderImage3);
+      setShowImage4(data.sliderImage4);
+      setShowImage5(data.sliderImage5);
+      setCheckSizesArray(data.sizes);
+      setCheckColorsArray(data.colors);
+      setContent1(data.details);
+      setContent2(data.specification);
+      setContent3(data.qa);
+      setContent4(data.review);
     };
 
     loadProducts();
@@ -193,7 +258,7 @@ const ProductsUpdate = () => {
     })
       .then((response) => {
         setMessage(response.success, "Product is successfully updated...");
-        navigate("/products");
+        navigate("/product-update");
         window.location.reload(false);
       })
       .catch((error) => {
@@ -386,6 +451,7 @@ const ProductsUpdate = () => {
               </form> */}
 
               <Formik
+               enableReinitialize={true}
                 initialValues={updatedValues}
                 validationSchema={schema}
                 onSubmit={submitUpdateProductForm}
@@ -441,7 +507,6 @@ const ProductsUpdate = () => {
                             Product Code<span>*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
-                            {/* <InputGroup.Text>@</InputGroup.Text> */}
                             <Form.Control
                               type="text"
                               name="product_code"
@@ -469,7 +534,6 @@ const ProductsUpdate = () => {
                             Status<span></span>
                           </Form.Label>
                           <InputGroup hasValidation>
-                            {/* <InputGroup.Text>@</InputGroup.Text> */}
                             <Form.Select
                               name="status"
                               id="status"
@@ -516,7 +580,7 @@ const ProductsUpdate = () => {
                       </div>
                     </div>
 
-                    {/* <div className="row mb-2">
+                    <div className="row mb-2">
                       <div className="form-outline col-lg-6 mb-0">
                         <Form.Group className="form-outline mb-0 divv">
                           <Form.Label>
@@ -1598,7 +1662,7 @@ const ProductsUpdate = () => {
                           </div>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
 
                     <div className="d-flex gap-2 justify-content-end mt-5 mb-2">
                       <button type="reset" className="bttn">
