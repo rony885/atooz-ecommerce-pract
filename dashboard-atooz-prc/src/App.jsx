@@ -51,9 +51,9 @@ function App() {
           <Route path="/product-category" element={<CategoryProd />}></Route>
           <Route path="/brand" element={<Brand />}></Route>
           <Route path="/unit" element={<Unit />}></Route>
-          <Route path="/productlists" element={<ProductLists />}></Route>
+          <Route path="/product-lists" element={<ProductLists />}></Route>
           <Route path="/product-update/:productId" element={<ProductsUpdate />}></Route>
-          <Route path="/productadd" element={<ProductsAdd />}></Route>
+          <Route path="/product-add" element={<ProductsAdd />}></Route>
 
           <Route path="/orders" element={<OrderList />}></Route>
           <Route path="/orderadd" element={<OrderAdd />}></Route>

@@ -258,7 +258,8 @@ const ProductsUpdate = () => {
     })
       .then((response) => {
         setMessage(response.success, "Product is successfully updated...");
-        navigate("/product-update");
+        // navigate("/product-update");
+        navigate("/product-lists");
         window.location.reload(false);
       })
       .catch((error) => {
@@ -451,7 +452,7 @@ const ProductsUpdate = () => {
               </form> */}
 
               <Formik
-               enableReinitialize={true}
+                enableReinitialize={true}
                 initialValues={updatedValues}
                 validationSchema={schema}
                 onSubmit={submitUpdateProductForm}
@@ -1673,7 +1674,7 @@ const ProductsUpdate = () => {
                         className="bttn1"
                         disabled={isSubmitting}
                       >
-                        Add Product
+                        Edit Product
                       </button>
                     </div>
 
@@ -1756,6 +1757,101 @@ const Wrapper = styled.section`
     outline: none;
     box-shadow: none;
   }
+
+  .bttn {
+    background-color: #ff6e6c;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .bttn1 {
+    background-color: #3e61e4;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  //formik css
+  .invalid-feedback {
+    font-size: 10px;
+    color: red;
+  }
+
+  input,
+  select,
+  textarea {
+    background-color: white;
+    color: black;
+    font-size: 12px;
+    box-sizing: border-box;
+    border: 1px solid gray;
+    border-radius: 3px;
+
+    &:focus {
+      outline: none;
+      border-color: #000;
+    }
+  }
+
+  option {
+    font-size: 12px;
+  }
+
+  label {
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin: 5px 0;
+
+    span {
+      color: red;
+    }
+  }
+
+  .imgDiv {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  section,
+  .divv,
+  .css-b62m3t-container,
+  .css-3iigni-container {
+    width: 100%;
+  }
+
+  .css-b62m3t-container,
+  .css-3iigni-container {
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: 1px solid gray;
+    border-radius: 5px;
+  }
+
+  .select {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    width: 100%;
+  }
+  .select option:checked {
+    background-color: orange;
+  }
+  .checkbox-group {
+    display: flex;
+    gap: 10px;
+  }
+  //formik css
 `;
 
 export default ProductsUpdate;
