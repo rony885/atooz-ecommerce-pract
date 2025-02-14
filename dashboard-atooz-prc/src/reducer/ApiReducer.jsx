@@ -89,6 +89,23 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
+    // Blog module
+    case "SET_API_Blog":
+      return {
+        ...state,
+        isLoading: false,
+        blog: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_Blog":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_blog: action.payload,
+        isError: false,
+      };
+
     case "API_ERROR":
       return {
         ...state,

@@ -24,6 +24,10 @@ const initialState = {
 
   product: [],
   unpaginate_product: [],
+
+  // Blog module
+  blog: [],
+  unpaginate_blog: [],
 };
 
 const ApiContext = ({ children }) => {
@@ -47,6 +51,10 @@ const ApiContext = ({ children }) => {
 
     product: `${process.env.REACT_APP_BASE_URL}/product_api/product/`,
     unpaginateProduct: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_product/`,
+
+    // Product module
+    blog: `${process.env.REACT_APP_BASE_URL}/blog_api/blog/`,
+    unpaginateBlog: `${process.env.REACT_APP_BASE_URL}/blog_api/unpaginate_blog/`,
   };
 
   // Fetch data function with useCallback
@@ -118,6 +126,17 @@ const ApiContext = ({ children }) => {
     [fetchData, urls.unpaginateProduct]
   );
 
+  // Blog module
+  const fetchBlog = useCallback(
+    () => fetchData(urls.blog, "SET_API_Blog"),
+    [fetchData, urls.blog]
+  );
+
+  const fetchUnpaginateBlog = useCallback(
+    () => fetchData(urls.unpaginateBlog, "SET_API_UNPAGINATE_Blog"),
+    [fetchData, urls.unpaginateBlog]
+  );
+
   return (
     <AppContext.Provider
       value={{
@@ -133,6 +152,9 @@ const ApiContext = ({ children }) => {
         fetchUnpaginateUnit,
         fetchProduct,
         fetchUnpaginateProduct,
+
+        fetchBlog,
+        fetchUnpaginateBlog,
       }}
     >
       {children}

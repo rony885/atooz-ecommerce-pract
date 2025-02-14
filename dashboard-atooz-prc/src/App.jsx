@@ -52,7 +52,10 @@ function App() {
           <Route path="/brand" element={<Brand />}></Route>
           <Route path="/unit" element={<Unit />}></Route>
           <Route path="/product-lists" element={<ProductLists />}></Route>
-          <Route path="/product-update/:productId" element={<ProductsUpdate />}></Route>
+          <Route
+            path="/product-update/:productId"
+            element={<ProductsUpdate />}
+          ></Route>
           <Route path="/product-add" element={<ProductsAdd />}></Route>
 
           <Route path="/orders" element={<OrderList />}></Route>
