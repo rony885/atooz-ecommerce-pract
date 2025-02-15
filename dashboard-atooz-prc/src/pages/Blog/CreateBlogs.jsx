@@ -1,8 +1,91 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
 
+import { Formik, Form as FormikForm } from "formik";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import * as yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const initialValues = {
+  title: "",
+  status: "",
+  subtitle: "",
+  pub_date: "",
+  pub_time: "",
+  author: "",
+  description: "",
+  image: "",
+};
+
+const schema = yup.object().shape({
+  title: yup.string().required("Blog title is a required field!"),
+  status: yup.boolean(),
+  subtitle: yup.string("Blog Subtitle is a required field!"),
+  author: yup.string("Blog Author is a required field!"),
+  pub_date: yup.string(),
+  pub_time: yup.string(),
+  description: yup.string(),
+  image: yup.mixed(),
+});
+
+const validate = (values) => {
+  let errors = {};
+  return errors;
+};
+
 const CreateBlogs = () => {
+  const navigate = useNavigate();
+  const [message, setMessage] = useState();
+  const [content, setContent] = useState("");
+
+  const [showImage, setShowImage] = useState(null);
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  // ======= add =======
+  const AddBlogFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("name", values.name);
+    formfield.append("status", values.status);
+
+    if (values.image) {
+      formfield.append("image", values.image);
+    }
+
+    await axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_blog/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(response.success, "Product blog is successfuly created...");
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitAddBlogForm = async (
+    values,
+    { setErrors, setSubmitting, resetForm }
+  ) => {
+    try {
+      AddBlogFunc(values);
+      setSubmitting(false);
+      // resetForm();
+    } catch (error) {
+      setErrors({ error: error.message });
+    }
+  };
+
   return (
     <Wrapper>
       <div className="layout">
@@ -139,7 +222,7 @@ const CreateBlogs = () => {
                   Cancel
                 </button>
                 <button type="submit" className="bttn1">
-                  Add
+                  Add Blog
                 </button>
               </div>
             </form>
