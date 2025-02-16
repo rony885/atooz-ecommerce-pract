@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
+import BlogListDataTable from "./BlogListDataTable";
+import { useApiContext } from "../../context/ApiContext";
 
 const BlogListView = () => {
+    // data fetching
+    const { blog, fetchBlog } = useApiContext();
+
+    useEffect(() => {
+      fetchBlog();
+    }, [fetchBlog]);
+
   return (
     <Wrapper>
       <div className="layout">
@@ -14,7 +23,7 @@ const BlogListView = () => {
               <div className="row d-flex justify-content-between align-items-center blog_row mb-4">
                 <div className="col-6">
                   <div className="d-flex justify-content-start align-items-center blog_title">
-                    <h4 className="m-0 fs-5">Blog</h4>
+                    <h4 className="m-0 fs-5">Blog List</h4>
                   </div>
                 </div>
 
@@ -32,47 +41,11 @@ const BlogListView = () => {
                   </div>
                 </div>
 
-                <h2 className="text-dark fs-5">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi
-                  repellat placeat deserunt facilis ullam. Error quo accusantium
-                  {/* enim hic vel provident assumenda commodi modi soluta,
-                  doloremque quam suscipit nobis molestiae accusamus sequi
-                  magnam voluptatem aspernatur minus, sit at voluptatum maxime
-                  quis. Aspernatur laborum pariatur quod enim doloremque tenetur
-                  sequi, culpa qui officia eveniet sed delectus, deleniti modi
-                  molestias amet neque consequuntur autem veniam repellendus
-                  cumque nemo ipsum fugit. Quia provident quaerat soluta totam,
-                  reiciendis, alias aut et repellendus doloribus facere eaque
-                  excepturi ipsam consequuntur repellat, commodi nihil itaque
-                  porro neque dolor eius laudantium vero. Itaque esse pariatur
-                  corrupti enim nihil amet quam aperiam suscipit sed, libero
-                  dolore nulla aliquid iste inventore veritatis laborum dicta.
-                  Laborum, quos error. Pariatur officia enim mollitia magni
-                  molestiae cumque maiores ducimus nulla, fuga vitae repellat
-                  ex. Reprehenderit molestiae beatae tenetur nostrum quisquam
-                  voluptates modi qui, nisi possimus ratione maiores dicta hic
-                  dolorum facilis explicabo cupiditate quae ex provident
-                  officiis deserunt et. Iure explicabo eius, reiciendis sit
-                  asperiores ad corrupti dolorum quis, harum hic natus cum
-                  voluptatem cupiditate mollitia quas officia optio est animi
-                  consectetur. Incidunt pariatur, quos saepe ad amet adipisci
-                  maiores eos dolorem commodi, laboriosam voluptatum explicabo
-                  nihil animi tempore! Deserunt, itaque. Eum officia iure
-                  consequuntur at sequi aspernatur repudiandae facilis.
-                  Consequuntur, molestiae. Eveniet ducimus mollitia molestiae
-                  veritatis eum reprehenderit expedita? Repellendus asperiores
-                  impedit animi et hic aspernatur, ullam dolore, fuga harum
-                  dolores delectus voluptatum ut eos aliquid culpa quam. Unde
-                  officiis quae sequi. Quod animi facere quaerat ratione dicta
-                  obcaecati! Inventore molestiae consequatur exercitationem
-                  commodi blanditiis corrupti deserunt, repudiandae asperiores,
-                  minima laboriosam amet eum quaerat quia odio! Voluptatum
-                  veritatis consequuntur beatae cum facilis soluta fugiat nobis,
-                  itaque in nulla voluptatem quod quas reiciendis magni tempora
-                  distinctio iure. Placeat animi eos, porro consequatur ut
-                  maiores architecto ducimus alias, dolor reprehenderit
-                  repudiandae, quam officia commodi. */}
-                </h2>
+                <div className="row d-flex justify-content-between align-items-center">
+                  <div className="col-lg-12">
+                    <BlogListDataTable data={blog} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -80,7 +53,7 @@ const BlogListView = () => {
         <hr />
         <Footer className="footer" />
       </div>
-    </Wrapper>  
+    </Wrapper>
   );
 };
 

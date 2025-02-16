@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
 
@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import * as yup from "yup";
 import axios from "axios";
+import JoditEditor from "jodit-react";
 import { useNavigate } from "react-router-dom";
 
 const initialValues = {
@@ -38,6 +39,7 @@ const validate = (values) => {
 
 const CreateBlogs = () => {
   const navigate = useNavigate();
+  const editor = useRef(null);
   const [message, setMessage] = useState();
   const [content, setContent] = useState("");
 
@@ -52,8 +54,13 @@ const CreateBlogs = () => {
   const AddBlogFunc = async (values) => {
     let formfield = new FormData();
 
-    formfield.append("name", values.name);
+    formfield.append("title", values.title);
     formfield.append("status", values.status);
+    formfield.append("subtitle", values.subtitle);
+    formfield.append("author", values.author);
+    formfield.append("pub_date", values.pub_date);
+    formfield.append("pub_time", values.pub_time);
+    formfield.append("description", values.description);
 
     if (values.image) {
       formfield.append("image", values.image);
@@ -61,11 +68,12 @@ const CreateBlogs = () => {
 
     await axios({
       method: "POST",
-      url: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_blog/`,
+      url: `${process.env.REACT_APP_BASE_URL}/blog_api/unpaginate_blog/`,
       data: formfield,
     })
       .then((response) => {
-        setMessage(response.success, "Product blog is successfuly created...");
+        setMessage(response.success, "Product blog is successfully created...");
+        navigate("/blogs");
         window.location.reload(false);
       })
       .catch((error) => {
@@ -92,7 +100,7 @@ const CreateBlogs = () => {
         <div className="blog-wrapper">
           <div className="add_blog">
             <h2 className="fs-5">Add Blog</h2>
-            <form action="">
+            {/* <form action="">
               <div className="row">
                 <div className="form-outline mb-4 col-lg-12">
                   <label className="form-label">
@@ -225,7 +233,220 @@ const CreateBlogs = () => {
                   Add Blog
                 </button>
               </div>
-            </form>
+            </form> */}
+
+            <Formik
+              initialValues={initialValues}
+              validationSchema={schema}
+              onSubmit={submitAddBlogForm}
+              validate={validate}
+            >
+              {({
+                handleSubmit,
+                handleChange,
+                values,
+                touched,
+                errors,
+                isSubmitting,
+                setFieldValue,
+              }) => (
+                <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                  <div className="row mb-4">
+                    <Form.Group className="form-outline mb-0 col-lg-12">
+                      <Form.Label>
+                        Blog Title<span className="text-danger">*</span>
+                      </Form.Label>
+                      <InputGroup hasValidation>
+                        <Form.Control
+                          type="text"
+                          name="title"
+                          id="title"
+                          value={values.title}
+                          onChange={handleChange}
+                          isInvalid={!!touched.title && !!errors.title}
+                          isValid={touched.title && !errors.title}
+                          className="form-control mb-0"
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.title}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+                  </div>
+
+                  <div className="row mb-4">
+                    <Form.Group className="form-outline mb-0 col-lg-12">
+                      <Form.Label>
+                        Blog Subtitle<span className="text-danger">*</span>
+                      </Form.Label>
+                      <InputGroup hasValidation>
+                        <Form.Control
+                          type="text"
+                          name="subtitle"
+                          id="subtitle"
+                          value={values.subtitle}
+                          onChange={handleChange}
+                          isInvalid={!!touched.subtitle && !!errors.subtitle}
+                          isValid={touched.subtitle && !errors.subtitle}
+                          className="form-control mb-0"
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.subtitle}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+                  </div>
+
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Group className="form-outline mb-0">
+                        <Form.Label>
+                          Status<span></span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Select
+                            name="status"
+                            id="status"
+                            value={values.status}
+                            onChange={handleChange}
+                            isInvalid={!!touched.status && !!errors.status}
+                            isValid={touched.status && !errors.status}
+                            className="form-control mb-0"
+                          >
+                            <option value="">Select</option>
+                            <option value={`${true}`}>Active</option>
+                            <option value={`${false}`}>Inactive</option>
+                          </Form.Select>
+                          <Form.Control.Feedback type="invalid">
+                            {errors.status}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Form.Group className="form-outline mb-0">
+                        <Form.Label>
+                          Author<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="author"
+                            id="author"
+                            value={values.author}
+                            onChange={handleChange}
+                            isInvalid={!!touched.author && !!errors.author}
+                            isValid={touched.author && !errors.author}
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.author}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="col-lg-4">
+                      <Form.Group className="form-outline mb-0">
+                        <Form.Label>
+                          Publication Date<span></span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="date"
+                            name="pub_date"
+                            id="pub_date"
+                            value={values.pub_date}
+                            onChange={handleChange}
+                            isInvalid={!!touched.pub_date && !!errors.pub_date}
+                            isValid={touched.pub_date && !errors.pub_date}
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.pub_date}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+                  </div>
+
+                  <div className="row mb-4">
+                    <Form.Group className="form-outline mb-0 col-lg-12">
+                      <Form.Label>
+                        Description<span></span>
+                      </Form.Label>
+                      <InputGroup hasValidation>
+                        <JoditEditor
+                          name="description"
+                          id="description"
+                          ref={editor}
+                          value={content}
+                          onChange={(newContent) => setContent(newContent)}
+                        />
+
+                        <Form.Control.Feedback type="invalid">
+                          {errors.description}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+                  </div>
+
+                  <div className="row mb-4">
+                    <Form.Group className="form-outline mb-0 imgDiv divv col-lg-12">
+                      <Form.Label>
+                        Blog Image<span></span>
+                      </Form.Label>
+                      <Form.Control
+                        type="file"
+                        name="image"
+                        id="image"
+                        onChange={(event) => {
+                          setFieldValue("image", event.currentTarget.files[0]);
+                          onImageChange(event);
+                        }}
+                        isInvalid={!!touched.image && !!errors.image}
+                        isValid={touched.image && !errors.image}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.image}
+                      </Form.Control.Feedback>
+
+                      {showImage && (
+                        <div>
+                          <img
+                            alt="product preview img"
+                            style={{
+                              width: "150px",
+                              height: "150px",
+                              marginTop: "20px",
+                              borderRadius: "50%",
+                            }}
+                            src={showImage}
+                          />
+                        </div>
+                      )}
+                    </Form.Group>
+                  </div>
+
+                  <div className="d-flex gap-2 justify-content-end mt-5 mb-2">
+                    <button type="reset" className="bttn">
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="bttn1"
+                      disabled={isSubmitting}
+                    >
+                      Add Blog
+                    </button>
+                  </div>
+
+                  {/* message  */}
+                  {message && <h2 className="text-center m-5">{message}</h2>}
+                </FormikForm>
+              )}
+            </Formik>
           </div>
         </div>
         <hr />
