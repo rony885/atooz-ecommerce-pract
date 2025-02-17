@@ -353,6 +353,67 @@ const Wrapper = styled.section`
     }
   }
 
+  /* ===== Modal styles ===== */
+  .custom-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+  }
+  .modal-content h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .close_btn {
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+    background-color: #d3d4d5;
+  }
+  .delete_btn {
+    background-color: #dc3546;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .no-hover-border {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .no-hover-border:focus,
+  .no-hover-border:hover {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+
+  .modal-actions .cancel-btn:hover {
+    background-color: #e77b79;
+  }
+
+  .modal-actions .add-btn:hover {
+    background-color: #4497f0;
+  }
+
   /* ===== Delete Modal ===== */
   .close_btn {
     border: none;

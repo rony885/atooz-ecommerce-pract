@@ -22,6 +22,7 @@ import PurchaseAdd from "./pages/Purchase/PurchaseAdd";
 
 import BlogListView from "./pages/Blog/BlogListView";
 import CreateBlogs from "./pages/Blog/CreateBlogs";
+import BlogUpdate from "./pages/Blog/BlogUpdate";
 
 import Supplier from "./pages/Setting/Supplier";
 import Customers from "./pages/Setting/Customers";
@@ -66,6 +67,7 @@ function App() {
 
           <Route path="/blogs" element={<BlogListView />}></Route>
           <Route path="/blog-add" element={<CreateBlogs />}></Route>
+          <Route path="/blog-update" element={<BlogUpdate />}></Route>
 
           <Route path="/supplier" element={<Supplier />}></Route>
           <Route path="/customers" element={<Customers />}></Route>

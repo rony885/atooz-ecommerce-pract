@@ -6,9 +6,10 @@ import {
   PiCaretLineRightBold,
 } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
-import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const BlogListDataTable = ({ data }) => {
+const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -16,8 +17,6 @@ const BlogListDataTable = ({ data }) => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
@@ -44,22 +43,9 @@ const BlogListDataTable = ({ data }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleEdit = (item) => {
-    setIsEditModalOpen(true); // Open edit modal
-  };
-
-  const handleDelete = (item) => {
-    setIsDeleteModalOpen(true); // Open delete modal
-  };
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
 
   return (
     <Wrapper>
@@ -143,20 +129,26 @@ const BlogListDataTable = ({ data }) => {
                 <td className="texxt">{item.author}</td>
                 <td className="texxt">{item.pub_date}</td>
                 <td className="texxt">{item.pub_time}</td>
+                {/* <td className="texxt">
+                  <p>{item.status ? "active" : ""}</p>
+                </td> */}
                 <td>
                   <ul className="d-flex gap-2 list-unstyled mb-0">
                     <li>
-                      <button
-                        className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
-                        onClick={() => handleEdit(item)}
-                      >
-                        <PiPencilLight />
+                      <button className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn">
+                        {/* <Link to={`/blog-update/${item.id}`}> */}
+                        <Link to="/blog-update">
+                          <PiPencilLight />
+                        </Link>
                       </button>
                     </li>
                     <li>
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                        onClick={() => handleDelete(item)}
+                        onClick={() => {
+                          openDeleteModal();
+                          getId(item.id);
+                        }}
                       >
                         <IoTrashOutline />
                       </button>
@@ -230,79 +222,6 @@ const BlogListDataTable = ({ data }) => {
             </button>
           </div>
         </div>
-
-        {/* ===== Edit Modal ===== */}
-        {isEditModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-content">
-              <span className="close" onClick={() => setIsEditModalOpen(false)}>
-                &times;
-              </span>
-              <h2>Update Category</h2>
-              <form>
-                <label>
-                  Category Name<span className="text-danger">*</span>
-                </label>
-                <input type="text" placeholder="Enter category name" />
-                <label>Status</label>
-
-                <select>
-                  <option value="Select">Select</option>
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <div className="modal-actions">
-                  <button type="reset" className="cancel-btn">
-                    Cancel
-                  </button>
-                  <button type="submit" className="add-btn">
-                    Update
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* ===== Delete Confirmation Modal ===== */}
-        {isDeleteModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button
-                    type="button"
-                    className="btn-close no-hover-border ms-auto"
-                    onClick={closeDeleteModal}
-                    aria-label="Close"
-                  ></button>
-                </div>
-
-                <div className="modal-body p-md-5">
-                  <div className="text-center">
-                    <div className="text-danger fs-1">
-                      <FaTrashAlt />
-                    </div>
-                    <div className="mt-4">
-                      <h3 className="mb-2 fs-5">Are you sure?</h3>
-                      <p className="text-muted fs-lg mx-3 mb-0">
-                        Are you sure you want to remove this record?
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
-                  <button type="button" className="close_btn">
-                    Close
-                  </button>
-                  <button type="button" className="delete_btn">
-                    Yes, Delete It!
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </Wrapper>
   );
@@ -378,34 +297,6 @@ const Wrapper = styled.section`
     .btn-link {
       padding: 2px 8px !important;
     }
-  }
-
-  /* ===== Delete Modal ===== */
-  .close_btn {
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    padding: 6px 10px;
-    background-color: #d3d4d5;
-  }
-  .delete_btn {
-    background-color: #dc3546;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-  .no-hover-border {
-    outline: none;
-    box-shadow: none;
-  }
-
-  .no-hover-border:focus,
-  .no-hover-border:hover {
-    outline: none;
-    box-shadow: none;
-    border-color: transparent;
   }
 `;
 
