@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
 
@@ -8,14 +8,73 @@ import InputGroup from "react-bootstrap/InputGroup";
 import * as yup from "yup";
 import axios from "axios";
 import JoditEditor from "jodit-react";
+import { useParams } from "react-router-dom";
+
+const schema = yup.object().shape({
+  title: yup.string().required("Blog title is a required field!"),
+  status: yup.boolean(),
+  subtitle: yup.string("Blog Subtitle is a required field!"),
+  author: yup.string("Blog Author is a required field!"),
+  pub_date: yup.string(),
+  pub_time: yup.string(),
+  description: yup.string(),
+  image: yup.mixed(),
+});
+
+const validate = (values) => {
+  let errors = {};
+  return errors;
+};
 
 const BlogUpdate = () => {
+  const { blogId } = useParams();
+  const [item, setItem] = useState({});
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+
+  const [showImage, setShowImage] = useState(null);
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  useEffect(() => {
+    const loadBlogs = async () => {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/blog_api/unpaginate_blog/${Number(
+          blogId
+        )}/`
+      );
+
+      setItem(data);
+      setShowImage(data.image);
+      setContent(data.description);
+    };
+
+    loadBlogs();
+  }, [blogId]);
+
+  // update values
+  const updateValues = {
+    title: item.title ? item.title : "",
+    status: item.status ? item.status : "",
+    subtitle: item.subtitle ? item.subtitle : "",
+    pub_date: item.pub_date ? item.pub_date : "",
+    pub_time: item.pub_time ? item.pub_time : "",
+    author: item.author ? item.author : "",
+    description: item.description ? item.description : "",
+    image: item.image ? item.image : "",
+  };
+
+  
+
   return (
     <Wrapper>
       <div className="layout">
         <div className="blog-wrapper">
           <div className="add_blog">
-            <h2 className="fs-5">UpdateBlog</h2>
+            <h2 className="fs-5">Update Blog</h2>
             <form action="">
               <div className="row">
                 <div className="form-outline mb-4 col-lg-12">
