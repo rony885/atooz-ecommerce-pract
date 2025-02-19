@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TbCirclePlus } from "react-icons/tb";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
+// import SupplierDataTable from "./SupplierDataTable";
 
 const Supplier = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,14 +40,7 @@ const Supplier = () => {
               </div>
 
               <div className="table-responsive">
-                <header align="left" className="headerr">
-                  <input
-                    type="text"
-                    placeholder="Search here"
-                    className="w-100 form-control"
-                    value=""
-                  />
-                </header>
+                {/* <SupplierDataTable data={data} /> */}
               </div>
             </div>
           </div>

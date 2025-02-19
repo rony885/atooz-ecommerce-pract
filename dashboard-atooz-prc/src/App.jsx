@@ -67,7 +67,7 @@ function App() {
 
           <Route path="/blogs" element={<BlogListView />}></Route>
           <Route path="/blog-add" element={<CreateBlogs />}></Route>
-          <Route path="/blog-update" element={<BlogUpdate />}></Route>
+          <Route path="/blog-update/:blogId" element={<BlogUpdate />}></Route>
 
           <Route path="/supplier" element={<Supplier />}></Route>
           <Route path="/customers" element={<Customers />}></Route>

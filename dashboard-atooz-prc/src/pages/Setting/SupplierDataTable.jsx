@@ -6,10 +6,9 @@ import {
   PiCaretLineRightBold,
 } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
 
-const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
+const SupplierDataTable = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -17,6 +16,8 @@ const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
@@ -37,15 +38,28 @@ const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
   });
 
   const filteredData = sortedData.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleEdit = (item) => {
+    setIsEditModalOpen(true); // Open edit modal
+  };
+
+  const handleDelete = (item) => {
+    setIsDeleteModalOpen(true); // Open delete modal
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
 
   return (
     <Wrapper>
@@ -73,41 +87,17 @@ const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
                     : "▼"
                   : ""}
               </th>
-              <th className="texxt" onClick={() => handleSort("blog_id")}>
-                Blog ID{" "}
-                {sortConfig.key === "blog_id"
+              <th className="texxt" onClick={() => handleSort("name")}>
+                Name{" "}
+                {sortConfig.key === "name"
                   ? sortConfig.direction === "ascending"
                     ? "▲"
                     : "▼"
                   : ""}
               </th>
-              <th className="texxt" onClick={() => handleSort("title")}>
-                Title{" "}
-                {sortConfig.key === "title"
-                  ? sortConfig.direction === "ascending"
-                    ? "▲"
-                    : "▼"
-                  : ""}
-              </th>
-              <th className="texxt" onClick={() => handleSort("author")}>
-                Author{" "}
-                {sortConfig.key === "author"
-                  ? sortConfig.direction === "ascending"
-                    ? "▲"
-                    : "▼"
-                  : ""}
-              </th>
-              <th className="texxt" onClick={() => handleSort("pub_date")}>
-                Pub Date{" "}
-                {sortConfig.key === "pub_date"
-                  ? sortConfig.direction === "ascending"
-                    ? "▲"
-                    : "▼"
-                  : ""}
-              </th>
-              <th className="texxt" onClick={() => handleSort("pub_time")}>
-                Pub Time{" "}
-                {sortConfig.key === "pub_time"
+              <th className="texxt" onClick={() => handleSort("status")}>
+                Status{" "}
+                {sortConfig.key === "status"
                   ? sortConfig.direction === "ascending"
                     ? "▲"
                     : "▼"
@@ -124,31 +114,22 @@ const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
                   <input type="checkbox" aria-label={`select-row-${item.id}`} />
                 </td>
                 <td className="texxt">{item.id}</td>
-                <td className="texxt">{item.blog_id}</td>
-                <td className="texxt">{item.title}</td>
-                <td className="texxt">{item.author}</td>
-                <td className="texxt">{item.pub_date}</td>
-                <td className="texxt">{item.pub_time}</td>
-                {/* <td className="texxt">
-                  <p>{item.status ? "active" : ""}</p>
-                </td> */}
+                <td className="texxt">{item.name}</td>
+                <td className="texxt">{item.status}</td>
                 <td>
                   <ul className="d-flex gap-2 list-unstyled mb-0">
                     <li>
-                      <button className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn">
-                        <Link to={`/blog-update/${item.id}`}>
-                        {/* <Link to="/blog-update"> */}
-                          <PiPencilLight />
-                        </Link>
+                      <button
+                        className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
+                        onClick={() => handleEdit(item)}
+                      >
+                        <PiPencilLight />
                       </button>
                     </li>
                     <li>
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                        onClick={() => {
-                          openDeleteModal();
-                          getId(item.id);
-                        }}
+                        onClick={() => handleDelete(item)}
                       >
                         <IoTrashOutline />
                       </button>
@@ -222,6 +203,79 @@ const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
             </button>
           </div>
         </div>
+
+        {/* ===== Edit Modal ===== */}
+        {isEditModalOpen && (
+          <div className="custom-modal">
+            <div className="modal-content">
+              <span className="close" onClick={() => setIsEditModalOpen(false)}>
+                &times;
+              </span>
+              <h2>Update Category</h2>
+              <form>
+                <label>
+                  Category Name<span className="text-danger">*</span>
+                </label>
+                <input type="text" placeholder="Enter category name" />
+                <label>Status</label>
+
+                <select>
+                  <option value="Select">Select</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+                <div className="modal-actions">
+                  <button type="reset" className="cancel-btn">
+                    Cancel
+                  </button>
+                  <button type="submit" className="add-btn">
+                    Update
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ===== Delete Confirmation Modal ===== */}
+        {isDeleteModalOpen && (
+          <div className="custom-modal">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button
+                    type="button"
+                    className="btn-close no-hover-border ms-auto"
+                    onClick={closeDeleteModal}
+                    aria-label="Close"
+                  ></button>
+                </div>
+
+                <div className="modal-body p-md-5">
+                  <div className="text-center">
+                    <div className="text-danger fs-1">
+                      <FaTrashAlt />
+                    </div>
+                    <div className="mt-4">
+                      <h3 className="mb-2 fs-5">Are you sure?</h3>
+                      <p className="text-muted fs-lg mx-3 mb-0">
+                        Are you sure you want to remove this record?
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
+                  <button type="button" className="close_btn">
+                    Close
+                  </button>
+                  <button type="button" className="delete_btn">
+                    Yes, Delete It!
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Wrapper>
   );
@@ -298,6 +352,95 @@ const Wrapper = styled.section`
       padding: 2px 8px !important;
     }
   }
+
+  /* ===== Modal styles ===== */
+  .custom-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+  }
+  .modal-content h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .close_btn {
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+    background-color: #d3d4d5;
+  }
+  .delete_btn {
+    background-color: #dc3546;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .no-hover-border {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .no-hover-border:focus,
+  .no-hover-border:hover {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+
+  .modal-actions .cancel-btn:hover {
+    background-color: #e77b79;
+  }
+
+  .modal-actions .add-btn:hover {
+    background-color: #4497f0;
+  }
+
+  /* ===== Delete Modal ===== */
+  .close_btn {
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+    background-color: #d3d4d5;
+  }
+  .delete_btn {
+    background-color: #dc3546;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .no-hover-border {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .no-hover-border:focus,
+  .no-hover-border:hover {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
 `;
 
-export default BlogListDataTable;
+export default SupplierDataTable;
