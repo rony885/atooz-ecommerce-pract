@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { TbCirclePlus } from "react-icons/tb";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
+import CustomersDataTable from "./CustomersDataTable";
 
 const Customers = () => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => setIsAddModalOpen(false);
+
+  const sampleData = [
+    { id: 1, name: "Gift", status: "Active" },
+    { id: 2, name: "Book", status: "Inactive" },
+    { id: 3, name: "Pen", status: "Active" },
+    { id: 4, name: "Laptop", status: "Active" },
+    { id: 5, name: "Notebook", status: "Inactive" },
+    { id: 6, name: "Bag", status: "Active" },
+    { id: 7, name: "Shoes", status: "Inactive" },
+    { id: 8, name: "Watch", status: "Active" },
+    { id: 9, name: "Phone", status: "Inactive" },
+    { id: 10, name: "Tablet", status: "Active" },
+    { id: 11, name: "Tablet1", status: "Active" },
+    { id: 12, name: "Tablet2", status: "Active" },
+    { id: 13, name: "Tablet3", status: "Active" },
+  ];
+
   return (
     <Wrapper>
       <div className="layout">
@@ -20,7 +41,7 @@ const Customers = () => {
                 <div className="col-6">
                   <div className="d-flex justify-content-end align-items-center add_customers">
                     <i className="bi bi-plus-circle align-baseline me-1"></i>
-                    <button className="buttn">
+                    <button className="buttn" onClick={openAddModal}>
                       <TbCirclePlus className="fs-6" />
                       <span className="bttn_title">Add Customers</span>
                     </button>
@@ -30,18 +51,46 @@ const Customers = () => {
 
               <div className="table-responsive">
                 <div className="table-responsive">
-                  <header align="left" className="headerr">
-                    <input
-                      type="text"
-                      placeholder="Search here"
-                      className="w-100 form-control"
-                      value=""
-                    />
-                  </header>
+                  <CustomersDataTable data={sampleData} />
                 </div>
               </div>
             </div>
           </div>
+
+          {/*==== modal ==== */}
+          {isAddModalOpen && (
+            <div className="custom-modal">
+              <div className="modal-content">
+                <span className="close" onClick={closeAddModal}>
+                  &times;
+                </span>
+                <h2 className="">Add Category</h2>
+
+                <form>
+                  <label>
+                    Category Name<span className="text-danger">*</span>
+                  </label>
+                  <input type="text" placeholder="Enter category name" />
+
+                  <label>Status</label>
+                  <select>
+                    <option value="Select">Select</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+
+                  <div className="modal-actions">
+                    <button type="reset" className="cancel-btn">
+                      Cancel
+                    </button>
+                    <button type="submit" className="add-btn">
+                      Add Category
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
         <hr />
         <Footer className="footer" />

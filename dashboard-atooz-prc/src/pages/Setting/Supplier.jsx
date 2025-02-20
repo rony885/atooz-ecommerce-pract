@@ -2,18 +2,28 @@ import React, { useState } from "react";
 import { TbCirclePlus } from "react-icons/tb";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
-// import SupplierDataTable from "./SupplierDataTable";
+import SupplierDataTable from "./SupplierDataTable";
 
 const Supplier = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => setIsAddModalOpen(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const sampleData = [
+    { id: 1, name: "Gift", status: "Active" },
+    { id: 2, name: "Book", status: "Inactive" },
+    { id: 3, name: "Pen", status: "Active" },
+    { id: 4, name: "Laptop", status: "Active" },
+    { id: 5, name: "Notebook", status: "Inactive" },
+    { id: 6, name: "Bag", status: "Active" },
+    { id: 7, name: "Shoes", status: "Inactive" },
+    { id: 8, name: "Watch", status: "Active" },
+    { id: 9, name: "Phone", status: "Inactive" },
+    { id: 10, name: "Tablet", status: "Active" },
+    { id: 11, name: "Tablet1", status: "Active" },
+    { id: 12, name: "Tablet2", status: "Active" },
+    { id: 13, name: "Tablet3", status: "Active" },
+  ];
 
   return (
     <Wrapper>
@@ -31,7 +41,7 @@ const Supplier = () => {
                 <div className="col-6">
                   <div className="d-flex justify-content-end align-items-center add_supplier">
                     <i className="bi bi-plus-circle align-baseline me-1"></i>
-                    <button className="buttn" onClick={handleOpenModal}>
+                    <button className="buttn" onClick={openAddModal}>
                       <TbCirclePlus className="fs-6" />
                       <span className="bttn_title">Add Supplier</span>
                     </button>
@@ -40,131 +50,40 @@ const Supplier = () => {
               </div>
 
               <div className="table-responsive">
-                {/* <SupplierDataTable data={data} /> */}
+                <SupplierDataTable data={sampleData} />
               </div>
             </div>
           </div>
 
           {/*==== modal ==== */}
-          {isModalOpen && (
-            <div className="modal">
+          {isAddModalOpen && (
+            <div className="custom-modal">
               <div className="modal-content">
-                <form action="#" noValidate>
-                  <div className="modal-header">
-                    <h5 className="modal-title fs-6" id="SupplierAddModalLabel">
-                      Add Supplier
-                    </h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      aria-label="Close"
-                      onClick={handleCloseModal}
-                    ></button>
-                  </div>
-                  <div className="modal-body">
-                    <div className="form-outline mb-4">
-                      <label className="form-label">
-                        Supplier Name<span>*</span>
-                      </label>
-                      <div className="input-group">
-                        <input
-                          name="name"
-                          type="text"
-                          id="name"
-                          className="form-control"
-                          value=""
-                        />
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
+                <span className="close" onClick={closeAddModal}>
+                  &times;
+                </span>
+                <h2 className="">Add Category</h2>
 
-                    <div className="form-outline mb-4">
-                      <label className="form-label">
-                        Status<span></span>
-                      </label>
-                      <div className="input-group">
-                        <select
-                          name="s_status"
-                          className="form-control form-select"
-                          id="s_status"
-                        >
-                          <option value="">Select</option>
-                          <option value="true">Active</option>
-                          <option value="false">Inactive</option>
-                        </select>
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
+                <form>
+                  <label>
+                    Category Name<span className="text-danger">*</span>
+                  </label>
+                  <input type="text" placeholder="Enter category name" />
 
-                    <div className="form-outline mb-4">
-                      <label className="form-label">
-                        Address<span>*</span>
-                      </label>
-                      <div className="input-group">
-                        <textarea
-                          name="address"
-                          id="address"
-                          className="form-control"
-                        ></textarea>
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
+                  <label>Status</label>
+                  <select>
+                    <option value="Select">Select</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
 
-                    <div className="form-outline mb-4">
-                      <label className="form-label">
-                        Phone<span>*</span>
-                      </label>
-                      <div className="input-group">
-                        <input
-                          name="phone"
-                          type="text"
-                          id="phone"
-                          className="form-control"
-                          value=""
-                        />
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
-
-                    <div className="form-outline mb-4">
-                      <label className="form-label">
-                        Email<span></span>
-                      </label>
-                      <div className="input-group">
-                        <input
-                          name="email"
-                          type="text"
-                          id="email"
-                          className="form-control"
-                          value=""
-                        />
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
-
-                    <div className="form-outline mb-4">
-                      <label className="form-label">
-                        Logo<span></span>
-                      </label>
-                      <input
-                        name="logo"
-                        type="file"
-                        id="logo"
-                        className="form-control"
-                      />
-                      <div className="invalid-feedback"></div>
-                    </div>
-                  </div>
-
-                  <div className="modal-footer">
-                    <div className="hstack gap-2 justify-content-end">
-                      <button type="reset" className="bttn">
-                        Cancel
-                      </button>
-                      <button type="submit" className="bttn1">
-                        Add
-                      </button>
-                    </div>
+                  <div className="modal-actions">
+                    <button type="reset" className="cancel-btn">
+                      Cancel
+                    </button>
+                    <button type="submit" className="add-btn">
+                      Add Category
+                    </button>
                   </div>
                 </form>
               </div>
@@ -235,70 +154,104 @@ const Wrapper = styled.section`
     font-size: 12px;
   }
 
-  /* ===== modal ==== */
-  .modal {
+  /* ===== Modal styles ===== */
+  .custom-modal {
     position: fixed;
-    top: 0;
+    z-index: 1000;
     left: 0;
-    z-index: 1050;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .modal-content {
-    position: relative;
     background-color: #fff;
-    border-radius: 5px;
-    padding: 15px;
+    padding: 20px;
+    border-radius: 8px;
     width: 100%;
-    max-width: 550px;
-    height: 550px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    position: relative;
+  }
+  .modal-content h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
   }
 
-  .modal-header {
+  .close:hover {
+    color: #000;
+  }
+
+  .modal-content h2 {
+    margin-bottom: 20px;
+  }
+
+  .modal-content form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  .modal-content form input,
+  .modal-content form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: 1px solid #82a8d1 !important;
+  }
+
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-size: 12px;
+  }
+
+  .modal-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-end;
   }
-  .form-label {
-    font-size: 13px;
-    font-weight: 500;
+
+  .modal-actions .cancel-btn,
+  .modal-actions .add-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
   }
-  .form-control {
-    border-radius: 0.25rem;
-    font-size: 13px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  /* Remove blue outline on focus */
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    box-shadow: none;
-  }
-  .bttn {
+
+  .modal-actions .cancel-btn {
     background-color: #ff6e6c;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 4px;
     color: #fff;
-    font-size: 14px;
   }
-  .bttn1 {
-    background-color: #3e61e4;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 4px;
+
+  .modal-actions .add-btn {
+    background-color: #007bff;
     color: #fff;
-    font-size: 14px;
+  }
+
+  .modal-actions .cancel-btn:hover {
+    background-color: #e77b79;
+  }
+
+  .modal-actions .add-btn:hover {
+    background-color: #4497f0;
   }
 `;
 

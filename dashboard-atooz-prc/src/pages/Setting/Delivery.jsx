@@ -2,12 +2,28 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
 import Footer from "../../components/Footer";
+import DeliveryDataTable from "./DeliveryDataTable";
 
 const Delivery = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => setIsAddModalOpen(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const sampleData = [
+    { id: 1, name: "Gift", status: "Active" },
+    { id: 2, name: "Book", status: "Inactive" },
+    { id: 3, name: "Pen", status: "Active" },
+    { id: 4, name: "Laptop", status: "Active" },
+    { id: 5, name: "Notebook", status: "Inactive" },
+    { id: 6, name: "Bag", status: "Active" },
+    { id: 7, name: "Shoes", status: "Inactive" },
+    { id: 8, name: "Watch", status: "Active" },
+    { id: 9, name: "Phone", status: "Inactive" },
+    { id: 10, name: "Tablet", status: "Active" },
+    { id: 11, name: "Tablet1", status: "Active" },
+    { id: 12, name: "Tablet2", status: "Active" },
+    { id: 13, name: "Tablet3", status: "Active" },
+  ];
 
   return (
     <Wrapper>
@@ -23,7 +39,7 @@ const Delivery = () => {
 
               <div className="col-6">
                 <div className="d-flex justify-content-end align-items-center add_delivery">
-                  <button className="buttn" onClick={openModal}>
+                  <button className="buttn" onClick={openAddModal}>
                     <TbCirclePlus className="fs-6" />
                     <span className="bttn_title">Add Delivery</span>
                   </button>
@@ -34,26 +50,16 @@ const Delivery = () => {
             <div className="row">
               <div className="col-lg-12">
                 <div className="table-responsive">
-                  <header align="left" className="headerr">
-                    <input
-                      type="text"
-                      placeholder="Search here"
-                      className="w-100 form-control"
-                      value=""
-                    />
-                  </header>
-                </div>
-                <div style={{ padding: "24px" }}>
-                  <p className="text-center">There are no records to display</p>
+                  <DeliveryDataTable data={sampleData} />
                 </div>
               </div>
             </div>
 
             {/* ====== Modal ====== */}
-            {isModalOpen && (
+            {isAddModalOpen && (
               <div className="custom-modal">
                 <div className="modal-content">
-                  <span className="close" onClick={closeModal}>
+                  <span className="close" onClick={closeAddModal}>
                     &times;
                   </span>
                   <h2>Add Delivery Type</h2>
