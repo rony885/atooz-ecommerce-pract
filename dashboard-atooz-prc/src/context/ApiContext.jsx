@@ -32,6 +32,12 @@ const initialState = {
   // Setting module
   supplier: [],
   unpaginate_supplier: [],
+
+  courier: [],
+  unpaginate_courier: [],
+
+  deliveryType: [],
+  unpaginate_deliveryType: [],
 };
 
 const ApiContext = ({ children }) => {
@@ -63,6 +69,12 @@ const ApiContext = ({ children }) => {
     // Setting module
     supplier: `${process.env.REACT_APP_BASE_URL}/supplier_api/supplier/`,
     unpaginateSupplier: `${process.env.REACT_APP_BASE_URL}/supplier_api/unpaginate_supplier/`,
+
+    courier: `${process.env.REACT_APP_BASE_URL}/courier_api/courier/`,
+    unpaginateCourier: `${process.env.REACT_APP_BASE_URL}/courier_api/unpaginate_courier/`,
+
+    deliveryType: `${process.env.REACT_APP_BASE_URL}/deliveryType_api/deliveryType/`,
+    unpaginateDeliveryType: `${process.env.REACT_APP_BASE_URL}/deliveryType_api/unpaginate_deliveryType/`,
   };
 
   // Fetch data function with useCallback
@@ -156,6 +168,27 @@ const ApiContext = ({ children }) => {
     [fetchData, urls.unpaginateSupplier]
   );
 
+  const fetchCourier = useCallback(
+    () => fetchData(urls.courier, "SET_API_Courier"),
+    [fetchData, urls.courier]
+  );
+
+  const fetchUnpaginateCourier = useCallback(
+    () => fetchData(urls.unpaginateCourier, "SET_API_UNPAGINATE_Courier"),
+    [fetchData, urls.unpaginateCourier]
+  );
+
+  const fetchDeliveryType = useCallback(
+    () => fetchData(urls.deliveryType, "SET_API_DeliveryType"),
+    [fetchData, urls.deliveryType]
+  );
+
+  const fetchUnpaginateDeliveryType = useCallback(
+    () =>
+      fetchData(urls.unpaginateDeliveryType, "SET_API_UNPAGINATE_DeliveryType"),
+    [fetchData, urls.unpaginateDeliveryType]
+  );
+
   return (
     <AppContext.Provider
       value={{
@@ -177,6 +210,10 @@ const ApiContext = ({ children }) => {
 
         fetchSupplier,
         fetchUnpaginateSupplier,
+        fetchCourier,
+        fetchUnpaginateCourier,
+        fetchDeliveryType,
+        fetchUnpaginateDeliveryType,
       }}
     >
       {children}

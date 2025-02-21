@@ -123,6 +123,22 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
+    case "SET_API_Courier":
+      return {
+        ...state,
+        isLoading: false,
+        courier: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_Courier":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_courier: action.payload,
+        isError: false,
+      };
+
     case "API_ERROR":
       return {
         ...state,
