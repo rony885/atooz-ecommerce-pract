@@ -1,29 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbCirclePlus } from "react-icons/tb";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
+
+import { Formik, Form as FormikForm } from "formik";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import * as yup from "yup";
+import axios from "axios";
+
 import SupplierDataTable from "./SupplierDataTable";
+import { useApiContext } from "../../context/ApiContext";
+
+const initialValues = {
+  // supplier_id: "",
+  name: "",
+  status: "",
+  address: "",
+  phone: "",
+  email: "",
+  logo: "",
+};
+
+const schema = yup.object().shape({
+  // supplier_id: yup.string().required("Address is a required field!"),
+  name: yup.string().required("Supplier Name is a required field!"),
+  status: yup.boolean(),
+  address: yup.string().required("Address is a required field!"),
+  phone: yup.string().required("Phone is a required field!"),
+  email: yup.string(),
+  logo: yup.mixed(),
+});
 
 const Supplier = () => {
+  // data fetching
+  const { supplier, fetchSupplier } = useApiContext();
+
+  useEffect(() => {
+    fetchSupplier();
+  }, [fetchSupplier]);
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const openAddModal = () => setIsAddModalOpen(true);
   const closeAddModal = () => setIsAddModalOpen(false);
 
-  const sampleData = [
-    { id: 1, name: "Gift", status: "Active" },
-    { id: 2, name: "Book", status: "Inactive" },
-    { id: 3, name: "Pen", status: "Active" },
-    { id: 4, name: "Laptop", status: "Active" },
-    { id: 5, name: "Notebook", status: "Inactive" },
-    { id: 6, name: "Bag", status: "Active" },
-    { id: 7, name: "Shoes", status: "Inactive" },
-    { id: 8, name: "Watch", status: "Active" },
-    { id: 9, name: "Phone", status: "Inactive" },
-    { id: 10, name: "Tablet", status: "Active" },
-    { id: 11, name: "Tablet1", status: "Active" },
-    { id: 12, name: "Tablet2", status: "Active" },
-    { id: 13, name: "Tablet3", status: "Active" },
-  ];
+  // const sampleData = [
+  //   { id: 1, name: "Gift", status: "Active" },
+  //   { id: 2, name: "Book", status: "Inactive" },
+  //   { id: 3, name: "Pen", status: "Active" },
+  //   { id: 4, name: "Laptop", status: "Active" },
+  //   { id: 5, name: "Notebook", status: "Inactive" },
+  //   { id: 6, name: "Bag", status: "Active" },
+  //   { id: 7, name: "Shoes", status: "Inactive" },
+  //   { id: 8, name: "Watch", status: "Active" },
+  //   { id: 9, name: "Phone", status: "Inactive" },
+  //   { id: 10, name: "Tablet", status: "Active" },
+  //   { id: 11, name: "Tablet1", status: "Active" },
+  //   { id: 12, name: "Tablet2", status: "Active" },
+  //   { id: 13, name: "Tablet3", status: "Active" },
+  // ];
 
   return (
     <Wrapper>
