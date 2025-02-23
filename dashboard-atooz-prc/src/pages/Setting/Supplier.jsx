@@ -23,7 +23,7 @@ const initialValues = {
 };
 
 const schema = yup.object().shape({
-  // supplier_id: yup.string().required("Address is a required field!"),
+  // supplier_id: yup.string(),
   name: yup.string().required("Supplier Name is a required field!"),
   status: yup.boolean(),
   address: yup.string().required("Address is a required field!"),
@@ -32,33 +32,162 @@ const schema = yup.object().shape({
   logo: yup.mixed(),
 });
 
+const validate = (values) => {
+  let errors = {};
+
+  if (!values.phone) {
+    errors.phone = "Phone is required!";
+  } else if (/^[0-9\b]+$/.test(values.phone) === false) {
+    errors.phone = "Only number!";
+  } else if (values.phone.length !== 11) {
+    errors.phone = "Mobile Number contains 11 digit!";
+  }
+
+  if (values.email) {
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email) === false) {
+      errors.email = "Invalid Email!";
+    }
+  }
+
+  return errors;
+};
+
 const Supplier = () => {
   // data fetching
   const { supplier, fetchSupplier } = useApiContext();
+  console.log(supplier);
 
   useEffect(() => {
     fetchSupplier();
   }, [fetchSupplier]);
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const openAddModal = () => setIsAddModalOpen(true);
-  const closeAddModal = () => setIsAddModalOpen(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  // const sampleData = [
-  //   { id: 1, name: "Gift", status: "Active" },
-  //   { id: 2, name: "Book", status: "Inactive" },
-  //   { id: 3, name: "Pen", status: "Active" },
-  //   { id: 4, name: "Laptop", status: "Active" },
-  //   { id: 5, name: "Notebook", status: "Inactive" },
-  //   { id: 6, name: "Bag", status: "Active" },
-  //   { id: 7, name: "Shoes", status: "Inactive" },
-  //   { id: 8, name: "Watch", status: "Active" },
-  //   { id: 9, name: "Phone", status: "Inactive" },
-  //   { id: 10, name: "Tablet", status: "Active" },
-  //   { id: 11, name: "Tablet1", status: "Active" },
-  //   { id: 12, name: "Tablet2", status: "Active" },
-  //   { id: 13, name: "Tablet3", status: "Active" },
-  // ];
+  const openAddModal = () => setIsAddModalOpen(true);
+  const openEditModal = () => setIsEditModalOpen(true);
+  // const openDeleteModal = () => setIsDeleteModalOpen(true);
+
+  const closeAddModal = () => setIsAddModalOpen(false);
+  const closeEditModal = () => setIsEditModalOpen(false);
+  // const closeDeleteModal = () => setIsDeleteModalOpen(false);
+
+  const [message, setMessage] = useState();
+  const [item, setItem] = useState({});
+  // const [receivedId, setReceivedId] = useState(null);
+
+  const [showLogo, setShowLogo] = useState(null);
+  const onLogoChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowLogo(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  // ===== add =====
+  const AddSupplierFunc = async (values) => {
+    let formfield = new FormData();
+
+    // formfield.append("supplier_id", values.supplier_id);
+    formfield.append("name", values.name);
+    formfield.append("status", values.status);
+    formfield.append("address", values.address);
+    formfield.append("phone", values.phone);
+    formfield.append("email", values.email);
+
+    if (values.logo) {
+      formfield.append("logo", values.logo);
+    }
+
+    await axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_supplier/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(
+          response.success,
+          "Product Supplier is successfuly created..."
+        );
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitAddSupplierForm = async (
+    values,
+    { setErrors, setSubmitting, resetForm }
+  ) => {
+    try {
+      AddSupplierFunc(values);
+      setSubmitting(false);
+      // resetForm();
+    } catch (error) {
+      setErrors({ error: error.message });
+    }
+  };
+
+  // update
+  const updateValues = {
+    name: item.name ? item.name : "",
+    status: item.status ? item.status : "",
+    address: item.address ? item.address : "",
+    phone: item.phone ? item.phone : "",
+    email: item.email ? item.email : "",
+    logo: item.logo ? item.logo : "",
+  };
+
+  const UpdateSupplierFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("name", values.name);
+    formfield.append("status", values.status);
+    formfield.append("address", values.address);
+    formfield.append("phone", values.phone);
+    formfield.append("email", values.email);
+
+    if (values.logo !== item.logo) {
+      formfield.append("logo", values.logo);
+    }
+
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_supplier/${item.id}/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(
+          response.success,
+          "Product supplier is successfully updated..."
+        );
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitUpdateSupplierForm = async (
+    values,
+    { setErrors, setSubmitting }
+  ) => {
+    try {
+      UpdateSupplierFunc(values);
+      setSubmitting(false);
+    } catch (error) {
+      setErrors({ err: error.message });
+    }
+  };
+
+  const updateSupplier = async (id) => {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_supplier/${id}/`
+    );
+    setItem(data);
+    setShowLogo(data.logo);
+  };
 
   return (
     <Wrapper>
@@ -85,42 +214,426 @@ const Supplier = () => {
               </div>
 
               <div className="table-responsive">
-                <SupplierDataTable data={sampleData} />
+                <SupplierDataTable data={supplier} />
               </div>
             </div>
           </div>
 
-          {/*==== modal ==== */}
+          {/*==== Add modal ==== */}
           {isAddModalOpen && (
             <div className="custom-modal">
               <div className="modal-content">
-                <span className="close" onClick={closeAddModal}>
-                  &times;
-                </span>
-                <h2 className="">Add Category</h2>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={schema}
+                  onSubmit={submitAddSupplierForm}
+                  validate={validate}
+                >
+                  {({
+                    handleSubmit,
+                    handleChange,
+                    values,
+                    touched,
+                    errors,
+                    isSubmitting,
+                    setFieldValue,
+                  }) => (
+                    <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                      <div className="modal-header">
+                        <h5
+                          className="modal-title fs-6"
+                          id="SupplierAddModalLabel"
+                        >
+                          Add Supplier
+                        </h5>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          aria-label="Close"
+                          onClick={closeAddModal}
+                        ></button>
+                      </div>
 
-                <form>
-                  <label>
-                    Category Name<span className="text-danger">*</span>
-                  </label>
-                  <input type="text" placeholder="Enter category name" />
+                      <div className="modal-body">
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Supplier Name<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
 
-                  <label>Status</label>
-                  <select>
-                    <option value="Select">Select</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
 
-                  <div className="modal-actions">
-                    <button type="reset" className="cancel-btn">
-                      Cancel
-                    </button>
-                    <button type="submit" className="add-btn">
-                      Add Category
-                    </button>
-                  </div>
-                </form>
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Address<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              as="textarea"
+                              name="address"
+                              id="address"
+                              value={values.address}
+                              onChange={handleChange}
+                              isInvalid={!!touched.address && !!errors.address}
+                              isValid={touched.address && !errors.address}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.address}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Phone<span>*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="phone"
+                              id="phone"
+                              value={values.phone}
+                              onChange={handleChange}
+                              isInvalid={!!touched.phone && !!errors.phone}
+                              isValid={touched.phone && !errors.phone}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.phone}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Email<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="email"
+                              name="email"
+                              id="email"
+                              value={values.email}
+                              onChange={handleChange}
+                              isInvalid={!!touched.email && !!errors.email}
+                              isValid={touched.email && !errors.email}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.email}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-3 imgDiv divv">
+                          <Form.Label>
+                            Logo<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="logo"
+                            id="logo"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "logo",
+                                event.currentTarget.files[0]
+                              );
+                              onLogoChange(event);
+                            }}
+                            isInvalid={!!touched.logo && !!errors.logo}
+                            isValid={touched.logo && !errors.logo}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.logo}
+                          </Form.Control.Feedback>
+
+                          {showLogo && (
+                            <div>
+                              <img
+                                alt="product preview img"
+                                style={{
+                                  width: "150px",
+                                  height: "150px",
+                                  marginTop: "20px",
+                                  borderRadius: "50%",
+                                }}
+                                src={showLogo}
+                              />
+                            </div>
+                          )}
+                        </Form.Group>
+                      </div>
+
+                      <div className="modal-footer">
+                        <div className="hstack gap-2 justify-content-end">
+                          <button type="reset" className="bttn">
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="bttn1"
+                            disabled={isSubmitting}
+                          >
+                            Add Supplier
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* message  */}
+                      {message && (
+                        <h2 className="text-center m-5">{message}</h2>
+                      )}
+                    </FormikForm>
+                  )}
+                </Formik>
+              </div>
+            </div>
+          )}
+
+          {/*==== Edit modal ==== */}
+          {isAddModalOpen && (
+            <div className="custom-modal">
+              <div className="modal-content">
+                <Formik
+                  initialValues={updateValues}
+                  validationSchema={schema}
+                  onSubmit={submitUpdateSupplierForm}
+                  validate={validate}
+                >
+                  {({
+                    handleSubmit,
+                    handleChange,
+                    values,
+                    touched,
+                    errors,
+                    isSubmitting,
+                    setFieldValue,
+                  }) => (
+                    <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                      <div className="modal-header">
+                        <h5
+                          className="modal-title fs-6"
+                          id="SupplierAddModalLabel"
+                        >
+                          Edit Supplier
+                        </h5>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          aria-label="Close"
+                          onClick={closeAddModal}
+                        ></button>
+                      </div>
+
+                      <div className="modal-body">
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Supplier Name<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Address<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              as="textarea"
+                              name="address"
+                              id="address"
+                              value={values.address}
+                              onChange={handleChange}
+                              isInvalid={!!touched.address && !!errors.address}
+                              isValid={touched.address && !errors.address}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.address}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Phone<span>*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="phone"
+                              id="phone"
+                              value={values.phone}
+                              onChange={handleChange}
+                              isInvalid={!!touched.phone && !!errors.phone}
+                              isValid={touched.phone && !errors.phone}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.phone}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label>
+                            Email<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="email"
+                              name="email"
+                              id="email"
+                              value={values.email}
+                              onChange={handleChange}
+                              isInvalid={!!touched.email && !!errors.email}
+                              isValid={touched.email && !errors.email}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.email}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-3 imgDiv divv">
+                          <Form.Label>
+                            Logo<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="logo"
+                            id="logo"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "logo",
+                                event.currentTarget.files[0]
+                              );
+                              onLogoChange(event);
+                            }}
+                            isInvalid={!!touched.logo && !!errors.logo}
+                            isValid={touched.logo && !errors.logo}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.logo}
+                          </Form.Control.Feedback>
+
+                          {showLogo && (
+                            <div>
+                              <img
+                                alt="product preview img"
+                                style={{
+                                  width: "150px",
+                                  height: "150px",
+                                  marginTop: "20px",
+                                  borderRadius: "50%",
+                                }}
+                                src={showLogo}
+                              />
+                            </div>
+                          )}
+                        </Form.Group>
+                      </div>
+
+                      <div className="modal-footer">
+                        <div className="hstack gap-2 justify-content-end">
+                          <button type="reset" className="bttn">
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="bttn1"
+                            disabled={isSubmitting}
+                          >
+                            Edit Supplier
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* message  */}
+                      {message && (
+                        <h2 className="text-center m-5">{message}</h2>
+                      )}
+                    </FormikForm>
+                  )}
+                </Formik>
               </div>
             </div>
           )}
@@ -189,7 +702,7 @@ const Wrapper = styled.section`
     font-size: 12px;
   }
 
-  /* ===== Modal styles ===== */
+  /* ===== modal ==== */
   .custom-modal {
     position: fixed;
     z-index: 1000;
@@ -204,6 +717,19 @@ const Wrapper = styled.section`
     align-items: center;
   }
 
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
   .modal-content {
     background-color: #fff;
     padding: 20px;
@@ -212,81 +738,158 @@ const Wrapper = styled.section`
     max-width: 500px;
     position: relative;
   }
-  .modal-content h2 {
-    font-size: 18px;
-    font-weight: 700;
-  }
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-  }
 
-  .close:hover {
-    color: #000;
-  }
-
-  .modal-content h2 {
-    margin-bottom: 20px;
-  }
-
-  .modal-content form label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 12px;
-  }
-
-  .modal-content form input,
-  .modal-content form select {
+  .modal-contentt {
+    position: relative;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
     width: 100%;
-    padding: 8px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+    max-width: 550px;
+    height: 550px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .form-label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .form-control {
+    border-radius: 0.25rem;
+    font-size: 13px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  /* Remove blue outline on focus */
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  .bttn {
+    background-color: #ff6e6c;
+    padding: 8px 14px;
+    border: none;
     border-radius: 4px;
-    outline: 1px solid #82a8d1 !important;
+    color: #fff;
+    font-size: 14px;
+  }
+  .bttn1 {
+    background-color: #3e61e4;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  /* ===== Delete Modal ===== */
+  .close_btn {
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 4px 12px;
+    background-color: #d3d4d5;
+  }
+  .delete_btn {
+    background-color: #dc3546;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 4px 12px;
+  }
+  .no-hover-border {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .no-hover-border:focus,
+  .no-hover-border:hover {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+
+  //formik css
+  .invalid-feedback {
+    font-size: 10px;
+    color: red;
   }
 
   input,
-  optgroup,
   select,
   textarea {
+    background-color: white;
+    color: black;
+    font-size: 12px;
+    box-sizing: border-box;
+    border: 1px solid gray;
+    border-radius: 3px;
+
+    &:focus {
+      outline: none;
+      border-color: #000;
+    }
+  }
+
+  option {
     font-size: 12px;
   }
 
-  .modal-actions {
+  label {
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin: 5px 0;
+
+    span {
+      color: red;
+    }
+  }
+
+  .imgDiv {
+    max-width: 100%;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
   }
 
-  .modal-actions .cancel-btn,
-  .modal-actions .add-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px;
+  section,
+  .divv,
+  .css-b62m3t-container,
+  .css-3iigni-container {
+    width: 100%;
   }
+  //formik css
 
-  .modal-actions .cancel-btn {
-    background-color: #ff6e6c;
-    color: #fff;
+  @media screen and (max-width: 425px) {
+    .modal-content {
+      max-width: 370px;
+    }
   }
-
-  .modal-actions .add-btn {
-    background-color: #007bff;
-    color: #fff;
+  @media screen and (max-width: 375px) {
+    .modal-content {
+      max-width: 340px;
+    }
   }
-
-  .modal-actions .cancel-btn:hover {
-    background-color: #e77b79;
-  }
-
-  .modal-actions .add-btn:hover {
-    background-color: #4497f0;
+  @media screen and (max-width: 320px) {
+    .supplier_row .add_supplier .buttn {
+      padding: 5px;
+    }
+    .supplier_row .bttn_title {
+      font-size: 12px;
+    }
+    .modal-content {
+      max-width: 300px !important;
+    }
   }
 `;
 

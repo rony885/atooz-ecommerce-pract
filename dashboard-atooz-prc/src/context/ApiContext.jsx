@@ -67,14 +67,14 @@ const ApiContext = ({ children }) => {
     unpaginateBlog: `${process.env.REACT_APP_BASE_URL}/blog_api/unpaginate_blog/`,
 
     // Setting module
-    supplier: `${process.env.REACT_APP_BASE_URL}/supplier_api/supplier/`,
-    unpaginateSupplier: `${process.env.REACT_APP_BASE_URL}/supplier_api/unpaginate_supplier/`,
+    supplier: `${process.env.REACT_APP_BASE_URL}/settings_api/supplier/`,
+    unpaginateSupplier: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_supplier/`,
 
-    courier: `${process.env.REACT_APP_BASE_URL}/courier_api/courier/`,
-    unpaginateCourier: `${process.env.REACT_APP_BASE_URL}/courier_api/unpaginate_courier/`,
+    courier: `${process.env.REACT_APP_BASE_URL}/settings_api/courier/`,
+    unpaginateCourier: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_courier/`,
 
-    deliveryType: `${process.env.REACT_APP_BASE_URL}/deliveryType_api/deliveryType/`,
-    unpaginateDeliveryType: `${process.env.REACT_APP_BASE_URL}/deliveryType_api/unpaginate_deliveryType/`,
+    deliveryType: `${process.env.REACT_APP_BASE_URL}/settings_api/deliveryType/`,
+    unpaginateDeliveryType: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_deliveryType/`,
   };
 
   // Fetch data function with useCallback

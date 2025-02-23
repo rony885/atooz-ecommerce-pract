@@ -130,14 +130,13 @@ const BlogListDataTable = ({ data, openDeleteModal, getId }) => {
                 <td className="texxt">{item.pub_date}</td>
                 <td className="texxt">{item.pub_time}</td>
                 {/* <td className="texxt">
-                  <p>{item.status ? "active" : ""}</p>
+                  <p>{item.status === true ? "Active" : "Inactive"}</p>
                 </td> */}
                 <td>
                   <ul className="d-flex gap-2 list-unstyled mb-0">
                     <li>
                       <button className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn">
                         <Link to={`/blog-update/${item.id}`}>
-                        {/* <Link to="/blog-update"> */}
                           <PiPencilLight />
                         </Link>
                       </button>

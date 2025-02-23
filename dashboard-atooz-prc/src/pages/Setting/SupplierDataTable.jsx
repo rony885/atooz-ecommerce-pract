@@ -6,7 +6,7 @@ import {
   PiCaretLineRightBold,
 } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
-import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const SupplierDataTable = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,11 +16,8 @@ const SupplierDataTable = ({ data }) => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
-
   const handleSort = (key) => {
     let direction = "ascending";
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
@@ -44,22 +41,8 @@ const SupplierDataTable = ({ data }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleEdit = (item) => {
-    setIsEditModalOpen(true); // Open edit modal
-  };
-
-  const handleDelete = (item) => {
-    setIsDeleteModalOpen(true); // Open delete modal
-  };
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
 
   return (
     <Wrapper>
@@ -87,9 +70,41 @@ const SupplierDataTable = ({ data }) => {
                     : "▼"
                   : ""}
               </th>
+              <th className="texxt" onClick={() => handleSort("supplier_id")}>
+                Supplier Id{" "}
+                {sortConfig.key === "supplier_id"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
               <th className="texxt" onClick={() => handleSort("name")}>
                 Name{" "}
                 {sortConfig.key === "name"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th className="texxt" onClick={() => handleSort("address")}>
+                Address{" "}
+                {sortConfig.key === "address"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th className="texxt" onClick={() => handleSort("phone")}>
+                Phone{" "}
+                {sortConfig.key === "phone"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th className="texxt" onClick={() => handleSort("email")}>
+                Email{" "}
+                {sortConfig.key === "email"
                   ? sortConfig.direction === "ascending"
                     ? "▲"
                     : "▼"
@@ -103,6 +118,7 @@ const SupplierDataTable = ({ data }) => {
                     : "▼"
                   : ""}
               </th>
+              <th className="texxt">Logo</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -114,14 +130,30 @@ const SupplierDataTable = ({ data }) => {
                   <input type="checkbox" aria-label={`select-row-${item.id}`} />
                 </td>
                 <td className="texxt">{item.id}</td>
+                <td className="texxt">{item.supplier_id}</td>
                 <td className="texxt">{item.name}</td>
-                <td className="texxt">{item.status}</td>
+                <td className="texxt">{item.address}</td>
+                <td className="texxt">{item.phone}</td>
+                <td className="texxt">{item.email}</td>
+                <td className="texxt">
+                  <p>{item.status === true ? "Active" : "Inactive"}</p>
+                </td>
+                <td className="texxt">
+                  <img
+                    height={50}
+                    width={50}
+                    src={item.logo}
+                    alt={item.name}
+                    style={{ borderRadius: "50%" }}
+                  />
+                </td>
+
                 <td>
                   <ul className="d-flex gap-2 list-unstyled mb-0">
                     <li>
                       <button
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
-                        onClick={() => handleEdit(item)}
+                        // onClick={() => handleEdit(item)}
                       >
                         <PiPencilLight />
                       </button>
@@ -129,7 +161,7 @@ const SupplierDataTable = ({ data }) => {
                     <li>
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                        onClick={() => handleDelete(item)}
+                        // onClick={() => handleDelete(item)}
                       >
                         <IoTrashOutline />
                       </button>
@@ -205,7 +237,7 @@ const SupplierDataTable = ({ data }) => {
         </div>
 
         {/* ===== Edit Modal ===== */}
-        {isEditModalOpen && (
+        {/* {isEditModalOpen && (
           <div className="custom-modal">
             <div className="modal-content">
               <span className="close" onClick={() => setIsEditModalOpen(false)}>
@@ -235,10 +267,10 @@ const SupplierDataTable = ({ data }) => {
               </form>
             </div>
           </div>
-        )}
+        )} */}
 
-        {/* ===== Delete Confirmation Modal ===== */}
-        {isDeleteModalOpen && (
+        {/* ===== Delete Modal ===== */}
+        {/* {isDeleteModalOpen && (
           <div className="custom-modal">
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
@@ -275,7 +307,7 @@ const SupplierDataTable = ({ data }) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </Wrapper>
   );
