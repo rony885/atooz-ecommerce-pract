@@ -8,7 +8,13 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const SupplierDataTable = ({ data }) => {
+const SupplierDataTable = ({
+  data,
+  openEditModal,
+  updateSupplier,
+  openDeleteModal,
+  getId,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -154,6 +160,10 @@ const SupplierDataTable = ({ data }) => {
                       <button
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
                         // onClick={() => handleEdit(item)}
+                        onClick={() => {
+                          openEditModal();
+                          updateSupplier(item.id);
+                        }}
                       >
                         <PiPencilLight />
                       </button>
@@ -162,6 +172,10 @@ const SupplierDataTable = ({ data }) => {
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
                         // onClick={() => handleDelete(item)}
+                        onClick={() => {
+                          openDeleteModal();
+                          getId(item.id);
+                        }}
                       >
                         <IoTrashOutline />
                       </button>
@@ -235,79 +249,6 @@ const SupplierDataTable = ({ data }) => {
             </button>
           </div>
         </div>
-
-        {/* ===== Edit Modal ===== */}
-        {/* {isEditModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-content">
-              <span className="close" onClick={() => setIsEditModalOpen(false)}>
-                &times;
-              </span>
-              <h2>Update Category</h2>
-              <form>
-                <label>
-                  Category Name<span className="text-danger">*</span>
-                </label>
-                <input type="text" placeholder="Enter category name" />
-                <label>Status</label>
-
-                <select>
-                  <option value="Select">Select</option>
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <div className="modal-actions">
-                  <button type="reset" className="cancel-btn">
-                    Cancel
-                  </button>
-                  <button type="submit" className="add-btn">
-                    Update
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )} */}
-
-        {/* ===== Delete Modal ===== */}
-        {/* {isDeleteModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button
-                    type="button"
-                    className="btn-close no-hover-border ms-auto"
-                    onClick={closeDeleteModal}
-                    aria-label="Close"
-                  ></button>
-                </div>
-
-                <div className="modal-body p-md-5">
-                  <div className="text-center">
-                    <div className="text-danger fs-1">
-                      <FaTrashAlt />
-                    </div>
-                    <div className="mt-4">
-                      <h3 className="mb-2 fs-5">Are you sure?</h3>
-                      <p className="text-muted fs-lg mx-3 mb-0">
-                        Are you sure you want to remove this record?
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
-                  <button type="button" className="close_btn">
-                    Close
-                  </button>
-                  <button type="button" className="delete_btn">
-                    Yes, Delete It!
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )} */}
       </div>
     </Wrapper>
   );

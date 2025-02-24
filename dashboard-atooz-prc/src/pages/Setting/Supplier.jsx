@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { TbCirclePlus } from "react-icons/tb";
 import styled from "styled-components";
+import { TbCirclePlus } from "react-icons/tb";
 import Footer from "../../components/Footer";
+import { FaTrashAlt } from "react-icons/fa";
 
 import { Formik, Form as FormikForm } from "formik";
 import Form from "react-bootstrap/Form";
@@ -63,19 +64,19 @@ const Supplier = () => {
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const openAddModal = () => setIsAddModalOpen(true);
   const openEditModal = () => setIsEditModalOpen(true);
-  // const openDeleteModal = () => setIsDeleteModalOpen(true);
+  const openDeleteModal = () => setIsDeleteModalOpen(true);
 
   const closeAddModal = () => setIsAddModalOpen(false);
   const closeEditModal = () => setIsEditModalOpen(false);
-  // const closeDeleteModal = () => setIsDeleteModalOpen(false);
+  const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const [message, setMessage] = useState();
   const [item, setItem] = useState({});
-  // const [receivedId, setReceivedId] = useState(null);
+  const [receivedId, setReceivedId] = useState(null);
 
   const [showLogo, setShowLogo] = useState(null);
   const onLogoChange = (event) => {
@@ -88,12 +89,8 @@ const Supplier = () => {
   const AddSupplierFunc = async (values) => {
     let formfield = new FormData();
 
-    // formfield.append("supplier_id", values.supplier_id);
     formfield.append("name", values.name);
     formfield.append("status", values.status);
-    formfield.append("address", values.address);
-    formfield.append("phone", values.phone);
-    formfield.append("email", values.email);
 
     if (values.logo) {
       formfield.append("logo", values.logo);
@@ -130,7 +127,7 @@ const Supplier = () => {
   };
 
   // update
-  const updateValues = {
+  const updatedValues = {
     name: item.name ? item.name : "",
     status: item.status ? item.status : "",
     address: item.address ? item.address : "",
@@ -189,6 +186,18 @@ const Supplier = () => {
     setShowLogo(data.logo);
   };
 
+  // delete
+  const getId = (id) => {
+    setReceivedId(id);
+  };
+
+  const deleteSupplier = async (id) => {
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_supplier/${id}/`
+    );
+    window.location.reload(false);
+  };
+
   return (
     <Wrapper>
       <div className="layout">
@@ -214,7 +223,13 @@ const Supplier = () => {
               </div>
 
               <div className="table-responsive">
-                <SupplierDataTable data={supplier} />
+                <SupplierDataTable
+                  data={supplier}
+                  openEditModal={openEditModal}
+                  updateSupplier={updateSupplier}
+                  openDeleteModal={openDeleteModal}
+                  getId={getId}
+                />
               </div>
             </div>
           </div>
@@ -430,11 +445,12 @@ const Supplier = () => {
           )}
 
           {/*==== Edit modal ==== */}
-          {isAddModalOpen && (
-            <div className="custom-modal">
-              <div className="modal-content">
+          {isEditModalOpen && (
+            <div className="modal">
+              <div className="modal-contentt">
                 <Formik
-                  initialValues={updateValues}
+                  enableReinitialize={true}
+                  initialValues={updatedValues}
                   validationSchema={schema}
                   onSubmit={submitUpdateSupplierForm}
                   validate={validate}
@@ -460,7 +476,7 @@ const Supplier = () => {
                           type="button"
                           className="btn-close"
                           aria-label="Close"
-                          onClick={closeAddModal}
+                          onClick={closeEditModal}
                         ></button>
                       </div>
 
@@ -533,7 +549,7 @@ const Supplier = () => {
 
                         <Form.Group className="form-outline mb-2">
                           <Form.Label>
-                            Phone<span>*</span>
+                            Phone<span className="text-danger">*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
                             <Form.Control
@@ -634,6 +650,54 @@ const Supplier = () => {
                     </FormikForm>
                   )}
                 </Formik>
+              </div>
+            </div>
+          )}
+
+          {/* ====== Delete Modal ====== */}
+          {isDeleteModalOpen && (
+            <div className="custom-modal">
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <button
+                      type="button"
+                      className="btn-close no-hover-border ms-auto"
+                      onClick={closeDeleteModal}
+                      aria-label="Close"
+                    ></button>
+                  </div>
+
+                  <div className="modal-body p-md-5">
+                    <div className="text-center">
+                      <div className="text-danger fs-1">
+                        <FaTrashAlt />
+                      </div>
+                      <div className="mt-4">
+                        <h3 className="mb-2 fs-5">Are you sure?</h3>
+                        <p className="text-muted fs-lg mx-3 mb-0">
+                          Are you sure you want to remove this record?
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <button
+                      type="button"
+                      className="close_btn"
+                      onClick={closeDeleteModal}
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="button"
+                      className="delete_btn"
+                      onClick={() => deleteSupplier(receivedId)}
+                    >
+                      Yes, Delete It!
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
