@@ -296,7 +296,6 @@ const Supplier = () => {
                             Status<span></span>
                           </Form.Label>
                           <InputGroup hasValidation>
-                            {/* <InputGroup.Text>@</InputGroup.Text> */}
                             <Form.Select
                               name="status"
                               id="status"

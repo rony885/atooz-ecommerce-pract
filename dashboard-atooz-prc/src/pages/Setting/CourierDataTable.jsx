@@ -117,7 +117,6 @@ const CourierDataTable = ({ data, openEditModal, openDeleteModal }) => {
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
                         onClick={() => {
                           openEditModal(item.id);
-                          openDeleteModal(item.id);
                         }}
                       >
                         <PiPencilLight />
