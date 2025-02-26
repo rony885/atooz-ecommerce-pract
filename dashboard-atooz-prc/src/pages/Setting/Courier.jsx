@@ -49,6 +49,7 @@ const Courier = () => {
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const [item, setItem] = useState({});
+  const [receivedId, setReceivedId] = useState(null);
   const [message, setMessage] = useState();
 
   // ===== add =====
@@ -75,14 +76,77 @@ const Courier = () => {
       });
   };
 
+  const submitAddCourierForm = async (
+    values,
+    { setErrors, setSubmitting, resetForm }
+  ) => {
+    try {
+      AddCourierFunc(values);
+      setSubmitting(false);
+      // resetForm();
+    } catch (error) {
+      setErrors({ error: error.message });
+    }
+  };
+
   // ===== Update =====
   const updatedValues = {
     name: item.name ? item.name : "",
     status: item.status ? item.status : "",
-    address: item.address ? item.address : "",
-    phone: item.phone ? item.phone : "",
-    email: item.email ? item.email : "",
-    logo: item.logo ? item.logo : "",
+  };
+
+  const UpdateCourierFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("name", values.name);
+    formfield.append("status", values.status);
+
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_courier/${item.id}/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(
+          response.success,
+          "Product courier is successfully updated..."
+        );
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitUpdateCourierForm = async (
+    values,
+    { setErrors, setSubmitting }
+  ) => {
+    try {
+      UpdateCourierFunc(values);
+      setSubmitting(false);
+    } catch (error) {
+      setErrors({ err: error.message });
+    }
+  };
+
+  const updateCourier = async (id) => {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_courier/${id}/`
+    );
+    setItem(data);
+  };
+
+  // ====== delete ======
+  const getId = (id) => {
+    setReceivedId(id);
+  };
+
+  const deleteCourier = async (id) => {
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_courier/${id}/`
+    );
+    window.location.reload(false);
   };
 
   return (
@@ -115,6 +179,8 @@ const Courier = () => {
                     data={courier}
                     openEditModal={openEditModal}
                     openDeleteModal={openDeleteModal}
+                    updateCourier={updateCourier}
+                    getId ={getId}
                   />
                 </div>
               </div>
@@ -132,7 +198,7 @@ const Courier = () => {
                   <Formik
                     initialValues={initialValues}
                     validationSchema={schema}
-                    onSubmit={AddCourierFunc}
+                    onSubmit={submitAddCourierForm}
                     validate={validate}
                   >
                     {({
@@ -145,67 +211,64 @@ const Courier = () => {
                       setFieldValue,
                     }) => (
                       <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
-                        <div className="modal-body">
-                          <Form.Group className="form-outline mb-2">
-                            <Form.Label>
-                              Supplier Name
-                              <span className="text-danger">*</span>
-                            </Form.Label>
-                            <InputGroup hasValidation>
-                              <Form.Control
-                                type="text"
-                                name="name"
-                                id="name"
-                                value={values.name}
-                                onChange={handleChange}
-                                isInvalid={!!touched.name && !!errors.name}
-                                isValid={touched.name && !errors.name}
-                                className="form-control mb-0"
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                {errors.name}
-                              </Form.Control.Feedback>
-                            </InputGroup>
-                          </Form.Group>
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Courier Name<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
 
-                          <Form.Group className="form-outline mb-2">
-                            <Form.Label>
-                              Status<span></span>
-                            </Form.Label>
-                            <InputGroup hasValidation>
-                              <Form.Select
-                                name="status"
-                                id="status"
-                                value={values.status}
-                                onChange={handleChange}
-                                isInvalid={!!touched.status && !!errors.status}
-                                isValid={touched.status && !errors.status}
-                                className="form-control mb-0"
-                              >
-                                <option value="">Select</option>
-                                <option value={`${true}`}>Active</option>
-                                <option value={`${false}`}>Inactive</option>
-                              </Form.Select>
-                              <Form.Control.Feedback type="invalid">
-                                {errors.status}
-                              </Form.Control.Feedback>
-                            </InputGroup>
-                          </Form.Group>
-                        </div>
-
-                        <div className="modal-footer">
-                          <div className="hstack gap-2 justify-content-end">
-                            <button type="reset" className="bttn">
-                              Cancel
-                            </button>
-                            <button
-                              type="submit"
-                              className="bttn1"
-                              disabled={isSubmitting}
+                        <Form.Group className="form-outline mb-4">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
                             >
-                              Add Supplier
-                            </button>
-                          </div>
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <div className="modal-actions mt-5">
+                          <button type="reset" className="cancel-btn">
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="add-btn"
+                            disabled={isSubmitting}
+                          >
+                            Add Courier
+                          </button>
                         </div>
 
                         {/* message  */}
@@ -219,7 +282,7 @@ const Courier = () => {
               </div>
             )}
 
-            {/* ===== Edit Modal ===== */}
+            {/* ===== Update Modal ===== */}
             {isEditModalOpen && (
               <div className="custom-modal">
                 <div className="modal-content">
@@ -227,28 +290,88 @@ const Courier = () => {
                     &times;
                   </span>
                   <h2>Update Courier</h2>
+                  <Formik
+                    enableReinitialize={true}
+                    initialValues={updatedValues}
+                    validationSchema={schema}
+                    onSubmit={submitUpdateCourierForm}
+                    validate={validate}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      values,
+                      touched,
+                      errors,
+                      isSubmitting,
+                      setFieldValue,
+                    }) => (
+                      <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Courier Name<span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
 
-                  <form>
-                    <label>
-                      Category Name<span className="text-danger">*</span>
-                    </label>
-                    <input type="text" placeholder="Enter category name" />
-                    <label>Status</label>
+                        <Form.Group className="form-outline mb-4">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
 
-                    <select>
-                      <option value="Select">Select</option>
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                    <div className="modal-actions">
-                      <button type="reset" className="cancel-btn">
-                        Cancel
-                      </button>
-                      <button type="submit" className="add-btn">
-                        Update
-                      </button>
-                    </div>
-                  </form>
+                        <div className="modal-actions mt-5">
+                          <button type="reset" className="cancel-btn">
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="add-btn"
+                            disabled={isSubmitting}
+                          >
+                            Edit Courier
+                          </button>
+                        </div>
+
+                        {/* message  */}
+                        {message && (
+                          <h2 className="text-center m-5">{message}</h2>
+                        )}
+                      </FormikForm>
+                    )}
+                  </Formik>
                 </div>
               </div>
             )}
@@ -281,10 +404,18 @@ const Courier = () => {
                       </div>
                     </div>
                     <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
-                      <button type="button" className="close_btn">
+                      <button
+                        type="button"
+                        className="close_btn"
+                        onClick={closeDeleteModal}
+                      >
                         Close
                       </button>
-                      <button type="button" className="delete_btn">
+                      <button
+                        type="button"
+                        className="delete_btn"
+                        onClick={() => deleteCourier(receivedId)}
+                      >
                         Yes, Delete It!
                       </button>
                     </div>
@@ -427,28 +558,22 @@ const Wrapper = styled.section`
     margin-left: 10px;
   }
 
-  /* Remove blue outline on focus */
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    box-shadow: none;
-  }
-  .bttn {
+  .modal-actions .cancel-btn {
     background-color: #ff6e6c;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 4px;
     color: #fff;
-    font-size: 14px;
   }
-  .bttn1 {
-    background-color: #3e61e4;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 4px;
+
+  .modal-actions .add-btn {
+    background-color: #007bff;
     color: #fff;
-    font-size: 14px;
+  }
+
+  .modal-actions .cancel-btn:hover {
+    background-color: #e77b79;
+  }
+
+  .modal-actions .add-btn:hover {
+    background-color: #4497f0;
   }
 
   /* ===== Delete Modal ===== */
@@ -541,10 +666,10 @@ const Wrapper = styled.section`
     }
   }
   @media screen and (max-width: 320px) {
-    .supplier_row .add_supplier .buttn {
+    .courier_row .add_courier .buttn {
       padding: 5px;
     }
-    .supplier_row .bttn_title {
+    .courier_row .bttn_title {
       font-size: 12px;
     }
     .modal-content {

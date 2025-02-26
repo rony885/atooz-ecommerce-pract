@@ -89,8 +89,12 @@ const Supplier = () => {
   const AddSupplierFunc = async (values) => {
     let formfield = new FormData();
 
+    // formfield.append("supplier_id", values.supplier_id);
     formfield.append("name", values.name);
     formfield.append("status", values.status);
+    formfield.append("address", values.address);
+    formfield.append("phone", values.phone);
+    formfield.append("email", values.email);
 
     if (values.logo) {
       formfield.append("logo", values.logo);
@@ -216,7 +220,7 @@ const Supplier = () => {
                     <i className="bi bi-plus-circle align-baseline me-1"></i>
                     <button className="buttn" onClick={openAddModal}>
                       <TbCirclePlus className="fs-6" />
-                      <span className="bttn_title">Add Supplier</span>
+                      <span className="bttn_title fw-bold">Add Supplier</span>
                     </button>
                   </div>
                 </div>
@@ -236,8 +240,8 @@ const Supplier = () => {
 
           {/*==== Add modal ==== */}
           {isAddModalOpen && (
-            <div className="custom-modal">
-              <div className="modal-content">
+            <div className="modal">
+              <div className="modal-contentt">
                 <Formik
                   initialValues={initialValues}
                   validationSchema={schema}
@@ -338,7 +342,7 @@ const Supplier = () => {
 
                         <Form.Group className="form-outline mb-2">
                           <Form.Label>
-                            Phone<span>*</span>
+                            Phone<span className="text-danger">*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
                             <Form.Control
@@ -443,7 +447,7 @@ const Supplier = () => {
             </div>
           )}
 
-          {/*==== Edit modal ==== */}
+          {/*==== Update modal ==== */}
           {isEditModalOpen && (
             <div className="modal">
               <div className="modal-contentt">

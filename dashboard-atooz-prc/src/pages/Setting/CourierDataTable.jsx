@@ -8,7 +8,13 @@ import {
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const CourierDataTable = ({ data, openEditModal, openDeleteModal }) => {
+const CourierDataTable = ({
+  data,
+  openEditModal,
+  openDeleteModal,
+  updateCourier,
+  getId,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -117,6 +123,7 @@ const CourierDataTable = ({ data, openEditModal, openDeleteModal }) => {
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
                         onClick={() => {
                           openEditModal(item.id);
+                          updateCourier(item.id);
                         }}
                       >
                         <PiPencilLight />
@@ -126,7 +133,8 @@ const CourierDataTable = ({ data, openEditModal, openDeleteModal }) => {
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
                         onClick={() => {
-                          openDeleteModal(item.id);
+                          openDeleteModal();
+                          getId(item.id);
                         }}
                       >
                         <IoTrashOutline />
