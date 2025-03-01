@@ -155,6 +155,22 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
+    case "SET_API_Client":
+      return {
+        ...state,
+        isLoading: false,
+        client: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_Client":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_client: action.payload,
+        isError: false,
+      };
+
     case "API_ERROR":
       return {
         ...state,

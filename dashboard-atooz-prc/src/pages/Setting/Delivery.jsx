@@ -64,6 +64,7 @@ const Delivery = () => {
 
   const [item, setItem] = useState({});
   const [message, setMessage] = useState();
+  const [receivedId, setReceivedId] = useState(null);
 
   // ===== add =====
   const AddDeliveryTypeFunc = async (values) => {
@@ -153,6 +154,18 @@ const Delivery = () => {
     setItem(data);
   };
 
+  // ====== delete ======
+  const getId = (id) => {
+    setReceivedId(id);
+  };
+
+  const deleteCourier = async (id) => {
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_deliveryType/${id}/`
+    );
+    window.location.reload(false);
+  };
+
   return (
     <Wrapper>
       <div className="layout">
@@ -183,6 +196,7 @@ const Delivery = () => {
                     openEditModal={openEditModal}
                     openDeleteModal={openDeleteModal}
                     updateDeliveryType={updateDeliveryType}
+                    getId={getId}
                   />
                 </div>
               </div>
@@ -284,7 +298,7 @@ const Delivery = () => {
                         <Form.Group className="form-outline mb-3">
                           <Form.Label>
                             Duration
-                            <span className="text-danger">*</span>
+                            <span className="text-danger"></span>
                           </Form.Label>
                           <InputGroup hasValidation>
                             <Form.Control
@@ -426,7 +440,7 @@ const Delivery = () => {
                         <Form.Group className="form-outline mb-3">
                           <Form.Label>
                             Duration
-                            <span className="text-danger">*</span>
+                            <span className="text-danger"></span>
                           </Form.Label>
                           <InputGroup hasValidation>
                             <Form.Control
@@ -506,7 +520,13 @@ const Delivery = () => {
                       >
                         Close
                       </button>
-                      <button type="button" className="delete_btn">
+                      <button
+                        type="button"
+                        className="delete_btn"
+                        onClick={() => {
+                          deleteCourier(receivedId);
+                        }}
+                      >
                         Yes, Delete It!
                       </button>
                     </div>

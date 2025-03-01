@@ -314,6 +314,17 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
                   Delivery Type
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/clients"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive ? "active-submenu-link" : ""
+                  }
+                >
+                  Clients
+                </NavLink>
+              </li>
             </ul>
           )}
         </li>

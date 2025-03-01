@@ -5,6 +5,7 @@ import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopUp from "./components/TopUp";
 import Top from "./components/Top";
+import ErrorPages from "./ErrorPages";
 
 import Home from "./pages/Home/Home";
 import CategoryProd from "./pages/Products/CategoryProd";
@@ -29,7 +30,7 @@ import Customers from "./pages/Setting/Customers";
 import Courier from "./pages/Setting/Courier";
 import ManageBalance from "./pages/Setting/ManageBalance";
 import Delivery from "./pages/Setting/Delivery";
-import ErrorPages from "./ErrorPages";
+import Clients from "./pages/Setting/Clients";
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -74,6 +75,7 @@ function App() {
           <Route path="/courier" element={<Courier />}></Route>
           <Route path="/manage-balance" element={<ManageBalance />}></Route>
           <Route path="/delivery-type" element={<Delivery />}></Route>
+          <Route path="/clients" element={<Clients />}></Route>
           <Route path="*" element={<ErrorPages />}></Route>
         </Routes>
         {/* Adding more content to ensure the page is scrollable */}
