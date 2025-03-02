@@ -90,7 +90,7 @@ const ApiReducer = (state, action) => {
       };
 
     // Blog module
-    case "SET_API_Blog":
+    case "SET_API_BLOG":
       return {
         ...state,
         isLoading: false,
@@ -98,7 +98,7 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_UNPAGINATE_Blog":
+    case "SET_API_UNPAGINATE_BLOG":
       return {
         ...state,
         isLoading: false,
@@ -107,7 +107,7 @@ const ApiReducer = (state, action) => {
       };
 
     // Setting module
-    case "SET_API_Supplier":
+    case "SET_API_SUPPLIER":
       return {
         ...state,
         isLoading: false,
@@ -115,7 +115,7 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_UNPAGINATE_Supplier":
+    case "SET_API_UNPAGINATE_SUPPLIER":
       return {
         ...state,
         isLoading: false,
@@ -123,7 +123,7 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_Courier":
+    case "SET_API_COURIER":
       return {
         ...state,
         isLoading: false,
@@ -131,7 +131,7 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_UNPAGINATE_Courier":
+    case "SET_API_UNPAGINATE_COURIER":
       return {
         ...state,
         isLoading: false,
@@ -139,7 +139,7 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_DeliveryType":
+    case "SET_API_DELIVERYTYPE":
       return {
         ...state,
         isLoading: false,
@@ -147,7 +147,7 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_UNPAGINATE_DeliveryType":
+    case "SET_API_UNPAGINATE_DELIVERYTYPE":
       return {
         ...state,
         isLoading: false,
@@ -155,7 +155,7 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_Client":
+    case "SET_API_CLIENT":
       return {
         ...state,
         isLoading: false,
@@ -163,11 +163,28 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
-    case "SET_API_UNPAGINATE_Client":
+    case "SET_API_UNPAGINATE_CLIENT":
       return {
         ...state,
         isLoading: false,
         unpaginate_client: action.payload,
+        isError: false,
+      };
+
+    // order & purchase module
+    case "SET_API_PURCHASE":
+      return {
+        ...state,
+        isLoading: false,
+        purchase: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_ORDER":
+      return {
+        ...state,
+        isLoading: false,
+        order: action.payload,
         isError: false,
       };
 
