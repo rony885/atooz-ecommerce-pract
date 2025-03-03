@@ -5,6 +5,7 @@ import {
   PiCaretLineLeftBold,
   PiCaretLineRightBold,
 } from "react-icons/pi";
+import { CgShutterstock } from "react-icons/cg";
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -97,7 +98,7 @@ const ProdListTable = ({ data, openDeleteModal, getId }) => {
               <th className="texxt">Discount</th>
               <th className="texxt">Special Price</th>
               <th className="texxt">Image</th>
-              <th className="texxt">Action</th>
+              <th className="texxt text-center">Action</th>
             </tr>
           </thead>
 
@@ -147,6 +148,14 @@ const ProdListTable = ({ data, openDeleteModal, getId }) => {
                         }}
                       >
                         <IoTrashOutline />
+                      </button>
+                    </li>
+                    <li>
+                      <button className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn">
+                        <Link to={`/product-price-stock/${item.id}`}>
+                          {/* <Link to="/product-price-stock"> */}
+                          <CgShutterstock />
+                        </Link>
                       </button>
                     </li>
                   </ul>

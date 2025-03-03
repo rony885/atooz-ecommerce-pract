@@ -88,7 +88,7 @@ const ApiContext = ({ children }) => {
 
     // order & purchase module
     purchase: `${process.env.REACT_APP_BASE_URL}/purchase/`,
-    order: `${process.env.REACT_APP_BASE_URL}/purchase/`,
+    order: `${process.env.REACT_APP_BASE_URL}/order/`,
   };
 
   // Fetch data function with useCallback

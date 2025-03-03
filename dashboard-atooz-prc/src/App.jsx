@@ -14,6 +14,7 @@ import Unit from "./pages/Products/Unit";
 import ProductLists from "./pages/Products/ProductLists";
 import ProductsUpdate from "./pages/Products/ProductsUpdate";
 import ProductsAdd from "./pages/Products/ProductsAdd";
+import ProductPriceStock from "./pages/Products/ProductPriceStock";
 
 import OrderList from "./pages/Order/OrderList";
 import OrderAdd from "./pages/Order/OrderAdd";
@@ -59,6 +60,10 @@ function App() {
             element={<ProductsUpdate />}
           ></Route>
           <Route path="/product-add" element={<ProductsAdd />}></Route>
+          <Route
+            path="/product-price-stock/:productId"
+            element={<ProductPriceStock />}
+          ></Route>
 
           <Route path="/orders" element={<OrderList />}></Route>
           <Route path="/orderadd" element={<OrderAdd />}></Route>
