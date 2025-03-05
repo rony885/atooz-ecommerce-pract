@@ -12,13 +12,13 @@ def generate_blog_id():
         blog_id__startswith=prefix).order_by('blog_id').last()
 
     if last_blog_id:
-        # Cut 5 digit from the Right and converted to int (BLOG-:xxxx)
+        # Cut 5 digit from the Right and converted to int (BLOG-:xxxxx)
         last_blog_id_four_digit = int(last_blog_id.blog_id[-5:])
 
         # Increment one with last five digit
         next_blog_id = '{0:05d}'.format(last_blog_id_four_digit + 1)
 
-    # Return custom blog id number
+    # Return custom blog_id number
     return prefix + next_blog_id
 
 

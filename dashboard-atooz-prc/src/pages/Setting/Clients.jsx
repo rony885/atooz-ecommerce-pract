@@ -17,14 +17,14 @@ const initialValues = {
   name: "",
   status: "",
   phone: "",
-  logo: "",
+  image: "",
 };
 
 const schema = yup.object().shape({
   name: yup.string().required("Client is a required field!"),
   status: yup.boolean(),
   phone: yup.string().required("phone is a required field!"),
-  logo: yup.mixed(),
+  image: yup.mixed(),
 });
 
 const validate = (values) => {
@@ -64,6 +64,7 @@ const Clients = () => {
   const [item, setItem] = useState({});
   const [message, setMessage] = useState();
   const [receivedId, setReceivedId] = useState(null);
+
   const [showImage, setShowImage] = useState(null);
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -78,8 +79,9 @@ const Clients = () => {
     formfield.append("name", values.name);
     formfield.append("status", values.status);
     formfield.append("phone", values.phone);
-    if (values.logo) {
-      formfield.append("logo", values.logo);
+
+    if (values.image) {
+      formfield.append("image", values.image);
     }
 
     await axios({
@@ -114,7 +116,7 @@ const Clients = () => {
     name: item.name ? item.name : "",
     status: item.status ? item.status : "",
     phone: item.phone ? item.phone : "",
-    duration: item.duration ? item.duration : "",
+    image: item.image ? item.image : "",
   };
 
   const updateClientFunc = async (values) => {
@@ -123,7 +125,10 @@ const Clients = () => {
     formfield.append("name", values.name);
     formfield.append("status", values.status);
     formfield.append("phone", values.phone);
-    formfield.append("duration", values.duration);
+
+    if (values.image !== item.image) {
+      formfield.append("image", values.image);
+    }
 
     await axios({
       method: "PUT",
@@ -178,7 +183,7 @@ const Clients = () => {
             <div className="row d-flex justify-content-between align-items-center delivery_row mb-4">
               <div className="col-6">
                 <div className="d-flex justify-content-start align-items-center delivery_title">
-                  <h4 className="m-0 fs-5">Delivery Type</h4>
+                  <h4 className="m-0 fs-5">Client</h4>
                 </div>
               </div>
 
@@ -186,7 +191,7 @@ const Clients = () => {
                 <div className="d-flex justify-content-end align-items-center add_delivery">
                   <button className="buttn" onClick={openAddModal}>
                     <TbCirclePlus className="fs-6" />
-                    <span className="bttn_title">Add Delivery</span>
+                    <span className="bttn_title">Add Client</span>
                   </button>
                 </div>
               </div>
@@ -198,8 +203,8 @@ const Clients = () => {
                   <ClientsDataTable
                     data={client}
                     openEditModal={openEditModal}
+                    updateClient={updateClient}
                     openDeleteModal={openDeleteModal}
-                    updateDeliveryType={updateClient}
                     getId={getId}
                   />
                 </div>
@@ -233,7 +238,7 @@ const Clients = () => {
                       <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
                         <Form.Group className="form-outline mb-3">
                           <Form.Label>
-                           Client Name
+                            Client Name
                             <span className="text-danger">*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
@@ -357,6 +362,210 @@ const Clients = () => {
                       </FormikForm>
                     )}
                   </Formik>
+                </div>
+              </div>
+            )}
+
+            {/* ====== Edit Modal ====== */}
+            {isEditModalOpen && (
+              <div className="custom-modal">
+                <div className="modal-content">
+                  <span className="close" onClick={closeEditModal}>
+                    &times;
+                  </span>
+                  <h2>Update Client</h2>
+
+                  <Formik
+                    enableReinitialize={true}
+                    initialValues={updatedValues}
+                    validationSchema={schema}
+                    onSubmit={submitUpdateClientForm}
+                    validate={validate}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      values,
+                      touched,
+                      errors,
+                      isSubmitting,
+                      setFieldValue,
+                    }) => (
+                      <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Client Name
+                            <span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              id="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              isInvalid={!!touched.name && !!errors.name}
+                              isValid={touched.name && !errors.name}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-4">
+                          <Form.Label>
+                            Status<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Select
+                              name="status"
+                              id="status"
+                              value={values.status}
+                              onChange={handleChange}
+                              isInvalid={!!touched.status && !!errors.status}
+                              isValid={touched.status && !errors.status}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value={`${true}`}>Active</option>
+                              <option value={`${false}`}>Inactive</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            phone
+                            <span className="text-danger">*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="phone"
+                              id="phone"
+                              value={values.phone}
+                              onChange={handleChange}
+                              isInvalid={!!touched.phone && !!errors.phone}
+                              isValid={touched.phone && !errors.phone}
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.phone}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-4 imgDiv divv">
+                          <Form.Label>
+                            Image<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="image"
+                            id="image"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "image",
+                                event.currentTarget.files[0]
+                              );
+                              onImageChange(event);
+                            }}
+                            isInvalid={!!touched.image && !!errors.image}
+                            isValid={touched.image && !errors.image}
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.image}
+                          </Form.Control.Feedback>
+
+                          {showImage && (
+                            <div>
+                              <img
+                                alt="product preview img"
+                                style={{
+                                  width: "150px",
+                                  height: "150px",
+                                  marginTop: "20px",
+                                  borderRadius: "50%",
+                                }}
+                                src={showImage}
+                              />
+                            </div>
+                          )}
+                        </Form.Group>
+
+                        <div className="modal-actions mt-5">
+                          <button type="reset" className="cancel-btn">
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="add-btn"
+                            disabled={isSubmitting}
+                          >
+                            Update Client
+                          </button>
+                        </div>
+
+                        {/* message  */}
+                        {message && (
+                          <h2 className="text-center m-5">{message}</h2>
+                        )}
+                      </FormikForm>
+                    )}
+                  </Formik>
+                </div>
+              </div>
+            )}
+
+            {/* ===== Delete Modal ===== */}
+            {isDeleteModalOpen && (
+              <div className="custom-modal">
+                <div className="modal-dialog modal-dialog-centered">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <button
+                        type="button"
+                        className="btn-close no-hover-border ms-auto"
+                        onClick={closeDeleteModal}
+                        aria-label="Close"
+                      ></button>
+                    </div>
+
+                    <div className="modal-body p-md-5">
+                      <div className="text-center">
+                        <div className="text-danger fs-1">
+                          <FaTrashAlt />
+                        </div>
+                        <div className="mt-4">
+                          <h3 className="mb-2 fs-5">Are you sure?</h3>
+                          <p className="text-muted fs-lg mx-3 mb-0">
+                            Are you sure you want to remove this record?
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
+                      <button
+                        type="button"
+                        className="close_btn"
+                        onClick={closeDeleteModal}
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        className="delete_btn"
+                        onClick={() => deleteClient(receivedId)}
+                      >
+                        Yes, Delete It!
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

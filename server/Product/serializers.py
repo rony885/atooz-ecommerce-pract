@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Brand, Unit, Product
+from .models import Category, SubCategory, Brand, Unit, Product
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -15,6 +15,23 @@ class UnpaginateCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
+        fields = '__all__'
+
+
+class SubCategorySerializer(serializers.ModelSerializer):
+    status = serializers.BooleanField(default=True)
+    category = CategorySerializer()
+
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+
+
+class UnpaginateSubCategorySerializer(serializers.ModelSerializer):
+    status = serializers.BooleanField(default=True)
+
+    class Meta:
+        model = SubCategory
         fields = '__all__'
 
 

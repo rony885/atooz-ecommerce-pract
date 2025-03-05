@@ -20,21 +20,21 @@ def generate_purchase_no():
     current_month = today_date.strftime('%m')
     prefix = "P-" + current_year + current_month
 
-    # For the very first time invoice_number is DD-MM-YY-0001
+    # For the very first time purchase_no is P-20240200001
     next_purchase_no = '00001'
 
-    # Get Last Employee Start With DNCC-MI-
+    # Get Last Item Start With P-
     last_purchase_no = Purchase.objects.filter(
         purchase_no__startswith=prefix).order_by('purchase_no').last()
 
     if last_purchase_no:
-        # Cut 5 digit from the Right and converted to int (NAT-YYYY-:xxxx)
-        last_purchase_four_digit = int(last_purchase_no.purchase_no[-5:])
+        # Cut 5 digit from the Right and converted to int (P-:xxxxx)
+        last_purchase_no_four_digit = int(last_purchase_no.purchase_no[-5:])
 
         # Increment one with last five digit
-        next_purchase_no = '{0:05d}'.format(last_purchase_four_digit + 1)
+        next_purchase_no = '{0:05d}'.format(last_purchase_no_four_digit + 1)
 
-    # Return custom invoice number
+    # Return custom purchase_no
     return prefix + next_purchase_no
 
 
@@ -46,21 +46,21 @@ def generate_invoice_no():
     current_month = today_date.strftime('%m')
     prefix = "PI-" + current_year + current_month
 
-    # For the very first time invoice_number is DD-MM-YY-0001
+    # For the very first time invoice_no is PI-20240200001
     next_invoice_no = '00001'
 
-    # Get Last Employee Start With DNCC-MI-
+    # Get Last Item Start With PI-
     last_invoice_no = Purchase.objects.filter(
         invoice_no__startswith=prefix).order_by('invoice_no').last()
 
     if last_invoice_no:
-        # Cut 5 digit from the Right and converted to int (NAT-YYYY-:xxxx)
-        last_invoice_four_digit = int(last_invoice_no.invoice_no[-5:])
+        # Cut 5 digit from the Right and converted to int (PI-:xxxxx)
+        last_invoice_no_four_digit = int(last_invoice_no.invoice_no[-5:])
 
         # Increment one with last five digit
-        next_invoice_no = '{0:05d}'.format(last_invoice_four_digit + 1)
+        next_invoice_no = '{0:05d}'.format(last_invoice_no_four_digit + 1)
 
-    # Return custom invoice number
+    # Return custom invoice_no
     return prefix + next_invoice_no
 
 

@@ -122,7 +122,7 @@ const CourierDataTable = ({
                       <button
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
                         onClick={() => {
-                          openEditModal(item.id);
+                          openEditModal();
                           updateCourier(item.id);
                         }}
                       >

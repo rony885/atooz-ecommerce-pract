@@ -5,7 +5,6 @@ from Product.serializers import ProductSerializer
 from Product.models import Product
 
 
-
 class PurchaseDetailCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseDetail

@@ -20,21 +20,21 @@ def generate_order_no():
     current_month = today_date.strftime('%m')
     prefix = "O-" + current_year + current_month
 
-    # For the very first time invoice_number is DD-MM-YY-0001
+    # For the very first time order_no is O-20240100001
     next_order_no = '00001'
 
-    # Get Last Employee Start With DNCC-MI-
+    # Get Last Item Start With O-"
     last_order_no = Order.objects.filter(
         order_no__startswith=prefix).order_by('order_no').last()
 
     if last_order_no:
-        # Cut 5 digit from the Right and converted to int (NAT-YYYY-:xxxx)
-        last_order_four_digit = int(last_order_no.order_no[-5:])
+        # Cut 5 digit from the Right and converted to int (O-:xxxxx)
+        last_order_no_four_digit = int(last_order_no.order_no[-5:])
 
         # Increment one with last five digit
-        next_order_no = '{0:05d}'.format(last_order_four_digit + 1)
+        next_order_no = '{0:05d}'.format(last_order_no_four_digit + 1)
 
-    # Return custom invoice number
+    # Return custom order_no
     return prefix + next_order_no
 
 
@@ -46,21 +46,21 @@ def generate_invoice_no():
     current_month = today_date.strftime('%m')
     prefix = "OI-" + current_year + current_month
 
-    # For the very first time invoice_number is DD-MM-YY-0001
+    # For the very first time invoice_no is OI-20240100001
     next_invoice_no = '00001'
 
-    # Get Last Employee Start With DNCC-MI-
+    # Get Last Item Start With OI-
     last_invoice_no = Order.objects.filter(
         invoice_no__startswith=prefix).order_by('invoice_no').last()
 
     if last_invoice_no:
-        # Cut 5 digit from the Right and converted to int (NAT-YYYY-:xxxx)
-        last_invoice_four_digit = int(last_invoice_no.invoice_no[-5:])
+        # Cut 5 digit from the Right and converted to int (OI-:xxxxx)
+        last_invoice_no_four_digit = int(last_invoice_no.invoice_no[-5:])
 
         # Increment one with last five digit
-        next_invoice_no = '{0:05d}'.format(last_invoice_four_digit + 1)
+        next_invoice_no = '{0:05d}'.format(last_invoice_no_four_digit + 1)
 
-    # Return custom invoice number
+    # Return custom invoice_no
     return prefix + next_invoice_no
 
 
@@ -68,14 +68,15 @@ class Order(models.Model):
     order_no = models.CharField(max_length=25, default=generate_order_no)
     invoice_no = models.CharField(max_length=25, default=generate_invoice_no)
 
-    courier = models.ForeignKey(Courier, on_delete=models.DO_NOTHING)
+    courier = models.ForeignKey(
+        Courier, on_delete=models.DO_NOTHING, blank=True, null=True)
     customer = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     delivery_type = models.ForeignKey(
         DeliveryType, on_delete=models.DO_NOTHING)
 
     order_date_time = models.DateTimeField(default=get_current_date_and_time)
     order_date = models.DateField(default=get_current_date)
-    delivery_status = models.CharField(max_length=50, default='New')
+    delivery_status = models.CharField(max_length=50, default='new')
     payment_method = models.CharField(max_length=50)
     note = models.TextField(blank=True, null=True)
 

@@ -2,9 +2,9 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .models import Category, Brand, Unit, Product
-from .serializers import CategorySerializer, UnpaginateCategorySerializer, BrandSerializer, UnpaginateBrandSerializer, UnitSerializer, UnpaginateUnitSerializer, ProductSerializer, UnpaginateProductSerializer
-from .paginations import CategoryPagination, BrandPagination, UnitPagination, ProductPagination
+from .models import Category, SubCategory, Brand, Unit, Product
+from .serializers import CategorySerializer, UnpaginateCategorySerializer, SubCategorySerializer, UnpaginateSubCategorySerializer, BrandSerializer, UnpaginateBrandSerializer, UnitSerializer, UnpaginateUnitSerializer, ProductSerializer, UnpaginateProductSerializer
+from .paginations import CategoryPagination, SubCategoryPagination, BrandPagination, UnitPagination, ProductPagination
 
 
 class CategoryView(viewsets.ModelViewSet):
@@ -16,6 +16,17 @@ class CategoryView(viewsets.ModelViewSet):
 class CategoryUnpaginateView(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = UnpaginateCategorySerializer
+
+
+class SubCategoryView(viewsets.ModelViewSet):
+    queryset = SubCategory.objects.all()
+    serializer_class = SubCategorySerializer
+    # pagination_class = SubCategoryPagination
+
+
+class SubCategoryUnpaginateView(viewsets.ModelViewSet):
+    queryset = SubCategory.objects.all()
+    serializer_class = UnpaginateSubCategorySerializer
 
 
 class BrandView(viewsets.ModelViewSet):

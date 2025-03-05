@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import CategoryView, CategoryUnpaginateView, BrandView, BrandUnpaginateView, UnitView, UnitUnpaginateView, ProductView, ProductUnpaginateView
+from .views import CategoryView, CategoryUnpaginateView, SubCategoryView, SubCategoryUnpaginateView, BrandView, BrandUnpaginateView, UnitView, UnitUnpaginateView, ProductView, ProductUnpaginateView
 
 from rest_framework import routers
 route = routers.DefaultRouter()
@@ -12,6 +12,11 @@ route.register("category", CategoryView,
                basename='category_view')
 route.register("unpaginate_category", CategoryUnpaginateView,
                basename='unpaginate_category_view')
+
+route.register("sub_category", SubCategoryView,
+               basename='sub_category_view')
+route.register("unpaginate_sub_category", SubCategoryUnpaginateView,
+               basename='unpaginate_sub_category_view')
 
 route.register("brand", BrandView,
                basename='brand_view')

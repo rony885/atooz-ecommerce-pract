@@ -6,9 +6,15 @@ import {
   PiCaretLineRightBold,
 } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
-import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const ClientsDataTable = ({ data }) => {
+const ClientsDataTable = ({
+  data,
+  openEditModal,
+  updateClient,
+  openDeleteModal,
+  getId,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",
@@ -16,9 +22,6 @@ const ClientsDataTable = ({ data }) => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
   const handleSort = (key) => {
@@ -44,22 +47,8 @@ const ClientsDataTable = ({ data }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleEdit = (item) => {
-    setIsEditModalOpen(true); // Open edit modal
-  };
-
-  const handleDelete = (item) => {
-    setIsDeleteModalOpen(true); // Open delete modal
-  };
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
 
   return (
     <Wrapper>
@@ -144,7 +133,10 @@ const ClientsDataTable = ({ data }) => {
                     <li>
                       <button
                         className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
-                        onClick={() => handleEdit(item)}
+                        onClick={() => {
+                          openEditModal();
+                          updateClient(item.id);
+                        }}
                       >
                         <PiPencilLight />
                       </button>
@@ -152,7 +144,10 @@ const ClientsDataTable = ({ data }) => {
                     <li>
                       <button
                         className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                        onClick={() => handleDelete(item)}
+                        onClick={() => {
+                          openDeleteModal();
+                          getId(item.id);
+                        }}
                       >
                         <IoTrashOutline />
                       </button>
@@ -228,7 +223,7 @@ const ClientsDataTable = ({ data }) => {
         </div>
 
         {/* ===== Edit Modal ===== */}
-        {isEditModalOpen && (
+        {/* {isEditModalOpen && (
           <div className="custom-modal">
             <div className="modal-content">
               <span className="close" onClick={() => setIsEditModalOpen(false)}>
@@ -258,10 +253,10 @@ const ClientsDataTable = ({ data }) => {
               </form>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* ===== Delete Confirmation Modal ===== */}
-        {isDeleteModalOpen && (
+        {/* {isDeleteModalOpen && (
           <div className="custom-modal">
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
@@ -298,7 +293,7 @@ const ClientsDataTable = ({ data }) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </Wrapper>
   );

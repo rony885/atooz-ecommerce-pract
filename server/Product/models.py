@@ -7,12 +7,12 @@ def generate_product_id():
     prefix = "PROD-"
     next_product_id = '00001'
 
-    # Get Last Product Start With PRODUCT-
+    # Get Last Product Start With PROD-00001
     last_product_id = Product.objects.filter(
         product_id__startswith=prefix).order_by('product_id').last()
 
     if last_product_id:
-        # Cut 5 digit from the Right and converted to int (PROD-:xxxx)
+        # Cut 5 digit from the Right and converted to int (PROD-:xxxxx)
         last_product_id_four_digit = int(last_product_id.product_id[-5:])
 
         # Increment one with last five digit
@@ -43,6 +43,31 @@ class Category(models.Model):
                 '<img src="%s" alt="No Image" width="45" height="45" style="border-radius:10px" "/>' % self.image.url)
         return 'No Image'
     Image.short_description = 'Category Image'
+
+
+class SubCategory(models.Model):
+    status = models.BooleanField(default=True)
+    name = models.CharField(max_length=255)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    image = models.ImageField(
+        upload_to='uploads/images/subcategory/product', blank=True, null=True)
+
+    creator = models.CharField(max_length=25, default="Admin")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'sub_category'
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def Image(self):
+        if self.image:
+            return mark_safe(
+                '<img src="%s" alt="No Image" width="45" height="45" style="border-radius:10px" "/>' % self.image.url)
+        return 'No Image'
+    Image.short_description = 'Sub Category Image'
 
 
 class Brand(models.Model):
@@ -77,15 +102,19 @@ class Product(models.Model):
     product_id = models.CharField(
         max_length=25, unique=True, default=generate_product_id)
     status = models.BooleanField(default=True)
-
     product_type = models.CharField(max_length=25)
     name = models.CharField(max_length=255)
     product_code = models.CharField(max_length=25, unique=True)
+
     category = models.ForeignKey(
         Category, on_delete=models.DO_NOTHING, blank=True, null=True)
-    brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING)
-    unit_type = models.ForeignKey(Unit, on_delete=models.DO_NOTHING)
-    unit_quantity = models.CharField(max_length=25)
+    sub_category = models.ForeignKey(
+        SubCategory, on_delete=models.DO_NOTHING, blank=True, null=True)
+    brand = models.ForeignKey(
+        Brand, on_delete=models.DO_NOTHING, blank=True, null=True)
+    unit_type = models.ForeignKey(
+        Unit, on_delete=models.DO_NOTHING, blank=True, null=True)
+    unit_quantity = models.CharField(max_length=25, blank=True, null=True)
 
     isFeatureProducts = models.BooleanField(default=False)
     isTopSellingProducts = models.BooleanField(default=False)

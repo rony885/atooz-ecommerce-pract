@@ -194,20 +194,27 @@ SIMPLE_JWT = {
 }
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ronyahamed71it@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'fqzv fnkx jhvm xbjq'  # The app password you created
+DEFAULT_FROM_EMAIL = 'ronyahamed71it@gmail.com'  # Same as EMAIL_HOST_USER
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # STATIC_URL = '/staticfiles/'
 # STATIC_DIR = os.path.join(BASE_DIR, 'staticfiles')
 # STATIC_ROOT = STATIC_DIR
-
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles'),]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 
 
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_ROOT = STATIC_DIR
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 
 # Default primary key field type

@@ -259,8 +259,7 @@ const ProductPriceStock = () => {
                           <Form.Label>
                             Initial Stock<span className="text-danger">*</span>
                           </Form.Label>
-                          <InputGroup hasValidation>
-                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                          <InputGroup hasValidation>                          
                             <Form.Control
                               type="text"
                               name="initial_stock"
@@ -289,7 +288,6 @@ const ProductPriceStock = () => {
                             Regular Price<span className="text-danger">*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
-                            {/* <InputGroup.Text>@</InputGroup.Text> */}
                             <Form.Control
                               type="text"
                               name="regularPrice"
@@ -317,7 +315,6 @@ const ProductPriceStock = () => {
                             Discount<span className="text-danger">*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
-                            {/* <InputGroup.Text>@</InputGroup.Text> */}
                             <Form.Control
                               type="text"
                               name="discount"
