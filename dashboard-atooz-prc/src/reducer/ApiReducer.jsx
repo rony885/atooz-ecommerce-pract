@@ -188,6 +188,23 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
+    // User / Customer module
+    case "SET_ALL_Users":
+      return {
+        ...state,
+        isLoading: false,
+        all_users: action.payload,
+        isError: false,
+      };
+
+    case "SET_CURRENT_USER_API":
+      return {
+        ...state,
+        isLoading: false,
+        c_user: action.payload,
+        isError: false,
+      };
+
     case "API_ERROR":
       return {
         ...state,

@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useCallback,
+  useEffect,
+} from "react";
 import ApiReducer from "../reducer/ApiReducer";
 
 const AppContext = createContext();
@@ -45,6 +51,10 @@ const initialState = {
   // order & purchase module
   purchase: [],
   order: [],
+
+  // customer/users
+  all_users: [],
+  c_user: {},
 };
 
 const ApiContext = ({ children }) => {
@@ -89,6 +99,10 @@ const ApiContext = ({ children }) => {
     // order & purchase module
     purchase: `${process.env.REACT_APP_BASE_URL}/purchase/`,
     order: `${process.env.REACT_APP_BASE_URL}/order/`,
+
+    // User / Customer module
+    allUsers: `${process.env.REACT_APP_BASE_URL}/custom_user/all_users/`,
+    currentUser: `${process.env.REACT_APP_BASE_URL}/custom_user/current_user/`,
   };
 
   // Fetch data function with useCallback
@@ -223,6 +237,35 @@ const ApiContext = ({ children }) => {
     [fetchData, urls.order]
   );
 
+  // User / Customer module
+  const fetAllUsers = useCallback(
+    () => fetchData(urls.allUsers, "SET_ALL_USERS"),
+    [fetchData, urls.allUsers]
+  );
+
+  const fetchCurrentUser = useCallback(async () => {
+    const aT = localStorage.getItem("atoozSuperuserandstaffAccessToken");
+    if (aT) {
+      try {
+        const response = await fetch(urls.currentUser, {
+          headers: {
+            Authorization: `Bearer ${aT}`,
+          },
+        });
+        const data = await response.json();
+        dispatch({ type: "SET_CURRENT_USER_API", payload: data });
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+        dispatch({ type: "API_ERROR" });
+      }
+    }
+  }, [urls.currentUser]);
+
+  // Fetch current user every time
+  useEffect(() => {
+    fetchCurrentUser();
+  }, [fetchCurrentUser]);
+
   return (
     <AppContext.Provider
       value={{
@@ -253,6 +296,8 @@ const ApiContext = ({ children }) => {
 
         fetchPurchase,
         fetchOrder,
+
+        fetAllUsers,
       }}
     >
       {children}
