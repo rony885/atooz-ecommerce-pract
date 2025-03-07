@@ -52,7 +52,7 @@ const initialState = {
   purchase: [],
   order: [],
 
-  // customer/users
+  // User / Customer module
   all_users: [],
   c_user: {},
 };
@@ -238,7 +238,7 @@ const ApiContext = ({ children }) => {
   );
 
   // User / Customer module
-  const fetAllUsers = useCallback(
+  const fetchAllUsers = useCallback(
     () => fetchData(urls.allUsers, "SET_ALL_USERS"),
     [fetchData, urls.allUsers]
   );
@@ -297,7 +297,7 @@ const ApiContext = ({ children }) => {
         fetchPurchase,
         fetchOrder,
 
-        fetAllUsers,
+        fetchAllUsers,
       }}
     >
       {children}

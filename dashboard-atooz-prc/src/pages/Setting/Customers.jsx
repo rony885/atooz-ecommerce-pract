@@ -6,13 +6,14 @@ import CustomersDataTable from "./CustomersDataTable";
 import { useApiContext } from "../../context/ApiContext";
 
 const Customers = () => {
-  const { all_users, fetAllUsers } = useApiContext();
+  // data fetching
+  const { all_users, fetchAllUsers } = useApiContext();
 
   console.log(all_users)
 
   useEffect(() => {
-    fetAllUsers();
-  }, [fetAllUsers]);
+    fetchAllUsers();
+  }, [fetchAllUsers]);
 
   return (
     <Wrapper>

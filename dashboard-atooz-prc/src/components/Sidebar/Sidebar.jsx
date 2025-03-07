@@ -292,17 +292,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
                   Courier
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/manage-balance"
-                  onClick={handleLinkClick}
-                  className={({ isActive }) =>
-                    isActive ? "active-submenu-link" : ""
-                  }
-                >
-                  Manage Balance
-                </NavLink>
-              </li>
+
               <li>
                 <NavLink
                   to="/delivery-type"
@@ -323,6 +313,28 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
                   }
                 >
                   Clients
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/general-setting"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive ? "active-submenu-link" : ""
+                  }
+                >
+                  General Setting
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/manage-balance"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive ? "active-submenu-link" : ""
+                  }
+                >
+                  Manage Balance
                 </NavLink>
               </li>
             </ul>

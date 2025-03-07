@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  PiPencilLight,
-  PiCaretLineLeftBold,
-  PiCaretLineRightBold,
-} from "react-icons/pi";
-import { IoTrashOutline } from "react-icons/io5";
-import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
+import { PiCaretLineLeftBold, PiCaretLineRightBold } from "react-icons/pi";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const CustomersDataTable = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,9 +11,6 @@ const CustomersDataTable = ({ data }) => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
   const handleSort = (key) => {
@@ -44,22 +36,8 @@ const CustomersDataTable = ({ data }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleEdit = (item) => {
-    setIsEditModalOpen(true); // Open edit modal
-  };
-
-  const handleDelete = (item) => {
-    setIsDeleteModalOpen(true); // Open delete modal
-  };
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
 
   return (
     <Wrapper>
@@ -87,7 +65,7 @@ const CustomersDataTable = ({ data }) => {
                     : "▼"
                   : ""}
               </th>
-              <th className="texxt" onClick={() => handleSort("name")}>
+              <th className="texxt text-center" onClick={() => handleSort("name")}>
                 Name{" "}
                 {sortConfig.key === "name"
                   ? sortConfig.direction === "ascending"
@@ -95,15 +73,17 @@ const CustomersDataTable = ({ data }) => {
                     : "▼"
                   : ""}
               </th>
-              <th className="texxt" onClick={() => handleSort("status")}>
-                Status{" "}
-                {sortConfig.key === "status"
+              <th className="texxt text-center" onClick={() => handleSort("email")}>
+                UserName / Phone{" "}
+                {sortConfig.key === "email"
                   ? sortConfig.direction === "ascending"
                     ? "▲"
                     : "▼"
                   : ""}
               </th>
-              <th>Action</th>
+              <th className="texxt text-center">Is Admin</th>
+              <th className="texxt text-center">Is Staff</th>
+              <th className="texxt text-center">Customer</th>
             </tr>
           </thead>
 
@@ -114,27 +94,21 @@ const CustomersDataTable = ({ data }) => {
                   <input type="checkbox" aria-label={`select-row-${item.id}`} />
                 </td>
                 <td className="texxt">{item.id}</td>
-                <td className="texxt">{item.name}</td>
-                <td className="texxt">{item.status}</td>
-                <td>
-                  <ul className="d-flex gap-2 list-unstyled mb-0">
-                    <li>
-                      <button
-                        className="btn btn-subtle-secondary btn-icon btn-sm edit-item-btn"
-                        onClick={() => handleEdit(item)}
-                      >
-                        <PiPencilLight />
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="btn btn-subtle-danger btn-icon btn-sm remove-item-btn"
-                        onClick={() => handleDelete(item)}
-                      >
-                        <IoTrashOutline />
-                      </button>
-                    </li>
-                  </ul>
+                <td className="texxt text-center">{item.name}</td>
+                <td className="texxt text-center">{item.email}</td>
+                <td className="texxt text-center">
+                  <p>{item.is_superuser === true ? "Yes" : "No"}</p>
+                </td>
+                <td className="texxt text-center">
+                  <p>{item.is_staff === true ? "Yes" : "No"}</p>
+                </td>
+
+                <td className="texxt text-center">
+                  <p>
+                    {item.is_superuser || item.is_staff === false
+                      ? "Yes"
+                      : "No"}
+                  </p>
                 </td>
               </tr>
             ))}
@@ -203,79 +177,6 @@ const CustomersDataTable = ({ data }) => {
             </button>
           </div>
         </div>
-
-        {/* ===== Edit Modal ===== */}
-        {isEditModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-content">
-              <span className="close" onClick={() => setIsEditModalOpen(false)}>
-                &times;
-              </span>
-              <h2>Update Category</h2>
-              <form>
-                <label>
-                  Category Name<span className="text-danger">*</span>
-                </label>
-                <input type="text" placeholder="Enter category name" />
-                <label>Status</label>
-
-                <select>
-                  <option value="Select">Select</option>
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <div className="modal-actions">
-                  <button type="reset" className="cancel-btn">
-                    Cancel
-                  </button>
-                  <button type="submit" className="add-btn">
-                    Update
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* ===== Delete Confirmation Modal ===== */}
-        {isDeleteModalOpen && (
-          <div className="custom-modal">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button
-                    type="button"
-                    className="btn-close no-hover-border ms-auto"
-                    onClick={closeDeleteModal}
-                    aria-label="Close"
-                  ></button>
-                </div>
-
-                <div className="modal-body p-md-5">
-                  <div className="text-center">
-                    <div className="text-danger fs-1">
-                      <FaTrashAlt />
-                    </div>
-                    <div className="mt-4">
-                      <h3 className="mb-2 fs-5">Are you sure?</h3>
-                      <p className="text-muted fs-lg mx-3 mb-0">
-                        Are you sure you want to remove this record?
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex gap-2 justify-content-center mt-4 mb-2">
-                  <button type="button" className="close_btn">
-                    Close
-                  </button>
-                  <button type="button" className="delete_btn">
-                    Yes, Delete It!
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </Wrapper>
   );

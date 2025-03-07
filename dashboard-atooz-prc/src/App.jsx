@@ -29,9 +29,10 @@ import BlogUpdate from "./pages/Blog/BlogUpdate";
 import Supplier from "./pages/Setting/Supplier";
 import Customers from "./pages/Setting/Customers";
 import Courier from "./pages/Setting/Courier";
-import ManageBalance from "./pages/Setting/ManageBalance";
 import Delivery from "./pages/Setting/Delivery";
 import Clients from "./pages/Setting/Clients";
+import ManageBalance from "./pages/Setting/ManageBalance";
+import GeneralSetting from "./pages/Setting/GeneralSetting";
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -78,9 +79,10 @@ function App() {
           <Route path="/supplier" element={<Supplier />}></Route>
           <Route path="/customers" element={<Customers />}></Route>
           <Route path="/courier" element={<Courier />}></Route>
-          <Route path="/manage-balance" element={<ManageBalance />}></Route>
           <Route path="/delivery-type" element={<Delivery />}></Route>
           <Route path="/clients" element={<Clients />}></Route>
+          <Route path="/manage-balance" element={<ManageBalance />}></Route>
+          <Route path="/general-setting" element={<GeneralSetting />}></Route>
           <Route path="*" element={<ErrorPages />}></Route>
         </Routes>
         {/* Adding more content to ensure the page is scrollable */}

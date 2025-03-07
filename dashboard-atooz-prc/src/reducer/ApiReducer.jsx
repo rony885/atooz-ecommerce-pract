@@ -189,7 +189,7 @@ const ApiReducer = (state, action) => {
       };
 
     // User / Customer module
-    case "SET_ALL_Users":
+    case "SET_ALL_USERS":
       return {
         ...state,
         isLoading: false,
