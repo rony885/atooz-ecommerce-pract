@@ -1,8 +1,72 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+
+import { Formik, Form as FormikForm } from "formik";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import * as yup from "yup";
+import axios from "axios";
 import Footer from "../../components/Footer";
+import { useApiContext } from "../../context/ApiContext";
+import { useNavigate } from "react-router-dom";
+
+const initialValues = {
+  purchase_date: "",
+  supplier: "",
+  total_item: "",
+  total_amount: "",
+  discount: "",
+  grand_total_amount: "",
+};
+
+const schema = yup.object().shape({
+  status: yup.boolean(),
+  purchase_date: yup.string().required("Purchase Date is a required field!"),
+  supplier: yup.string().required("supplier is a required field!"),
+  total_amount: yup.string(),
+  discount: yup.string(),
+  grand_total_amount: yup.string(),
+});
+
+const validate = (values) => {
+  let errors = {};
+  return errors;
+};
 
 const PurchaseAdd = () => {
+  const {
+    unpaginate_product,
+    unpaginate_supplier,
+    c_user,
+    fetchUnpaginateProduct,
+    fetchUnpaginateSupplier,
+  } = useApiContext();
+
+  useEffect(() => {
+    fetchUnpaginateProduct();
+    fetchUnpaginateSupplier();
+  }, [fetchUnpaginateProduct, fetchUnpaginateSupplier]);
+
+  const [message, setMessage] = useState();
+  const navigate = useNavigate();
+
+  const [supplierOptions, setSupplierOptions] = useState([]);
+  // const [productOptions, setProductOptions] = useState([]);
+
+  useEffect(() => {
+    const userSupplierOptions = unpaginate_supplier.map((user) => ({
+      value: user.id,
+      label: user.name,
+    }));
+  }, [unpaginate_supplier]);
+
+  useEffect(() => {
+    const userProductOptions = unpaginate_product.map((user) => ({
+      value: user.id,
+      label: `${user.name}....${user.purchase_price}`,
+    }));
+  }, []);
+
   return (
     <Wrapper>
       <div className="layout">
@@ -10,6 +74,7 @@ const PurchaseAdd = () => {
           <div className="purchase_add">
             <div className="">
               <h2 className="fs-5">Add Purchase</h2>
+
               <form className="mt-5">
                 <div className="card_form">
                   <div class="row mb-4 card_resv">
