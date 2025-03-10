@@ -104,7 +104,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
               </li>
               <li>
                 <NavLink
-                  to="/product-lists"
+                  to="/products"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive ? "active-submenu-link" : ""

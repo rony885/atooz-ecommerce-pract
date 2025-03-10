@@ -10,6 +10,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import Footer from "../../components/Footer";
+import PurchaseProductForm from "./PurchaseProductForm";
 import { useApiContext } from "../../context/ApiContext";
 
 const initialValues = {
@@ -32,6 +33,7 @@ const schema = yup.object().shape({
 
 const validate = (values) => {
   let errors = {};
+
   return errors;
 };
 
@@ -190,37 +192,6 @@ const PurchaseAdd = () => {
                     </div>
                   </div>
                 </div>
-                {/* 
-                <div class="row g-3">
-                  <div class="form-outline mb-4 col-lg-6">
-                    <label class="form-label">
-                      Purchase Date<span>*</span>
-                    </label>
-                    <div class="input-group has-validation">
-                      <input
-                        name="purchase_date"
-                        type="date"
-                        id="purchase_date"
-                        class="form-control"
-                        value=""
-                      />
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-
-                  <div class="form-outline mb-4 col-lg-6">
-                    <label class="form-label">
-                      Supplier<span>*</span>
-                    </label>
-                    <div class="input-group has-validation">
-                      <select name="supplier" class="form-select" id="supplier">
-                        <option value="">Select</option>
-                        <option value="1">Ekattor IT</option>
-                      </select>
-                      <div class="invalid-feedback"></div>
-                    </div>
-                  </div>
-                </div> */}
 
                 <Formik
                   initialValues={initialValues}
@@ -315,12 +286,12 @@ const PurchaseAdd = () => {
                                 </InputGroup>
                               </Form.Group>
                             </div>
-                            {/* 
+
                             <PurchaseProductForm
                               productList={productList}
                               setProductList={setProductList}
                               unpaginate_product={unpaginate_product}
-                            /> */}
+                            />
 
                             <div className="d-flex align-items-end justify-content-end flex-column mb-2">
                               <Form.Group className="form-outline mb-2">
@@ -385,7 +356,6 @@ const PurchaseAdd = () => {
                                   <span className="text-danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
-                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
                                   <Form.Control
                                     type="text"
                                     name="grand_total_amount"

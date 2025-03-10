@@ -213,7 +213,7 @@ const Brand = () => {
                       <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
                         <Form.Group className="form-outline mb-3">
                           <Form.Label>
-                            Category Name<span>*</span>
+                            Brand Name<span className="text-danger">*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
                             {/* <InputGroup.Text>@</InputGroup.Text> */}
@@ -268,7 +268,7 @@ const Brand = () => {
                             className="add-btn"
                             disabled={isSubmitting}
                           >
-                            Add Category
+                            Add Brand
                           </button>
                         </div>
 

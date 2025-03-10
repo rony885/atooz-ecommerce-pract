@@ -112,10 +112,7 @@ const Unit = () => {
       data: formfield,
     })
       .then((response) => {
-        setMessage(
-          response.success,
-          "Product Unit is successfully updated..."
-        );
+        setMessage(response.success, "Product Unit is successfully updated...");
         window.location.reload(false);
       })
       .catch((error) => {
@@ -139,8 +136,8 @@ const Unit = () => {
     setItem(data);
   };
 
-   // ======= delete =======
-   const getId = (id) => {
+  // ======= delete =======
+  const getId = (id) => {
     setReceivedId(id);
   };
 
@@ -150,7 +147,6 @@ const Unit = () => {
     );
     window.location.reload(false);
   };
-
 
   return (
     <Wrapper>
@@ -216,10 +212,9 @@ const Unit = () => {
                       <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
                         <Form.Group className="form-outline mb-3">
                           <Form.Label>
-                            Category Name<span>*</span>
+                            Unit Name<span className="text-danger">*</span>
                           </Form.Label>
                           <InputGroup hasValidation>
-                            {/* <InputGroup.Text>@</InputGroup.Text> */}
                             <Form.Control
                               type="text"
                               name="name"
@@ -270,7 +265,7 @@ const Unit = () => {
                             className="add-btn"
                             disabled={isSubmitting}
                           >
-                            Add Category
+                            Add Unit
                           </button>
                         </div>
 
@@ -414,11 +409,14 @@ const Unit = () => {
                         type="button"
                         className="close_btn"
                         onClick={closeDeleteModal}
-                        
                       >
                         Close
                       </button>
-                      <button type="button" className="delete_btn" onClick={() => deleteUnit(receivedId)}>
+                      <button
+                        type="button"
+                        className="delete_btn"
+                        onClick={() => deleteUnit(receivedId)}
+                      >
                         Yes, Delete It!
                       </button>
                     </div>
