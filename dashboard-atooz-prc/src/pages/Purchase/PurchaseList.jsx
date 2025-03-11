@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
+import { ImHome } from "react-icons/im";
 import { Link } from "react-router-dom";
-import Footer from "../../components/Footer";
 
-const PurchaseView = () => {
+import Footer from "../../components/Footer";
+import PurchaseDataTable from "./PurchaseDataTable";
+import { useApiContext } from "../../context/ApiContext";
+
+const PurchaseList = () => {
+  // data fetching
+  const { purchase, fetchPurchase } = useApiContext();
+
+  useEffect(() => {
+    fetchPurchase();
+  }, [fetchPurchase]);
+
   return (
     <Wrapper>
       <div className="layout">
@@ -14,7 +25,11 @@ const PurchaseView = () => {
               <div className="row d-flex justify-content-between align-items-center purchase_row mb-4">
                 <div className="col-6">
                   <div className="d-flex justify-content-start align-items-center purchase_title">
-                    <h4 className="m-0 fs-5">Purchase View</h4>
+                    <Link to="/" className="text-dark">
+                      <ImHome className="fs-3 mb-0" />
+                    </Link>
+                    <span className="fs-4 mx-1 mt-2">/</span>
+                    <h4 className="m-0 fs-5 mt-2">Purchase</h4>
                   </div>
                 </div>
 
@@ -33,20 +48,9 @@ const PurchaseView = () => {
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-lg-12">
-                  <header align="left">
-                    <input
-                      type="text"
-                      placeholder="Search here"
-                      class="w-100 form-control"
-                      value=""
-                    />
-                  </header>
-
-                  <div style={{ padding: "24px" }}>
-                    <p class="text-center">There are no records to display</p>
-                  </div>
+              <div className="row">
+                <div className="col-lg-12">
+                  <PurchaseDataTable data={purchase} />
                 </div>
               </div>
             </div>
@@ -115,4 +119,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default PurchaseView;
+export default PurchaseList;

@@ -152,7 +152,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
                     isActive ? "active-submenu-link" : ""
                   }
                 >
-                  ListView
+                  List View
                 </NavLink>
               </li>
             </ul>
@@ -177,7 +177,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
             <ul className="submenu">
               <li>
                 <NavLink
-                  to="/purchaseview"
+                  to="/purchase"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive ? "active-submenu-link" : ""

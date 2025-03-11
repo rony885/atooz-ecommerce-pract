@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { ImHome } from "react-icons/im";
+import { Link } from "react-router-dom";
 
 import * as yup from "yup";
 import axios from "axios";
@@ -23,9 +25,9 @@ const initialValues = {
 };
 
 const schema = yup.object().shape({
-  status: yup.boolean(),
   purchase_date: yup.string().required("Purchase Date is a required field!"),
-  supplier: yup.string().required("supplier is a required field!"),
+  supplier: yup.string().required("Supplier is a required field!"),
+  total_item: yup.string(),
   total_amount: yup.string(),
   discount: yup.string(),
   grand_total_amount: yup.string(),
@@ -42,13 +44,13 @@ const PurchaseAdd = () => {
     unpaginate_product,
     unpaginate_supplier,
     c_user,
-    fetchUnpaginateProduct,
     fetchUnpaginateSupplier,
+    fetchUnpaginateProduct,
   } = useApiContext();
 
   useEffect(() => {
-    fetchUnpaginateProduct();
     fetchUnpaginateSupplier();
+    fetchUnpaginateProduct();
   }, [fetchUnpaginateProduct, fetchUnpaginateSupplier]);
 
   const [message, setMessage] = useState();
@@ -58,19 +60,20 @@ const PurchaseAdd = () => {
   // const [productOptions, setProductOptions] = useState([]);
 
   useEffect(() => {
+    //supplier
     const userSupplierOptions = unpaginate_supplier.map((user) => ({
       value: user.id,
       label: user.name,
     }));
-
-    //   const userProductOptions = unpaginate_product.map((user) => ({
-    //     value: user.id,
-    //     label: `${user.name}....${user.purchase_price}`,
-    //   }));
-
     setSupplierOptions(userSupplierOptions);
+
+    //product
+    // const userProductOptions = unpaginate_product.map((user) => ({
+    //   value: user.id,
+    //   label: `${user.name}------${user.p_purchase_price}`,
+    // }));
     // setProductOptions(userProductOptions);
-  }, [unpaginate_supplier, unpaginate_product]);
+  }, [unpaginate_supplier]);
 
   const customStyles = {
     option: (provided, state) => ({
@@ -89,8 +92,8 @@ const PurchaseAdd = () => {
   const [productList, setProductList] = useState([
     {
       productId: null,
-      quantity: 1,
       bdtRate: 0,
+      quantity: 1,
       linePrice: 0,
     },
   ]);
@@ -103,7 +106,6 @@ const PurchaseAdd = () => {
     (total, product) => total + product.linePrice,
     0
   );
-
   const [discount, setdiscount] = useState(0);
   const grandTotal = totalAmount - discount;
 
@@ -180,236 +182,226 @@ const PurchaseAdd = () => {
         <div className="purchaseAdd_wrapper">
           <div className="purchase_add">
             <div className="">
-              <h2 className="fs-5">Add Purchase</h2>
+              <div className="d-flex justify-content-start align-items-center mb-4">
+                <Link to="/" className="text-dark">
+                  <ImHome className="fs-3 mb-0" />
+                </Link>
+                <span className="fs-4 mx-1 mt-2">/</span>
+                <h4 className="m-0 fs-5 mt-2 fw-bold text-uppercase">
+                  Add Purchase
+                </h4>
+              </div>
 
-              <form className="mt-5">
-                <div className="card_form">
-                  <div class="row mb-4 card_resv">
-                    <div class="col-12">
-                      <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Purchase Details</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={schema}
+                onSubmit={submitPurchaseForm}
+                validate={validate}
+              >
+                {({
+                  handleSubmit,
+                  handleChange,
+                  isSubmitting,
+                  values,
+                  errors,
+                  touched,
+                }) => (
+                  <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                    <div className="row justify-content-center">
+                      <div className=" overflow-hidden">
+                        <div className="card-body card-body z-1 position-relative">
+                          <div className="row g-3">
+                            <Form.Group className="form-outline col-lg-6 mb-2 divvv">
+                              <Form.Label>
+                                Purchase Date<span>*</span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Control
+                                  type="date"
+                                  name="purchase_date"
+                                  id="purchase_date"
+                                  value={values.purchase_date}
+                                  onChange={handleChange}
+                                  isInvalid={
+                                    !!touched.purchase_date &&
+                                    !!errors.purchase_date
+                                  }
+                                  isValid={
+                                    touched.purchase_date &&
+                                    !errors.purchase_date
+                                  }
+                                  className="form-control mb-0"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.purchase_date}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
 
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={schema}
-                  onSubmit={submitPurchaseForm}
-                  validate={validate}
-                >
-                  {({
-                    handleSubmit,
-                    handleChange,
-                    isSubmitting,
-                    values,
-                    errors,
-                    touched,
-                  }) => (
-                    <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
-                      <div className="row justify-content-center">
-                        <div className=" overflow-hidden">
-                          <div className="card-body card-body z-1 position-relative">
-                            <div className="row g-3">
-                              <Form.Group className="form-outline col-lg-6 mb-2 divvv">
-                                <Form.Label>
-                                  Purchase Date
-                                  <span className="text-danger">*</span>
-                                </Form.Label>
-                                <InputGroup hasValidation>
-                                  <Form.Control
-                                    type="date"
-                                    name="purchase_date"
-                                    id="purchase_date"
-                                    value={values.purchase_date}
-                                    onChange={handleChange}
-                                    isInvalid={
-                                      !!touched.purchase_date &&
-                                      !!errors.purchase_date
-                                    }
-                                    isValid={
-                                      touched.purchase_date &&
-                                      !errors.purchase_date
-                                    }
-                                    className="form-control mb-0"
-                                  />
-                                  <Form.Control.Feedback type="invalid">
-                                    {errors.purchase_date}
-                                  </Form.Control.Feedback>
-                                </InputGroup>
-                              </Form.Group>
-
-                              <Form.Group className="form-outline col-lg-6 mb-2 divvv">
-                                <Form.Label>
-                                  Supplier<span className="text-danger">*</span>
-                                </Form.Label>
-                                <InputGroup hasValidation>
-                                  <Field name="supplier">
-                                    {({ field, form, meta }) => (
-                                      <>
-                                        <Select
-                                          id="supplier"
-                                          name="supplier"
-                                          value={supplierOptions.find(
-                                            (option) =>
-                                              option.value === field.value
-                                          )}
-                                          onChange={(selectedOption) => {
-                                            form.setFieldValue(
-                                              field.name,
-                                              selectedOption
-                                                ? selectedOption.value
-                                                : null
-                                            );
-                                          }}
-                                          options={supplierOptions}
-                                          isSearchable
-                                          styles={customStyles}
-                                          isInvalid={meta.touched && meta.error}
-                                          isValid={meta.touched && !meta.error}
-                                          onBlur={() =>
-                                            form.setFieldTouched(
-                                              field.name,
-                                              true
-                                            )
-                                          }
-                                        />
-                                        {meta.touched && meta.error && (
-                                          <div className="invalid-feedback d-block">
-                                            {meta.error}
-                                          </div>
+                            <Form.Group className="form-outline col-lg-6 mb-2 divvv">
+                              <Form.Label>
+                                Supplier<span className="text-danger">*</span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Field name="supplier">
+                                  {({ field, form, meta }) => (
+                                    <>
+                                      <Select
+                                        id="supplier"
+                                        name="supplier"
+                                        value={supplierOptions.find(
+                                          (option) =>
+                                            option.value === field.value
                                         )}
-                                      </>
-                                    )}
-                                  </Field>
-                                </InputGroup>
-                              </Form.Group>
-                            </div>
+                                        onChange={(selectedOption) => {
+                                          form.setFieldValue(
+                                            field.name,
+                                            selectedOption
+                                              ? selectedOption.value
+                                              : null
+                                          );
+                                        }}
+                                        options={supplierOptions}
+                                        isSearchable
+                                        styles={customStyles}
+                                        isInvalid={meta.touched && meta.error}
+                                        isValid={meta.touched && !meta.error}
+                                        onBlur={() =>
+                                          form.setFieldTouched(field.name, true)
+                                        }
+                                      />
+                                      {meta.touched && meta.error && (
+                                        <div className="invalid-feedback d-block">
+                                          {meta.error}
+                                        </div>
+                                      )}
+                                    </>
+                                  )}
+                                </Field>
+                              </InputGroup>
+                            </Form.Group>
+                          </div>
 
-                            <PurchaseProductForm
-                              productList={productList}
-                              setProductList={setProductList}
-                              unpaginate_product={unpaginate_product}
-                            />
+                          <PurchaseProductForm
+                            productList={productList}
+                            setProductList={setProductList}
+                            unpaginate_product={unpaginate_product}
+                          />
 
-                            <div className="d-flex align-items-end justify-content-end flex-column mb-2">
-                              <Form.Group className="form-outline mb-2">
-                                <Form.Label>
-                                  Total Amount
-                                  <span className="text-danger">*</span>
-                                </Form.Label>
-                                <InputGroup hasValidation>
-                                  <Form.Control
-                                    type="text"
-                                    name="total_amount"
-                                    id="total_amount"
-                                    value={totalAmount}
-                                    onChange={handleChange}
-                                    isInvalid={
-                                      !!touched.total_amount &&
-                                      !!errors.total_amount
-                                    }
-                                    isValid={
-                                      touched.total_amount &&
-                                      !errors.total_amount
-                                    }
-                                    readOnly
-                                    className="form-control mb-0"
-                                  />
-                                  <Form.Control.Feedback type="invalid">
-                                    {errors.total_amount}
-                                  </Form.Control.Feedback>
-                                </InputGroup>
-                              </Form.Group>
+                          <div className="d-flex align-items-end justify-content-end flex-column mb-2">
+                            <Form.Group className="form-outline mb-2">
+                              <Form.Label>
+                                Total Amount<span>*</span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Control
+                                  type="text"
+                                  name="total_amount"
+                                  id="total_amount"
+                                  value={totalAmount}
+                                  onChange={handleChange}
+                                  isInvalid={
+                                    !!touched.total_amount &&
+                                    !!errors.total_amount
+                                  }
+                                  isValid={
+                                    touched.total_amount && !errors.total_amount
+                                  }
+                                  readOnly
+                                  className="form-control mb-0"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.total_amount}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
 
-                              <Form.Group className="form-outline mb-2">
-                                <Form.Label>
-                                  Discount<span className="text-danger">*</span>
-                                </Form.Label>
-                                <InputGroup hasValidation>
-                                  <Form.Control
-                                    type="text"
-                                    name="discount"
-                                    id="discount"
-                                    value={discount}
-                                    onChange={(e) =>
-                                      setdiscount(e.target.value)
-                                    }
-                                    isInvalid={
-                                      !!touched.discount && !!errors.discount
-                                    }
-                                    isValid={
-                                      touched.discount && !errors.discount
-                                    }
-                                    className="form-control mb-0"
-                                  />
-                                  <Form.Control.Feedback type="invalid">
-                                    {errors.discount}
-                                  </Form.Control.Feedback>
-                                </InputGroup>
-                              </Form.Group>
+                            <Form.Group className="form-outline mb-2">
+                              <Form.Label>
+                                Discount<span>*</span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Control
+                                  type="text"
+                                  name="discount"
+                                  id="discount"
+                                  value={discount}
+                                  onChange={(e) => setdiscount(e.target.value)}
+                                  isInvalid={
+                                    !!touched.discount && !!errors.discount
+                                  }
+                                  isValid={touched.discount && !errors.discount}
+                                  className="form-control mb-0"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.discount}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
 
-                              <Form.Group className="form-outline mb-2">
-                                <Form.Label>
-                                  Grand Total Amount
-                                  <span className="text-danger">*</span>
-                                </Form.Label>
-                                <InputGroup hasValidation>
-                                  <Form.Control
-                                    type="text"
-                                    name="grand_total_amount"
-                                    id="grand_total_amount"
-                                    value={grandTotal}
-                                    onChange={handleChange}
-                                    isInvalid={
-                                      !!touched.grand_total_amount &&
-                                      !!errors.grand_total_amount
-                                    }
-                                    isValid={
-                                      touched.grand_total_amount &&
-                                      !errors.grand_total_amount
-                                    }
-                                    readOnly
-                                    className="form-control mb-0"
-                                  />
-                                  <Form.Control.Feedback type="invalid">
-                                    {errors.grand_total_amount}
-                                  </Form.Control.Feedback>
-                                </InputGroup>
-                              </Form.Group>
-                            </div>
+                            <Form.Group className="form-outline mb-2">
+                              <Form.Label>
+                                Grand Total Amount<span>*</span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Control
+                                  type="text"
+                                  name="grand_total_amount"
+                                  id="grand_total_amount"
+                                  value={grandTotal}
+                                  onChange={handleChange}
+                                  isInvalid={
+                                    !!touched.grand_total_amount &&
+                                    !!errors.grand_total_amount
+                                  }
+                                  isValid={
+                                    touched.grand_total_amount &&
+                                    !errors.grand_total_amount
+                                  }
+                                  readOnly
+                                  className="form-control mb-0"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.grand_total_amount}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      <div className="hstack gap-2 justify-content-end mt-3 my-2">
-                        <button type="reset" className="btn btn-danger">
-                          Cancel
-                        </button>
+                    <div className="hstack gap-2 justify-content-end mt-3 my-2">
+                      <button type="reset" className="btn btn-danger">
+                        Cancel
+                      </button>
 
-                        <button
-                          disabled={
-                            isSubmitting || productList[0].productId === null
-                          }
-                          type="submit"
-                          className="btn btn-success"
-                        >
-                          <i className="ri-printer-line align-bottom me-1"></i>
-                          Save
-                        </button>
-                      </div>
+                      <button
+                        disabled={
+                          isSubmitting || productList[0].productId === null
+                        }
+                        type="submit"
+                        className="btn btn-success"
+                      >
+                        <i className="ri-printer-line align-bottom me-1"></i>
+                        Save
+                      </button>
+                    </div>
 
-                      <div className="hstack gap-2 flex-wrap justify-content-end d-print-none my-4">
-                        {/* message  */}
-                        {message && (
-                          <h2 className="text-center m-5">{message}</h2>
-                        )}
-                      </div>
-                    </FormikForm>
-                  )}
-                </Formik>
-              </form>
+                    <div className="hstack gap-2 flex-wrap justify-content-end d-print-none my-4">
+                      {/* message  */}
+                      {message && (
+                        <h2 className="text-center m-5">{message}</h2>
+                      )}
+                    </div>
+                  </FormikForm>
+                )}
+              </Formik>
             </div>
           </div>
         </div>
@@ -467,6 +459,7 @@ const Wrapper = styled.section`
     outline: none;
     box-shadow: none;
   }
+
   //formik css
   .invalid-feedback {
     font-size: 10px;

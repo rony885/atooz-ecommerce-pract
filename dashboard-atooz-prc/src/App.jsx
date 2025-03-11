@@ -19,8 +19,9 @@ import ProductPriceStock from "./pages/Products/ProductPriceStock";
 import OrderList from "./pages/Order/OrderList";
 import OrderAdd from "./pages/Order/OrderAdd";
 
-import PurchaseView from "./pages/Purchase/PurchaseView";
 import PurchaseAdd from "./pages/Purchase/PurchaseAdd";
+import PurchaseList from "./pages/Purchase/PurchaseList";
+import PurchaseView from "./pages/Purchase/PurchaseView";
 
 import BlogListView from "./pages/Blog/BlogListView";
 import CreateBlogs from "./pages/Blog/CreateBlogs";
@@ -69,8 +70,9 @@ function App() {
           <Route path="/orders" element={<OrderList />}></Route>
           <Route path="/orderadd" element={<OrderAdd />}></Route>
 
-          <Route path="/purchaseview" element={<PurchaseView />}></Route>
           <Route path="/purchase-add" element={<PurchaseAdd />}></Route>
+          <Route path="/purchase" element={<PurchaseList />}></Route>
+          <Route path="/purchase-view" element={<PurchaseView />}></Route>
 
           <Route path="/blogs" element={<BlogListView />}></Route>
           <Route path="/blog-add" element={<CreateBlogs />}></Route>
