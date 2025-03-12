@@ -213,10 +213,10 @@ const PurchaseAdd = () => {
                           <div className="row g-3">
                             <Form.Group className="form-outline col-lg-6 mb-2 divvv">
                               <Form.Label>
-                                Purchase Date<span>*</span>
+                                Purchase Date
+                                <span className="text-danger">*</span>
                               </Form.Label>
                               <InputGroup hasValidation>
-                                {/* <InputGroup.Text>@</InputGroup.Text> */}
                                 <Form.Control
                                   type="date"
                                   name="purchase_date"
@@ -244,7 +244,6 @@ const PurchaseAdd = () => {
                                 Supplier<span className="text-danger">*</span>
                               </Form.Label>
                               <InputGroup hasValidation>
-                                {/* <InputGroup.Text>@</InputGroup.Text> */}
                                 <Field name="supplier">
                                   {({ field, form, meta }) => (
                                     <>
@@ -293,10 +292,10 @@ const PurchaseAdd = () => {
                           <div className="d-flex align-items-end justify-content-end flex-column mb-2">
                             <Form.Group className="form-outline mb-2">
                               <Form.Label>
-                                Total Amount<span>*</span>
+                                Total Amount
+                                <span className="text-danger">*</span>
                               </Form.Label>
                               <InputGroup hasValidation>
-                                {/* <InputGroup.Text>@</InputGroup.Text> */}
                                 <Form.Control
                                   type="text"
                                   name="total_amount"
@@ -321,10 +320,9 @@ const PurchaseAdd = () => {
 
                             <Form.Group className="form-outline mb-2">
                               <Form.Label>
-                                Discount<span>*</span>
+                                Discount<span className="text-danger">*</span>
                               </Form.Label>
                               <InputGroup hasValidation>
-                                {/* <InputGroup.Text>@</InputGroup.Text> */}
                                 <Form.Control
                                   type="text"
                                   name="discount"
@@ -345,10 +343,10 @@ const PurchaseAdd = () => {
 
                             <Form.Group className="form-outline mb-2">
                               <Form.Label>
-                                Grand Total Amount<span>*</span>
+                                Grand Total Amount
+                                <span className="text-danger">*</span>
                               </Form.Label>
                               <InputGroup hasValidation>
-                                {/* <InputGroup.Text>@</InputGroup.Text> */}
                                 <Form.Control
                                   type="text"
                                   name="grand_total_amount"

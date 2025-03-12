@@ -23,9 +23,10 @@ const initialValues = {
 };
 
 const schema = yup.object().shape({
-  status: yup.boolean(),
+  // status: yup.boolean(),
   purchase_date: yup.string().required("Purchase Date is a required field!"),
   supplier: yup.string().required("supplier is a required field!"),
+  total_item: yup.string(),
   total_amount: yup.string(),
   discount: yup.string(),
   grand_total_amount: yup.string(),
@@ -63,14 +64,15 @@ const PurchaseAdd = () => {
       label: user.name,
     }));
 
+    setSupplierOptions(userSupplierOptions);
+
     //   const userProductOptions = unpaginate_product.map((user) => ({
     //     value: user.id,
     //     label: `${user.name}....${user.purchase_price}`,
     //   }));
 
-    setSupplierOptions(userSupplierOptions);
     // setProductOptions(userProductOptions);
-  }, [unpaginate_supplier, unpaginate_product]);
+  }, [unpaginate_supplier]);
 
   const customStyles = {
     option: (provided, state) => ({

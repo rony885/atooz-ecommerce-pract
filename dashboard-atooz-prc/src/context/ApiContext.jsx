@@ -48,6 +48,9 @@ const initialState = {
   client: [],
   unpaginate_client: [],
 
+  general_settings: {},
+  unpaginate_general_settings: {},
+
   // order & purchase module
   purchase: [],
   order: [],
@@ -95,6 +98,9 @@ const ApiContext = ({ children }) => {
 
     client: `${process.env.REACT_APP_BASE_URL}/settings_api/client/`,
     unpaginateClient: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_client/`,
+
+    generalSettings: `${process.env.REACT_APP_BASE_URL}/settings_api/generalSettings/1/`,
+    unpaginateGeneralSettings: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_generalSettings/1/`,
 
     // order & purchase module
     purchase: `${process.env.REACT_APP_BASE_URL}/purchase/`,
@@ -227,6 +233,20 @@ const ApiContext = ({ children }) => {
     [fetchData, urls.unpaginateClient]
   );
 
+  const fetchGeneralSettings = useCallback(
+    () => fetchData(urls.generalSettings, "SET_API_GENERAL_SETTINGS"),
+    [fetchData, urls.generalSettings]
+  );
+
+  const fetchUnpaginateGeneralSettings = useCallback(
+    () =>
+      fetchData(
+        urls.unpaginateGeneralSettings,
+        "SET_API_UNPAGINATE_GENERAL_SETTINGS"
+      ),
+    [fetchData, urls.unpaginateGeneralSettings]
+  );
+
   // order & purchase module
   const fetchPurchase = useCallback(
     () => fetchData(urls.purchase, "SET_API_PURCHASE"),
@@ -293,6 +313,8 @@ const ApiContext = ({ children }) => {
         fetchUnpaginateDeliveryType,
         fetchcClient,
         fetchUnpaginateClient,
+        fetchGeneralSettings,
+        fetchUnpaginateGeneralSettings,
 
         fetchPurchase,
         fetchOrder,

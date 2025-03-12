@@ -171,6 +171,22 @@ const ApiReducer = (state, action) => {
         isError: false,
       };
 
+    case "SET_API_GENERAL_SETTINGS":
+      return {
+        ...state,
+        isLoading: false,
+        general_settings: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_GENERAL_SETTINGS":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_general_settings: action.payload,
+        isError: false,
+      };
+
     // order & purchase module
     case "SET_API_PURCHASE":
       return {
