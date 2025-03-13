@@ -72,7 +72,7 @@ function App() {
 
           <Route path="/purchase-add" element={<PurchaseAdd />}></Route>
           <Route path="/purchase" element={<PurchaseList />}></Route>
-          <Route path="/purchase-view/ :purchaseId" element={<PurchaseView />}></Route>
+          <Route path="/purchase-view/:id" element={<PurchaseView />}></Route>
 
           <Route path="/blogs" element={<BlogListView />}></Route>
           <Route path="/blog-add" element={<CreateBlogs />}></Route>

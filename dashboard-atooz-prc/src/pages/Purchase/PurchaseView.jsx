@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+
 import Footer from "../../components/Footer";
+import { useApiContext } from "../../context/ApiContext";
 
 const PurchaseView = () => {
+  const { general_settings, fetchGeneralSettings } = useApiContext();
+
+  useEffect(() => {
+    fetchGeneralSettings();
+  }, [fetchGeneralSettings]);
+
+  const [item, setItem] = useState({});
+  const { id } = useParams();
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/purchase/${id}/`
+      );
+      setItem(data);
+    };
+
+    loadProducts();
+  }, [id]);
+
+
   return (
     <Wrapper>
       <div className="layout">
