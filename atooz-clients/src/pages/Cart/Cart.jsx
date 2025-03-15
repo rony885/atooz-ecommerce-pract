@@ -10,10 +10,10 @@ const Cart = () => {
         <div className="Container_margin">
           {/* <div className="cart_home d-flex justify-content-start align-items-center">
           <div className="">
-          <i class="fa fa-home" aria-hidden="true"></i>
+          <i className="fa fa-home" aria-hidden="true"></i>
           </div>
           <div className="">
-          <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+          <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
           </div>
           <div className="">
             <h2 className="fs-6">Cart</h2>

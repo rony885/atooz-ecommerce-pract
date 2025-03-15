@@ -186,10 +186,10 @@ const PurchaseAdd = () => {
 
               <form className="mt-5">
                 <div className="card_form">
-                  <div class="row mb-4 card_resv">
-                    <div class="col-12">
-                      <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Purchase Details</h4>
+                  <div className="row mb-4 card_resv">
+                    <div className="col-12">
+                      <div className="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 className="mb-sm-0">Purchase Details</h4>
                       </div>
                     </div>
                   </div>

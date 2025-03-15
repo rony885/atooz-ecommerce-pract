@@ -67,161 +67,161 @@ const OrderList = () => {
           ))}
         </div> */}
 
-            <div class="row row-cols-xxl-5 row-cols-lg-5 row-cols-md-2 row-cols-1 mb-4 carrd">
-              <div class="col">
+            <div className="row row-cols-xxl-5 row-cols-lg-5 row-cols-md-2 row-cols-1 mb-4 carrd">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-primary"
+                  className="card border-3 mb-4 card-animate border-primary"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">6</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">6</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       New
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-warning"
+                  className="card border-3 mb-4 card-animate border-warning"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">0</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">0</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Pending
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-info"
+                  className="card border-3 mb-4 card-animate border-info"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">3</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">3</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Approved
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-warning"
+                  className="card border-3 mb-4 card-animate border-warning"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">0</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">0</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Packaging
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-warning"
+                  className="card border-3 mb-4 card-animate border-warning"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">0</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">0</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Shipment
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-success"
+                  className="card border-3 mb-4 card-animate border-success"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">1</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">1</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Delivered
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-warning"
+                  className="card border-3 mb-4 card-animate border-warning"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">0</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">0</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Return
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-danger"
+                  className="card border-3 mb-4 card-animate border-danger"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">0</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">0</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Cancel
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-warning"
+                  className="card border-3 mb-4 card-animate border-warning"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">0</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">0</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Wholesale
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div className="col">
                 <div
-                  class="card border-3 mb-4 card-animate border-secondary"
+                  className="card border-3 mb-4 card-animate border-secondary"
                   style={{ backgroundColor: "transparent" }}
                 >
-                  <div class="card-boddy">
-                    <h4 class="mb-4">
-                      <span class="text-dark fs-6">10</span>
+                  <div className="card-boddy">
+                    <h4 className="mb-4">
+                      <span className="text-dark fs-6">10</span>
                     </h4>
-                    <p class="text-muted fw-medium text-uppercase mb-0 textt">
+                    <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Total
                     </p>
                   </div>

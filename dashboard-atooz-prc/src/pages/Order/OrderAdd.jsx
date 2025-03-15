@@ -12,40 +12,40 @@ const OrderAdd = () => {
               <h2 className="fs-5">Add Order</h2>
               <form className="mt-5">
                 <div className="card_form">
-                  <div class="row mb-4 card_resv">
-                    <div class="col-12">
-                      <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Order Details</h4>
+                  <div className="row mb-4 card_resv">
+                    <div className="col-12">
+                      <div className="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 className="mb-sm-0">Order Details</h4>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row g-3">
+                  <div className="row g-3">
                     {/* <!-- Order Date --> */}
-                    <div class="form-outline mb-4 col-lg-3">
-                      <label class="form-label">
+                    <div className="form-outline mb-4 col-lg-3">
+                      <label className="form-label">
                         Order Date<span>*</span>
                       </label>
-                      <div class="input-group">
+                      <div className="input-group">
                         <input
                           name="order_date"
                           type="date"
                           id="order_date"
-                          class="form-control"
+                          className="form-control"
                           value=""
                         />
                       </div>
                     </div>
 
                     {/* <!-- Payment Method --> */}
-                    <div class="form-outline mb-4 col-lg-3">
-                      <label class="form-label">
+                    <div className="form-outline mb-4 col-lg-3">
+                      <label className="form-label">
                         Payment Method<span>*</span>
                       </label>
-                      <div class="input-group">
+                      <div className="input-group">
                         <select
                           name="payment_method"
-                          class="form-control form-select"
+                          className="form-control form-select"
                           id="payment_method"
                         >
                           <option value="">Select</option>
@@ -60,14 +60,14 @@ const OrderAdd = () => {
                     </div>
 
                     {/* <!-- Courier --> */}
-                    <div class="form-outline mb-4 col-lg-3">
-                      <label class="form-label">
+                    <div className="form-outline mb-4 col-lg-3">
+                      <label className="form-label">
                         Courier<span></span>
                       </label>
-                      <div class="input-group">
+                      <div className="input-group">
                         <select
                           name="courier"
-                          class="form-control form-select"
+                          className="form-control form-select"
                           id="courier"
                         >
                           <option value="">Select</option>
@@ -78,14 +78,14 @@ const OrderAdd = () => {
                     </div>
 
                     {/* <!-- Delivery Status --> */}
-                    <div class="form-outline mb-4 col-lg-3">
-                      <label class="form-label">
+                    <div className="form-outline mb-4 col-lg-3">
+                      <label className="form-label">
                         Delivery Status<span></span>
                       </label>
-                      <div class="input-group ">
+                      <div className="input-group ">
                         <select
                           name="delivery_status"
-                          class="form-control form-select"
+                          className="form-control form-select"
                           id="delivery_status"
                         >
                           <option value="">Select</option>
@@ -100,33 +100,33 @@ const OrderAdd = () => {
                     </div>
                   </div>
 
-                  <div class="row g-3">
+                  <div className="row g-3">
                     {/* <!-- Note --> */}
-                    <div class="form-outline mb-4">
-                      <label class="form-label">
+                    <div className="form-outline mb-4">
+                      <label className="form-label">
                         Note<span></span>
                       </label>
-                      <div class="input-group">
+                      <div className="input-group">
                         <textarea
                           name="note"
                           id="note"
-                          class="form-control"
+                          className="form-control"
                         ></textarea>
-                        <div class="invalid-feedback"></div>
+                        <div className="invalid-feedback"></div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row g-3">
+                  <div className="row g-3">
                     {/* <!-- Delivery Type --> */}
-                    <div class="form-outline mb-4 col-lg-4">
-                      <label class="form-label">
+                    <div className="form-outline mb-4 col-lg-4">
+                      <label className="form-label">
                         Delivery Type<span></span>
                       </label>
-                      <div class="input-group has-validation">
+                      <div className="input-group has-validation">
                         <select
                           name="delivery_type"
-                          class="form-control form-select"
+                          className="form-control form-select"
                           id="delivery_type"
                         >
                           <option value="">Select</option>
@@ -140,26 +140,26 @@ const OrderAdd = () => {
                             Outside Dhaka&nbsp;-&nbsp;140.00&nbsp;Tk
                           </option>
                         </select>
-                        <div class="invalid-feedback"></div>
+                        <div className="invalid-feedback"></div>
                       </div>
                     </div>
 
                     {/* <!-- Customer Type --> */}
-                    <div class="form-outline mb-4 col-lg-4">
-                      <label class="form-label">
+                    <div className="form-outline mb-4 col-lg-4">
+                      <label className="form-label">
                         Customer Type<span></span>
                       </label>
-                      <div class="input-group has-validation">
+                      <div className="input-group has-validation">
                         <select
                           name="customer_type"
-                          class="form-control form-select"
+                          className="form-control form-select"
                           id="customer_type"
                         >
                           <option value="">Select</option>
                           <option value="prev">Previous Customer</option>
                           <option value="new">New Customer</option>
                         </select>
-                        <div class="invalid-feedback"></div>
+                        <div className="invalid-feedback"></div>
                       </div>
                     </div>
                   </div>
