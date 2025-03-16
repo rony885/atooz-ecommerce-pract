@@ -2,14 +2,28 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ImHome } from "react-icons/im";
 import { Link, useParams } from "react-router-dom";
+
 import axios from "axios";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import FractionDigits from "../../components/FractionDigits";
+import BarcodeGenerator from "../../components/BarcodeGenerator";
 import Footer from "../../components/Footer";
 import { useApiContext } from "../../context/ApiContext";
 
 const PurchaseView = () => {
   const { general_settings, fetchGeneralSettings } = useApiContext();
+
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+
+  const openInvoiceModal = () => setIsInvoiceModalOpen(true);
+  const openReceiptModal = () => setIsReceiptModalOpen(true);
+
+  const closeInvoiceModal = () => setIsInvoiceModalOpen(false);
+  const closeReceiptModal = () => setIsReceiptModalOpen(false);
 
   useEffect(() => {
     fetchGeneralSettings();
@@ -37,6 +51,15 @@ const PurchaseView = () => {
     minute: "2-digit",
     hour12: true,
   });
+
+  //  date format
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   return (
     <Wrapper>
@@ -102,16 +125,18 @@ const PurchaseView = () => {
                   <div className="d-flex justify-content-end align-items-center add_purchase">
                     <i className="bi bi-plus-circle align-baseline me-1"></i>
                     <button className="buttn">
-                      {/* <span className="bttn_title" onClick={openInvoiceModal}> */}
-                      <span className="bttn_title">Invoice</span>
+                      <span className="bttn_title" onClick={openInvoiceModal}>
+                        Invoice
+                      </span>
                     </button>
                   </div>
 
                   <div className="d-flex justify-content-end align-items-center add_purchase">
                     <i className="bi bi-plus-circle align-baseline me-1"></i>
                     <button className="buttn">
-                      {/* <span className="bttn_title" onClick={openReceiptModal}> */}
-                      <span className="bttn_title">Receipt</span>
+                      <span className="bttn_title" onClick={openReceiptModal}>
+                        Receipt
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -247,7 +272,7 @@ const PurchaseView = () => {
                                         <td className="text-end">
                                           {FractionDigits(item.bdtRate)}
                                         </td>
-                                        <td>{item.quantity}</td>
+                                        <td className="">{item.quantity}</td>
                                         <td className="fw-medium text-end">
                                           {FractionDigits(item.linePrice)}
                                         </td>
@@ -314,7 +339,7 @@ const PurchaseView = () => {
                                   <tbody>
                                     <tr>
                                       <td className="text-start">
-                                        Sub Total : 
+                                        Sub Total :
                                       </td>
                                       <td className="text-end">
                                         {FractionDigits(item.total_amount)}
@@ -357,7 +382,7 @@ const PurchaseView = () => {
                                 </p>
 
                                 <div className="text-center p-3 pb-0">
-                                  {/* <BarcodeGenerator value={item.purchase_no} /> */}
+                                  <BarcodeGenerator value={item.purchase_no} />
                                 </div>
                               </div>
                             </div>
@@ -369,6 +394,256 @@ const PurchaseView = () => {
                 </div>
               </div>
             </div>
+
+            {/* ===== Invoice Modal ===== */}
+            {isInvoiceModalOpen && (
+              <div className="custom-modal">
+                <div className="modal-content">
+                  <span className="hideprint close" onClick={closeInvoiceModal}>
+                    &times;
+                  </span>
+                  <h2 className="hideprint">Purchase Invoice</h2>
+
+                  <div className="modal-body invoiceModal-body">
+                    <Container>
+                      <Row>
+                        <Col>
+                          <div
+                            style={{ lineHeight: "4px", marginBottom: "30px" }}
+                          >
+                            <h6>Atooz Dashboard</h6>
+                            <p>Tel: 123456789</p>
+                          </div>
+                          <div style={{ lineHeight: "0px", fontSize: "18px" }}>
+                            <p>#{item.invoice_no}</p>
+                          </div>
+                          <div
+                            className="d-flex justify-content-center align-items-center"
+                            style={{
+                              width: "50%",
+                              backgroundColor: "#415472",
+                              textAlign: "left",
+                              color: "#ffff",
+                              fontWeight: "bold",
+                              padding: "8px",
+                              height: "35px",
+                              border: "1px solid #415472",
+                            }}
+                          >
+                            <h4 className="mb-0">INVOICE</h4>
+                          </div>
+                          <div
+                            className="my-4"
+                            style={{ lineHeight: "5px", padding: "0px 0px" }}
+                          >
+                            <p>
+                              Supplier: {item.supplier && item.supplier.name}
+                            </p>
+                          </div>
+                          <div
+                            className="my-4"
+                            style={{ lineHeight: "5px", padding: "0px 0px" }}
+                          >
+                            <p>
+                              Date:{" "}
+                              {item.purchase_date
+                                ? formatDate(item.purchase_date)
+                                : "Loading..."}
+                            </p>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              // gap: "10px",
+                              justifyContent: "space-between",
+                              backgroundColor: "#555555",
+                              color: "#ffff",
+                              padding: "5px 10px",
+                              textAlign: "center",
+                              alignItems: "center",
+                              height: "30px",
+                            }}
+                          >
+                            <div style={{ width: "100%" }}>
+                              <h6 className="text-start">SL no</h6>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                              <h6 className="text-start">Product</h6>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                              <h6 className="text-center">Quantity</h6>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                              <h6 className="text-end">SubTotal</h6>
+                            </div>
+                          </div>
+                          {item.purchase_details &&
+                            item.purchase_details.map((data, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    textAlign: "center",
+                                    marginBottom: "0px",
+                                    padding: "0px 10px",
+                                  }}
+                                >
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-start">{index + 1}</p>
+                                  </div>
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-start">
+                                      {data.product && data.product.name}
+                                    </p>
+                                  </div>
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-center">
+                                      {data.quantity}
+                                    </p>
+                                  </div>
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-end">
+                                      {FractionDigits(data.linePrice)}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "end",
+                              alignItems: "end",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "end",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  backgroundColor: "#F9F9F9",
+                                  textAlign: "left",
+                                  lineHeight: "10px",
+                                  padding: "10px",
+                                }}
+                              >
+                                <div
+                                  className="d-flex justify-content-between align-items-center gap-3"
+                                  style={{ width: "100%" }}
+                                >
+                                  <p className="mt-2">
+                                    Total{" "}
+                                    {item.total_item > 1 ? "Items" : "Item"}:{" "}
+                                  </p>
+                                  <p>{item.total_item}</p>
+                                </div>
+                                <div
+                                  className="d-flex justify-content-between align-items-center gap-3"
+                                  style={{ width: "100%" }}
+                                >
+                                  <p>Total:</p>
+                                  <p>{FractionDigits(item.total_amount)} BDT</p>
+                                </div>
+                                <div
+                                  className="d-flex justify-content-between align-items-center gap-3"
+                                  style={{ width: "100%" }}
+                                >
+                                  <p>Discount: </p>
+                                  <p>{item.discount} BDT</p>
+                                </div>
+                              </div>
+                              <div
+                                style={{
+                                  width: "100%",
+                                  backgroundColor: "#415472",
+                                  textAlign: "center",
+                                  alignItems: "center",
+                                  padding: "5px",
+                                  marginBottom: "20px",
+                                  color: "#ffff",
+                                }}
+                              >
+                                <p
+                                  style={{
+                                    margin: "0 auto",
+                                    display: "inline-block",
+                                    fontSize: "20px",
+                                  }}
+                                >
+                                  {" "}
+                                  {FractionDigits(item.grand_total_amount)} BDT
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              width: "100%",
+                              backgroundColor: "#EEEEEE",
+                              textAlign: "center",
+                              alignItems: "center",
+                              padding: "10px",
+                              marginBottom: "20px",
+                              color: "#000",
+                            }}
+                          >
+                            <p
+                              style={{
+                                margin: "0 auto",
+                                display: "inline-block",
+                                fontSize: "10px",
+                                letterSpacing: "4px",
+                              }}
+                            >
+                              Atooz Dashboard
+                            </p>
+                          </div>
+                        </div>
+                      </Row>
+                    </Container>
+                  </div>
+
+                  <div className="modal-footer mt-5">
+                    <div className="hstack gap-2 justify-content-end">
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={closeInvoiceModal}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        // onClick={() => handleInvoicePDF(item.invoice_no)}
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        PDf
+                      </button>
+                      <button
+                        // onClick={() => handlePrint()}
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        Print
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <hr />
