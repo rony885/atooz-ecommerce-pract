@@ -52,6 +52,10 @@ const PurchaseView = () => {
     hour12: true,
   });
 
+  const handlePrint = () => {
+    window.print(); // Print the current page
+  };
+
   //  date format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -59,6 +63,29 @@ const PurchaseView = () => {
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
+  };
+
+  //  ************************* formatDateTime **************************
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    // Format the date as "23-08-24"
+    const formattedDate = date
+      .toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      })
+      .replace(/\//g, "-");
+    // Format the time as "11:47 am"
+    const formattedTime = date
+      .toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+      .toLowerCase();
+    // Combine date and time with a comma and space
+    return `${formattedDate}, ${formattedTime}`;
   };
 
   return (
@@ -634,6 +661,362 @@ const PurchaseView = () => {
                       </button>
                       <button
                         // onClick={() => handlePrint()}
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        Print
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ===== Receipt Modal ===== */}
+            {isReceiptModalOpen && (
+              <div className="custom-modal">
+                <div className="modal-content">
+                  <span className="hideprint close" onClick={closeReceiptModal}>
+                    &times;
+                  </span>
+                  <h2 className="hideprint">Purchase Receipt</h2>
+
+                  <div className="modal-body receiptModal-body">
+                    <Container>
+                      {/* <Row>
+                        <div
+                          className=" align-items-center text-center my-0 mb-2 receiptHead"
+                          style={{ lineHeight: "5px" }}
+                        >
+                          <div style={{ textAlign: "justify" }}>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  general_settings &&
+                                  general_settings.receipt_header,
+                              }}
+                            ></div>
+                          </div>
+
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                          <h6 style={{ fontSize: "12px" }} className="my-1">
+                            Invoice: {item && item.invoice_no}
+                          </h6>
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                        </div>
+                      </Row> */}
+
+                      <Row>
+                        <div
+                          className="justify-content-center align-items-center text-center my-0 mb-2 receiptHead"
+                          style={{ lineHeight: "5px" }}
+                        >
+                          <div
+                            style={{
+                              textAlign: "center", // Ensures the text content inside this div is centered
+                              marginBottom: "0px",
+                            }}
+                          >
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  general_settings &&
+                                  general_settings.receipt_header,
+                              }}
+                              style={{ textAlign: "center" }} // This will ensure that content like "ATOOZ" and "An E-commerce Platform" is centered
+                            ></div>
+                          </div>
+
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                          <h6 style={{ fontSize: "12px" }} className="my-1">
+                            Invoice: {item && item.invoice_no}
+                          </h6>
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                        </div>
+                      </Row>
+
+                      <Row className="receptInfo">
+                        <div>
+                          <p>
+                            Date :{" "}
+                            {item && item.purchase_date_time
+                              ? formatDateTime(item.purchase_date_time)
+                              : "Loading..."}
+                            .
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            lineHeight: "4px",
+                            marginBottom: "10px",
+                            fontSize: "14px",
+                          }}
+                        >
+                          <div className="d-flex justify-content-between">
+                            <p>
+                              Supplier{" "}
+                              <span style={{ marginLeft: "15px" }}>: </span>{" "}
+                              {item && item.supplier && item.supplier.name}
+                            </p>
+                          </div>
+                          {/* <div className="d-flex justify-content-between ">
+                            <p>
+                              Bill Creator :{" "}
+                              {item.creator &&
+                                (item.creator.f_name !== null
+                                  ? item.creator.f_name
+                                  : "") +
+                                  " " +
+                                  (item.creator.l_name !== null
+                                    ? item.creator.l_name
+                                    : "")}
+                            </p>
+                          </div> */}
+                        </div>
+                      </Row>
+                      <Row className="productDetails">
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: "10px",
+                            justifyContent: "space-between",
+                            color: "#050505",
+                            padding: "5px 10px",
+                            textAlign: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <div style={{ width: "5%", textAlign: "start" }}>
+                            <h6>SL</h6>
+                          </div>
+                          <div style={{ width: "35%", textAlign: "start" }}>
+                            <h6>Product</h6>
+                          </div>
+                          <div style={{ width: "10%", textAlign: "start" }}>
+                            <h6>Qty</h6>
+                          </div>
+                          <div style={{ width: "25%", textAlign: "right" }}>
+                            <h6>Price</h6>
+                          </div>
+                          <div style={{ width: "25%", textAlign: "right" }}>
+                            <h6>Total</h6>
+                          </div>
+                        </div>
+                        <hr
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            margin: "0 auto",
+                          }}
+                        />
+                        {item.purchase_details &&
+                          item.purchase_details.map((data, index) => {
+                            return (
+                              <div
+                                key={index}
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  gap: "10px",
+                                  justifyContent: "space-between",
+                                  // backgroundColor: "#555555",
+                                  color: "#050505",
+                                  padding: "4px 10px",
+                                  textAlign: "center",
+                                  alignItems: "center",
+                                  // lineHeight: "4px",
+                                }}
+                              >
+                                <div
+                                  style={{ width: "5%", textAlign: "start" }}
+                                >
+                                  <p>{index + 1}</p>
+                                </div>
+                                <div
+                                  style={{ width: "35%", textAlign: "start" }}
+                                >
+                                  <p>{data.product && data.product.name}</p>
+                                </div>
+                                <div
+                                  style={{ width: "10%", textAlign: "start" }}
+                                >
+                                  <p>{data.quantity}</p>
+                                </div>
+                                <div
+                                  style={{ width: "25%", textAlign: "right" }}
+                                >
+                                  <p>{FractionDigits(data.bdtRate)}</p>
+                                </div>
+                                <div
+                                  style={{ width: "25%", textAlign: "right" }}
+                                >
+                                  <p>{FractionDigits(data.linePrice)}</p>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </Row>
+                      <Row className="receiptTotalcost">
+                        <hr
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            margin: "0 auto",
+                            marginBottom: "0px",
+                          }}
+                        />
+                        <div
+                          style={{
+                            // backgroundColor: "#F9F9F9",
+                            // textAlign: "left",
+                            lineHeight: "15px",
+                            // marginTop: "8px",
+                          }}
+                        >
+                          <div
+                            className="d-flex justify-content-between align-items-center gap-3 "
+                            style={{ width: "100%" }}
+                          >
+                            <div
+                              className="d-flex justify-content-between align-items-center"
+                              style={{ width: "35%" }}
+                            >
+                              <div className="d-flex justify-content-start align-items-center">
+                                <p className="mt-2">
+                                  Subtotal ({item && item.total_item}{" "}
+                                  {item && item.total_item > 1
+                                    ? "items"
+                                    : "item"}
+                                  )
+                                </p>
+                              </div>
+                              <div className="d-flex justify-content-end align-items-center">
+                                <p className="mt-2">:</p>
+                              </div>
+                            </div>
+                            <p className="mt-2">
+                              {FractionDigits(item && item.total_amount)}
+                            </p>
+                          </div>
+                          <div
+                            className="d-flex justify-content-between align-items-center gap-3"
+                            style={{ width: "100%" }}
+                          >
+                            <div
+                              className="d-flex justify-content-between align-items-center"
+                              style={{ width: "35%" }}
+                            >
+                              <div className="d-flex justify-content-start align-items-center">
+                                <p>Discount</p>
+                              </div>
+                              <div className="d-flex justify-content-end align-items-center">
+                                <p>:</p>
+                              </div>
+                            </div>
+                            <p>
+                              (-)&nbsp;
+                              {item && item.discount}{" "}
+                            </p>
+                          </div>
+                          <div
+                            className="d-flex justify-content-between align-items-center gap-3"
+                            style={{ width: "100%" }}
+                          >
+                            <div
+                              className="d-flex justify-content-between align-items-center"
+                              style={{ width: "35%" }}
+                            >
+                              <div className="d-flex justify-content-start align-items-center">
+                                <p>Grand Total</p>
+                              </div>
+                              <div className="d-flex justify-content-end align-items-center">
+                                <p>:</p>
+                              </div>
+                            </div>
+                            <p className="fw-bold">
+                              {FractionDigits(item && item.grand_total_amount)}{" "}
+                            </p>
+                          </div>
+                        </div>
+                        <hr
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            margin: "0 auto",
+                          }}
+                        />
+                      </Row>
+                      <Row className="text-center">
+                        <BarcodeGenerator value={item.purchase_no} />
+                      </Row>
+                      <Row>
+                        <p
+                          className="text-center  fw-semibold mb-0"
+                          style={{ fontSize: "10px" }}
+                        >
+                          Developed by EKATTOR iT
+                        </p>
+                      </Row>
+                    </Container>
+                  </div>
+
+                  <div className="modal-footer mt-5">
+                    <div className="hstack gap-2 justify-content-end m-0">
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={closeReceiptModal}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        // onClick={() => handleReceiptPDF(item.invoice_no)}
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        PDF
+                      </button>
+                      <button
+                        onClick={() => handlePrint()}
                         type="submit"
                         className="btn btn-primary"
                       >
