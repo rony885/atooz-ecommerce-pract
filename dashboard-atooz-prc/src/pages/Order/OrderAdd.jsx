@@ -1,6 +1,41 @@
 import React from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
+import * as yup from "yup";
+import { Formik, Form as FormikForm } from "formik";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+
+const initialValues = {
+  courier: "",
+  customer: "",
+  customer_type: "",
+  delivery_type: "",
+
+  order_date: "",
+  delivery_status: "",
+  payment_method: "",
+  note: "",
+
+  total_item: "",
+  total_amount: "",
+  discount: "",
+  payable_amount: "",
+  paid_amount: "",
+  due_amount: "",
+  delivery_charge: "",
+  grand_total_amount: "",
+
+  name: "",
+  email: "",
+  password: "",
+  district: "",
+  upazila: "",
+  address: "",
+};
 
 const OrderAdd = () => {
   return (

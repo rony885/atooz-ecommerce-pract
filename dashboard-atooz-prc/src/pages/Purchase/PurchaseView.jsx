@@ -4,6 +4,7 @@ import { ImHome } from "react-icons/im";
 import { Link, useParams } from "react-router-dom";
 
 import axios from "axios";
+import html2pdf from "html2pdf.js";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -52,6 +53,42 @@ const PurchaseView = () => {
     hour12: true,
   });
 
+  const handleInvoicePDF = (invoice_no) => {
+    const element = document.querySelector(".invoiceModal-body"); // Selecting modal body
+    const currentDate = new Date();
+    const fileName = `${invoice_no}_${currentDate
+      .toLocaleDateString()
+      .replaceAll("/", "_")}_${currentDate
+      .toLocaleTimeString()
+      .replace(/:/g, "-")}_invoice.pdf`;
+    const opt = {
+      margin: 1,
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+    html2pdf().from(element).set(opt).save(); // Generating PDF from modal body
+  };
+
+  const handleReceiptPDF = (invoice_no) => {
+    const element = document.querySelector(".receiptModal-body"); // Selecting modal body
+    const currentDate = new Date();
+    const fileName = `${invoice_no}_${currentDate
+      .toLocaleDateString()
+      .replaceAll("/", "_")}_${currentDate
+      .toLocaleTimeString()
+      .replace(/:/g, "-")}_receipt.pdf`;
+    const opt = {
+      margin: 1,
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+    html2pdf().from(element).set(opt).save(); // Generating PDF from modal body
+  };
+
   const handlePrint = () => {
     window.print(); // Print the current page
   };
@@ -93,49 +130,6 @@ const PurchaseView = () => {
       <div className="layout">
         <div className="purchaseView_wrapper">
           <div className="purchase">
-            {/* <div className="">
-              <div className="row d-flex justify-content-between align-items-center purchase_row mb-4">
-                <div className="col-6">
-                  <div className="d-flex justify-content-start align-items-center purchase_title">
-                    <h4 className="m-0 fs-5">Purchase View</h4>
-                  </div>
-                </div>
-
-                <div className="col-6">
-                  <div className="d-flex justify-content-end align-items-center add_purchase">
-                    <i className="bi bi-plus-circle align-baseline me-1"></i>
-                    <button className="buttn">
-                      <TbCirclePlus className="fs-6" />
-                      <span className="bttn_title">
-                        <Link to="/purchase-add" className="purchase_link">
-                          Add Purchase
-                        </Link>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-lg-12">
-                  <header align="left">
-                    <input
-                      type="text"
-                      placeholder="Search here"
-                      className="w-100 form-control"
-                      value=""
-                    />
-                  </header>
-
-                  <div style={{ padding: "24px" }}>
-                    <p className="text-center">
-                      There are no records to display
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
             <div className="mb-4">
               <div className="row d-flex justify-content-between align-items-center purchase_row mb-4">
                 <div className="col-6">
@@ -653,14 +647,14 @@ const PurchaseView = () => {
                         Cancel
                       </button>
                       <button
-                        // onClick={() => handleInvoicePDF(item.invoice_no)}
+                        onClick={() => handleInvoicePDF(item.invoice_no)}
                         type="submit"
                         className="btn btn-primary"
                       >
                         PDf
                       </button>
                       <button
-                        // onClick={() => handlePrint()}
+                        onClick={() => handlePrint()}
                         type="submit"
                         className="btn btn-primary"
                       >
@@ -683,7 +677,7 @@ const PurchaseView = () => {
 
                   <div className="modal-body receiptModal-body">
                     <Container>
-                      {/* <Row>
+                      <Row>
                         <div
                           className=" align-items-center text-center my-0 mb-2 receiptHead"
                           style={{ lineHeight: "5px" }}
@@ -695,51 +689,6 @@ const PurchaseView = () => {
                                   general_settings &&
                                   general_settings.receipt_header,
                               }}
-                            ></div>
-                          </div>
-
-                          <hr
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "100%",
-                              margin: "0 auto",
-                            }}
-                          />
-                          <h6 style={{ fontSize: "12px" }} className="my-1">
-                            Invoice: {item && item.invoice_no}
-                          </h6>
-                          <hr
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "100%",
-                              margin: "0 auto",
-                            }}
-                          />
-                        </div>
-                      </Row> */}
-
-                      <Row>
-                        <div
-                          className="justify-content-center align-items-center text-center my-0 mb-2 receiptHead"
-                          style={{ lineHeight: "5px" }}
-                        >
-                          <div
-                            style={{
-                              textAlign: "center", // Ensures the text content inside this div is centered
-                              marginBottom: "0px",
-                            }}
-                          >
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  general_settings &&
-                                  general_settings.receipt_header,
-                              }}
-                              style={{ textAlign: "center" }} // This will ensure that content like "ATOOZ" and "An E-commerce Platform" is centered
                             ></div>
                           </div>
 
@@ -999,7 +948,7 @@ const PurchaseView = () => {
                     </Container>
                   </div>
 
-                  <div className="modal-footer mt-5">
+                  <div className="modal-footer mt-5 hidden-print">
                     <div className="hstack gap-2 justify-content-end m-0">
                       <button
                         type="button"
@@ -1009,7 +958,7 @@ const PurchaseView = () => {
                         Cancel
                       </button>
                       <button
-                        // onClick={() => handleReceiptPDF(item.invoice_no)}
+                        onClick={() => handleReceiptPDF(item.invoice_no)}
                         type="submit"
                         className="btn btn-primary"
                       >

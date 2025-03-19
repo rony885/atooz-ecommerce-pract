@@ -11,7 +11,7 @@
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Dashboard Practices</title>
+    <title >Dashboard Practices</title>
 
     <!-- font awesomecdn  -->
     <link
@@ -33,43 +33,57 @@
       .container-margin {
         margin: 0 40px;
       }
-      /* body {
-        margin: 0;
-        padding: 0;
-        font-family: "Montserrat", sans-serif;
+      /* placeholder start*/
+      ::placeholder {
+        color: #999;
+        /* Example color */
+        font-size: 12px;
+        /* Example font size */
+        font-family: Arial, sans-serif;
+        /* Example font family */
+      }
+      /* placeholder end*/
+
+      td,
+      th {
+        text-align: center !important;
       }
 
-      .icon {
-        vertical-align: middle;
-        line-height: 1px;
-        font-size: 20px;
-      }
-      .icon_header {
-        vertical-align: middle;
-        line-height: 1px;
-        font-size: 26px;
-      }
-      .icon,
-      .icon_header {
-        margin-right: 5px;
+      .list-unstyled {
+        justify-content: center;
+        align-items: center;
       }
 
-      .close_icon {
-        color: #9e9ea4;
-        margin-left: 30px;
-        margin-top: 15px;
-        cursor: pointer;
+      .pagination-buttons {
+        gap: 10px !important;
       }
 
-      .grid-container {
-        display: grid;
-        grid-template-columns: 250px 1fr;
-        grid-template-rows: 60px 1fr;
-        grid-template-areas:
-          "sidebar header"
-          "sidebar main";
-        height: 100vh;
-      } */
+      @media print {
+        .pp,
+        .modal-header,
+        .modal-footer,
+        .footer,
+        .header,
+        .hideprint,
+        .d-none {
+          display: none !important;
+        }
+        body {
+          width: 58mm; /* Common width for POS printers */
+          font-size: 12px;
+          margin: 0;
+          padding: 0;
+        }
+        #printContent {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        .hidden-print,
+        .no-print {
+          display: none !important;
+        }
+      }
     </style>
   </head>
 
