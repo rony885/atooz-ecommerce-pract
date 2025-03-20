@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +37,91 @@ const initialValues = {
   address: "",
 };
 
+const validate = (values) => {
+  let errors = {};
+
+  if (!values.email) {
+    errors.email = "Phone or Username is required!";
+  } else if (/^[0-9\b]+$/.test(values.email) === false) {
+    errors.email = "Only number!";
+  } else if (values.email.length !== 11) {
+    errors.email = "Mobile Number contains 11 digit!";
+  }
+
+  return errors;
+};
+
+const prevValidate = (values) => {
+  let errors = {};
+
+  return errors;
+};
+
 const OrderAdd = () => {
+  const {
+    unpaginate_product,
+    unpaginate_courier,
+    unpaginate_deliveryType,
+    all_users,
+    district,
+    upazila,
+    fetchUnpaginateProduct,
+    fetchUnpaginateCourier,
+    fetchUnpaginateDeliveryType,
+    fetchAllUsers,
+    fetchDistrict,
+    fetchUpazila,
+  } = useApiContext();
+
+  useEffect(() => {
+    fetchUnpaginateProduct();
+    fetchUnpaginateCourier();
+    fetchUnpaginateDeliveryType();
+    fetchAllUsers();
+    fetchDistrict();
+    fetchUpazila();
+  }, [
+    fetchAllUsers,
+    fetchDistrict,
+    fetchUnpaginateCourier,
+    fetchUnpaginateDeliveryType,
+    fetchUnpaginateProduct,
+    fetchUpazila,
+  ]);
+
+  const isActiveDeliveryType =
+    unpaginate_deliveryType &&
+    unpaginate_deliveryType.filter((item) => item.status === true);
+
+  const [cus_type, set_cus_type] = useState();
+  const [cus_state, setCusState] = useState();
+
+  useEffect(() => {
+    if (cus_type === "new") {
+      setCusState(true);
+    } else if (cus_type === "prev") {
+      setCusState(false);
+    } else {
+      setCusState("");
+    }
+  }, [cus_type]);
+
+  const [productList, setProductList] = useState([
+    {
+      productId: null,
+      bdtRate: 0,
+      quantity: 0,
+      linePrice: 0,
+      discount: 0,
+    },
+  ]);
+
+  const [message, setMessage] = useState();
+  const navigate = useNavigate();
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedUpazila, setSelectedUpazila] = useState("");
+
   return (
     <Wrapper>
       <div className="layout">
