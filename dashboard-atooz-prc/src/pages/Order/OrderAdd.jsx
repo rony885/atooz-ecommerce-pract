@@ -9,6 +9,8 @@ import { Formik, Form as FormikForm } from "formik";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
+import { useApiContext } from "../../context/ApiContext";
+
 const initialValues = {
   courier: "",
   customer: "",
@@ -121,6 +123,58 @@ const OrderAdd = () => {
 
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedUpazila, setSelectedUpazila] = useState("");
+
+  const handleDistrictChange = (e) => {
+    const selectedDistrictName = e.target.value;
+    setSelectedDistrict(
+      district.find((district) => district.name === selectedDistrictName)
+    );
+    setSelectedUpazila("");
+  };
+
+  const handleUpazilaChange = (e) => {
+    const selectedUpazilaName = e.target.value;
+    setSelectedUpazila(
+      upazila.find((upazila) => upazila.name === selectedUpazilaName)
+    );
+  };
+
+  // Calculate totals
+  const calculatedTotalitem = productList.reduce(
+    (total, product) => total + product.quantity,
+    0
+  );
+  const calculatedTotalAmount = productList.reduce(
+    (total, product) => total + product.linePrice,
+    0
+  );
+  const calculatedTotalDiscount = productList.reduce(
+    (total, product) => total + product.discount * product.quantity,
+    0
+  );
+
+  const [deliveryPrice, setDeliveryPrice] = useState(0);
+  const handleDelTypeChange = (e) => {
+    const selectedDeliveryTypeId = parseInt(e.target.value); // Assuming delivery type IDs are integers
+
+    // Find the selected delivery type from the unpaginate_deliveryType array
+    const selectedDeliveryType = unpaginate_deliveryType.find(
+      (item) => item.id === selectedDeliveryTypeId
+    );
+
+    // Update the state with the selected delivery type's price
+    if (selectedDeliveryType) {
+      setDeliveryPrice(selectedDeliveryType.amount); // Update state with selected delivery type price
+    } else {
+      setDeliveryPrice(null); // Clear delivery price if no delivery type is selected
+    }
+  };
+
+  const payableAmount =
+    calculatedTotalAmount - calculatedTotalDiscount + Number(deliveryPrice);
+  const [paidAmount, setPaidAmount] = useState(0);
+  const dueAmount = payableAmount - paidAmount;
+  const grandTotalAmount = Number(payableAmount);
 
   return (
     <Wrapper>
