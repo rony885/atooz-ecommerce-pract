@@ -216,7 +216,6 @@ const OrderAdd = () => {
           values.grand_total_amount = grandTotalAmount;
 
           // Append individual fields
-          // Append individual fields
           values.courier && formfield.append("courier", values.courier);
           formfield.append("customer", Number(response.data.id));
           values.delivery_type &&
@@ -283,6 +282,74 @@ const OrderAdd = () => {
         AddOrderFunc();
       })
       .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const AddOrderFunc = async (values) => {
+    let formfield = new FormData();
+
+    // Convert Order_details array to a JSON string
+    values.order_details = JSON.parse(JSON.stringify(productList));
+
+    // Update form values
+    values.total_item = calculatedTotalitem;
+    values.total_amount = calculatedTotalAmount;
+    values.discount = calculatedTotalDiscount;
+    values.payable_amount = payableAmount;
+    values.paid_amount = paidAmount;
+    values.due_amount = dueAmount;
+    values.delivery_charge = deliveryPrice;
+    values.grand_total_amount = grandTotalAmount;
+
+    // Append individual fields
+    values.courier && formfield.append("courier", values.courier);
+    formfield.append("customer", values.customer);
+    values.delivery_type &&
+      formfield.append("delivery_type", values.delivery_type);
+
+    formfield.append("order_date", values.order_date);
+    values.delivery_status &&
+      formfield.append("delivery_status", values.delivery_status);
+    formfield.append("payment_method", values.payment_method);
+    formfield.append("note", values.note);
+
+    // Append Order_details as separate items in FormData
+    productList.forEach((detail, index) => {
+      formfield.append(
+        `order_details[${index}][product]`,
+        Number(detail.productId)
+      );
+      formfield.append(`order_details[${index}][bdtRate]`, detail.bdtRate);
+      formfield.append(`order_details[${index}][quantity]`, detail.quantity);
+      formfield.append(`order_details[${index}][linePrice]`, detail.linePrice);
+    });
+
+    // Append individual fields
+    formfield.append("total_item", Number(values.total_item));
+    formfield.append("total_amount", Number(values.total_amount));
+    formfield.append("discount", Number(values.discount));
+    formfield.append("payable_amount", Number(values.payable_amount));
+    formfield.append("paid_amount", Number(values.paid_amount));
+    formfield.append("due_amount", Number(values.due_amount));
+    formfield.append("delivery_charge", Number(values.delivery_charge));
+    formfield.append("grand_total_amount", Number(values.grand_total_amount));
+
+    await axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_BASE_URL}/order/`,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8; text/plain",
+      },
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(response.success, "Order is successfuly created...");
+        navigate("/orders");
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
         console.log(error);
       });
   };
