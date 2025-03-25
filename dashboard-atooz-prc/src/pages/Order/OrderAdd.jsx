@@ -39,6 +39,56 @@ const initialValues = {
   address: "",
 };
 
+const schema = yup.object().shape({
+  courier: yup.string(),
+  customer: yup.string(),
+  customer_type: yup.string().required("Customer Type is a required field!"),
+  delivery_type: yup.string().required("Delivery Type is a required field!"),
+
+  order_date: yup.string().required("Order Date is a required field!"),
+  payment_method: yup.string().required("Payment Method is a required field!"),
+  delivery_status: yup.string(),
+  note: yup.string(),
+
+  total_item: yup.string(),
+  total_amount: yup.string(),
+  discount: yup.string(),
+  payable_amount: yup.string(),
+  paid_amount: yup.string(),
+  due_amount: yup.string(),
+  delivery_charge: yup.string(),
+  grand_total_amount: yup.string(),
+
+  name: yup.string().required("Customer Name is a required field!"),
+  email: yup.string().required("Customer Phone is a required field!"),
+  password: yup.string(),
+  district: yup.string().required("Customer District is a required field!"),
+  upazila: yup.string().required("Customer Upazila is a required field!"),
+  address: yup.string().required("Customer Address is a required field!"),
+});
+
+const prevSchema = yup.object().shape({
+  courier: yup.string(),
+  customer: yup.string().required("Customer  is a required field!"),
+  customer_type: yup.string().required("Customer Type is a required field!"),
+  delivery_type: yup.string().required("Delivery Type is a required field!"),
+
+  order_date: yup.string().required("Order Date is a required field!"),
+  payment_method: yup.string().required("Payment Method is a required field!"),
+  delivery_status: yup.string(),
+  note: yup.string(),
+
+  total_item: yup.string(),
+  total_amount: yup.string(),
+  discount: yup.string(),
+  payable_amount: yup.string(),
+  paid_amount: yup.string(),
+  due_amount: yup.string(),
+  delivery_charge: yup.string(),
+  grand_total_amount: yup.string(),
+});
+
+
 const validate = (values) => {
   let errors = {};
 
@@ -354,6 +404,32 @@ const OrderAdd = () => {
       });
   };
 
+  const submitOrderForm = async (
+    values,
+    { setErrors, setSubmitting, resetForm }
+  ) => {
+    try {
+      AddCustomerFunc(values);
+      setSubmitting(false);
+      // resetForm();
+    } catch (error) {
+      setErrors({ error: error.message });
+    }
+  };
+
+  const submitPrevOrderForm = async (
+    values,
+    { setErrors, setSubmitting, resetForm }
+  ) => {
+    try {
+      AddOrderFunc(values);
+      setSubmitting(false);
+      // resetForm();
+    } catch (error) {
+      setErrors({ error: error.message });
+    }
+  };
+
   return (
     <Wrapper>
       <div className="layout">
@@ -513,8 +589,8 @@ const OrderAdd = () => {
 
               <Formik
                 initialValues={initialValues}
-                // validationSchema={cus_state ? schema : prevSchema}
-                // onSubmit={cus_state ? submitOrderForm : submitPrevOrderForm}
+                validationSchema={cus_state ? schema : prevSchema}
+                onSubmit={cus_state ? submitOrderForm : submitPrevOrderForm}
                 validate={cus_state ? validate : prevValidate}
               >
                 {({
@@ -677,7 +753,6 @@ const OrderAdd = () => {
                               Note<span></span>
                             </Form.Label>
                             <InputGroup hasValidation>
-                              {/* <InputGroup.Text>@</InputGroup.Text> */}
                               <Form.Control
                                 as="textarea"
                                 name="note"
@@ -702,7 +777,6 @@ const OrderAdd = () => {
                               <span className="text=danger">*</span>
                             </Form.Label>
                             <InputGroup hasValidation>
-                              {/* <InputGroup.Text>@</InputGroup.Text> */}
                               <Form.Select
                                 name="delivery_type"
                                 id="delivery_type"
@@ -743,7 +817,6 @@ const OrderAdd = () => {
                               <span className="text=danger">*</span>
                             </Form.Label>
                             <InputGroup hasValidation>
-                              {/* <InputGroup.Text>@</InputGroup.Text> */}
                               <Form.Select
                                 name="customer_type"
                                 id="customer_type"
@@ -777,7 +850,6 @@ const OrderAdd = () => {
                                 Customer<span className="text=danger">*</span>
                               </Form.Label>
                               <InputGroup hasValidation>
-                                {/* <InputGroup.Text>@</InputGroup.Text> */}
                                 <Form.Select
                                   name="customer"
                                   id="customer"
@@ -816,7 +888,6 @@ const OrderAdd = () => {
                                   <span className="text=danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
-                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
                                   <Form.Control
                                     type="text"
                                     name="name"
@@ -840,7 +911,6 @@ const OrderAdd = () => {
                                   Phone<span className="text=danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
-                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
                                   <Form.Control
                                     type="text"
                                     name="email"
@@ -864,7 +934,6 @@ const OrderAdd = () => {
                                   District<span className="text=danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
-                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
                                   <Form.Select
                                     name="district"
                                     id="district"
@@ -906,7 +975,6 @@ const OrderAdd = () => {
                                   Upazila<span className="text=danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
-                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
                                   <Form.Select
                                     name="upazila"
                                     id="upazila"
@@ -960,7 +1028,6 @@ const OrderAdd = () => {
                                   <span className="text-danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
-                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
                                   <Form.Control
                                     as="textarea"
                                     name="address"
