@@ -68,7 +68,7 @@ function App() {
           ></Route>
 
           <Route path="/orders" element={<OrderList />}></Route>
-          <Route path="/orderadd" element={<OrderAdd />}></Route>
+          <Route path="/order-add" element={<OrderAdd />}></Route>
 
           <Route path="/purchase-add" element={<PurchaseAdd />}></Route>
           <Route path="/purchase" element={<PurchaseList />}></Route>

@@ -361,7 +361,8 @@ const OrderAdd = () => {
           <div className="orderAdd">
             <div className="">
               <h2 className="fs-5">Add Order</h2>
-              <form className="mt-5">
+
+              {/* <form className="mt-5">
                 <div className="card_form">
                   <div className="row mb-4 card_resv">
                     <div className="col-12">
@@ -372,7 +373,6 @@ const OrderAdd = () => {
                   </div>
 
                   <div className="row g-3">
-                    {/* <!-- Order Date --> */}
                     <div className="form-outline mb-4 col-lg-3">
                       <label className="form-label">
                         Order Date<span>*</span>
@@ -388,7 +388,6 @@ const OrderAdd = () => {
                       </div>
                     </div>
 
-                    {/* <!-- Payment Method --> */}
                     <div className="form-outline mb-4 col-lg-3">
                       <label className="form-label">
                         Payment Method<span>*</span>
@@ -410,7 +409,6 @@ const OrderAdd = () => {
                       </div>
                     </div>
 
-                    {/* <!-- Courier --> */}
                     <div className="form-outline mb-4 col-lg-3">
                       <label className="form-label">
                         Courier<span></span>
@@ -428,7 +426,6 @@ const OrderAdd = () => {
                       </div>
                     </div>
 
-                    {/* <!-- Delivery Status --> */}
                     <div className="form-outline mb-4 col-lg-3">
                       <label className="form-label">
                         Delivery Status<span></span>
@@ -452,7 +449,6 @@ const OrderAdd = () => {
                   </div>
 
                   <div className="row g-3">
-                    {/* <!-- Note --> */}
                     <div className="form-outline mb-4">
                       <label className="form-label">
                         Note<span></span>
@@ -469,7 +465,6 @@ const OrderAdd = () => {
                   </div>
 
                   <div className="row g-3">
-                    {/* <!-- Delivery Type --> */}
                     <div className="form-outline mb-4 col-lg-4">
                       <label className="form-label">
                         Delivery Type<span></span>
@@ -495,7 +490,6 @@ const OrderAdd = () => {
                       </div>
                     </div>
 
-                    {/* <!-- Customer Type --> */}
                     <div className="form-outline mb-4 col-lg-4">
                       <label className="form-label">
                         Customer Type<span></span>
@@ -515,7 +509,513 @@ const OrderAdd = () => {
                     </div>
                   </div>
                 </div>
-              </form>
+              </form> */}
+
+              <Formik
+                initialValues={initialValues}
+                // validationSchema={cus_state ? schema : prevSchema}
+                // onSubmit={cus_state ? submitOrderForm : submitPrevOrderForm}
+                validate={cus_state ? validate : prevValidate}
+              >
+                {({
+                  handleSubmit,
+                  handleChange,
+                  isSubmitting,
+                  values,
+                  errors,
+                  touched,
+                }) => (
+                  <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                    <div className="card overflow-hidden bg-white">
+                      <div className="card-body card-body z-1 position-relative">
+                        <div className="row">
+                          <div className="col-12">
+                            <div className="page-title-box d-sm-flex align-items-center justify-content-between mb-3">
+                              <h4 className="mb-sm-0">Order Details</h4>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row g-3">
+                          <Form.Group className="form-outline mb-4 col-lg-3">
+                            <Form.Label>
+                              Order Date<span className="text-danger">*</span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Control
+                                type="date"
+                                name="order_date"
+                                id="order_date"
+                                value={values.order_date}
+                                onChange={handleChange}
+                                isInvalid={
+                                  !!touched.order_date && !!errors.order_date
+                                }
+                                isValid={
+                                  touched.order_date && !errors.order_date
+                                }
+                                className="form-control mb-0"
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                {errors.order_date}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+
+                          <Form.Group className="form-outline mb-4 col-lg-3">
+                            <Form.Label>
+                              Payment Method
+                              <span className="text-danger">*</span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Select
+                                name="payment_method"
+                                id="payment_method"
+                                value={values.payment_method}
+                                onChange={handleChange}
+                                isInvalid={
+                                  !!touched.payment_method &&
+                                  !!errors.payment_method
+                                }
+                                isValid={
+                                  touched.payment_method &&
+                                  !errors.payment_method
+                                }
+                                className="form-control mb-0"
+                              >
+                                <option value="">Select</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Bkash">Bkash</option>
+                                <option value="Nagad">Nagad</option>
+                                <option value="Cash On Delivery">
+                                  Cash On Delivery
+                                </option>
+                              </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.payment_method}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+
+                          <Form.Group className="form-outline mb-4 col-lg-3">
+                            <Form.Label>
+                              Courier<span></span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Select
+                                name="courier"
+                                id="courier"
+                                value={values.courier}
+                                onChange={handleChange}
+                                isInvalid={
+                                  !!touched.courier && !!errors.courier
+                                }
+                                isValid={touched.courier && !errors.courier}
+                                className="form-control mb-0"
+                              >
+                                <option value="">Select</option>
+                                {unpaginate_courier &&
+                                  unpaginate_courier.map((item) => {
+                                    return (
+                                      <option key={item.id} value={item.id}>
+                                        {item.name}
+                                      </option>
+                                    );
+                                  })}
+                              </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.payment_method}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+
+                          <Form.Group className="form-outline mb-4 col-lg-3">
+                            <Form.Label>
+                              Delivery Status<span></span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Select
+                                name="delivery_status"
+                                id="delivery_status"
+                                value={values.delivery_status}
+                                onChange={handleChange}
+                                isInvalid={
+                                  !!touched.delivery_status &&
+                                  !!errors.delivery_status
+                                }
+                                isValid={
+                                  touched.delivery_status &&
+                                  !errors.delivery_status
+                                }
+                                className="form-control mb-0"
+                              >
+                                <option value="">Select</option>
+                                <option value="New">New</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Packaging">Packaging</option>
+                                <option value="Shipment">Shipment</option>
+                                <option value="Delivered">Delivered</option>
+                                {/* <option value="Return">Return</option>
+                                <option value="Cancel">Cancel</option>
+                                <option value="Wholesale">Wholesale</option> */}
+                              </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.delivery_status}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+                        </div>
+
+                        <div className="row g-3">
+                          <Form.Group className="form-outline mb-4">
+                            <Form.Label>
+                              Note<span></span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Control
+                                as="textarea"
+                                name="note"
+                                id="note"
+                                value={values.note}
+                                onChange={handleChange}
+                                isInvalid={!!touched.note && !!errors.note}
+                                isValid={touched.note && !errors.note}
+                                className="form-control mb-0"
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                {errors.note}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+                        </div>
+
+                        <div className="row g-3">
+                          <Form.Group className="form-outline mb-4 col-lg-4">
+                            <Form.Label>
+                              Delivery Type
+                              <span className="text=danger">*</span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Select
+                                name="delivery_type"
+                                id="delivery_type"
+                                value={values.delivery_type}
+                                onChange={(e) => {
+                                  handleChange(e);
+                                  handleDelTypeChange(e);
+                                }}
+                                isInvalid={
+                                  !!touched.delivery_type &&
+                                  !!errors.delivery_type
+                                }
+                                isValid={
+                                  touched.delivery_type && !errors.delivery_type
+                                }
+                                className="form-control mb-0"
+                              >
+                                <option value="">Select</option>
+                                {isActiveDeliveryType &&
+                                  isActiveDeliveryType.map((item) => {
+                                    return (
+                                      <option key={item.id} value={item.id}>
+                                        {item.name}&nbsp;-&nbsp;{item.amount}
+                                        &nbsp;Tk
+                                      </option>
+                                    );
+                                  })}
+                              </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.delivery_type}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+
+                          <Form.Group className="form-outline mb-4 col-lg-4 ">
+                            <Form.Label>
+                              Customer Type
+                              <span className="text=danger">*</span>
+                            </Form.Label>
+                            <InputGroup hasValidation>
+                              {/* <InputGroup.Text>@</InputGroup.Text> */}
+                              <Form.Select
+                                name="customer_type"
+                                id="customer_type"
+                                value={values.customer_type}
+                                onChange={(e) => {
+                                  set_cus_type(e.target.value);
+                                  handleChange(e);
+                                }}
+                                isInvalid={
+                                  !!touched.customer_type &&
+                                  !!errors.customer_type
+                                }
+                                isValid={
+                                  touched.customer_type && !errors.customer_type
+                                }
+                                className="form-control mb-0"
+                              >
+                                <option value="">Select</option>
+                                <option value="prev">Previous Customer</option>
+                                <option value="new">New Customer</option>
+                              </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.customer_type}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+
+                          {cus_type === "prev" && (
+                            <Form.Group className="form-outline mb-4 col-lg-4">
+                              <Form.Label>
+                                Customer<span className="text=danger">*</span>
+                              </Form.Label>
+                              <InputGroup hasValidation>
+                                {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                <Form.Select
+                                  name="customer"
+                                  id="customer"
+                                  value={values.customer}
+                                  onChange={handleChange}
+                                  isInvalid={
+                                    !!touched.customer && !!errors.customer
+                                  }
+                                  isValid={touched.customer && !errors.customer}
+                                  className="form-control mb-0"
+                                >
+                                  <option value="">Select</option>
+                                  {all_users &&
+                                    all_users.map((c, i) => {
+                                      return (
+                                        <option value={c.id} key={i}>
+                                          {c.name}-{c.email}
+                                        </option>
+                                      );
+                                    })}
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.customer}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Form.Group>
+                          )}
+                        </div>
+
+                        {cus_type === "new" && (
+                          <>
+                            <div className="row g-3">
+                              <Form.Group className="form-outline mb-4">
+                                <Form.Label>
+                                  Customer Name
+                                  <span className="text=danger">*</span>
+                                </Form.Label>
+                                <InputGroup hasValidation>
+                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                  <Form.Control
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isInvalid={!!touched.name && !!errors.name}
+                                    isValid={touched.name && !errors.name}
+                                    className="form-control mb-0"
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.name}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                            </div>
+
+                            <div className="row g-3">
+                              <Form.Group className="form-outline mb-4 col-lg-4">
+                                <Form.Label>
+                                  Phone<span className="text=danger">*</span>
+                                </Form.Label>
+                                <InputGroup hasValidation>
+                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                  <Form.Control
+                                    type="text"
+                                    name="email"
+                                    id="email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    isInvalid={
+                                      !!touched.email && !!errors.email
+                                    }
+                                    isValid={touched.email && !errors.email}
+                                    className="form-control mb-0"
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.email}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+
+                              <Form.Group className="form-outline mb-4 col-lg-4">
+                                <Form.Label>
+                                  District<span className="text=danger">*</span>
+                                </Form.Label>
+                                <InputGroup hasValidation>
+                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                  <Form.Select
+                                    name="district"
+                                    id="district"
+                                    value={
+                                      selectedDistrict
+                                        ? selectedDistrict.name
+                                        : ""
+                                    }
+                                    onChange={(e) => {
+                                      handleChange(e);
+                                      handleDistrictChange(e);
+                                    }}
+                                    isInvalid={
+                                      !!touched.district && !!errors.district
+                                    }
+                                    isValid={
+                                      touched.district && !errors.district
+                                    }
+                                    className="form-control mb-0"
+                                  >
+                                    <option value="">Select</option>
+                                    {district &&
+                                      district.map((d, i) => {
+                                        return (
+                                          <option value={d.name} key={i}>
+                                            {d.name}-{d.bn_name}
+                                          </option>
+                                        );
+                                      })}
+                                  </Form.Select>
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.district}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+
+                              <Form.Group className="form-outline mb-4 col-lg-4">
+                                <Form.Label>
+                                  Upazila<span className="text=danger">*</span>
+                                </Form.Label>
+                                <InputGroup hasValidation>
+                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                  <Form.Select
+                                    name="upazila"
+                                    id="upazila"
+                                    value={
+                                      selectedUpazila
+                                        ? selectedUpazila.name
+                                        : ""
+                                    }
+                                    onChange={(e) => {
+                                      handleChange(e);
+                                      handleUpazilaChange(e);
+                                    }}
+                                    isInvalid={
+                                      !!touched.upazila && !!errors.upazila
+                                    }
+                                    isValid={touched.upazila && !errors.upazila}
+                                    className="form-control mb-0"
+                                  >
+                                    <option value="">Select</option>
+                                    {upazila &&
+                                      upazila
+                                        .filter(
+                                          (upazila) =>
+                                            upazila.district ===
+                                            (selectedDistrict
+                                              ? selectedDistrict.id
+                                              : null)
+                                        )
+                                        .map((upazila) => {
+                                          return (
+                                            <option
+                                              key={upazila.id}
+                                              value={upazila.name}
+                                            >
+                                              {upazila.name}-{upazila.bn_name}
+                                            </option>
+                                          );
+                                        })}
+                                  </Form.Select>
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.upazila}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                            </div>
+
+                            <div className="row g-3">
+                              <Form.Group className="form-outline mb-4">
+                                <Form.Label>
+                                  Customer Address
+                                  <span className="text-danger">*</span>
+                                </Form.Label>
+                                <InputGroup hasValidation>
+                                  {/* <InputGroup.Text>@</InputGroup.Text> */}
+                                  <Form.Control
+                                    as="textarea"
+                                    name="address"
+                                    id="address"
+                                    value={values.address}
+                                    onChange={handleChange}
+                                    isInvalid={
+                                      !!touched.address && !!errors.address
+                                    }
+                                    isValid={touched.address && !errors.address}
+                                    className="form-control mb-0"
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.address}
+                                  </Form.Control.Feedback>
+                                </InputGroup>
+                              </Form.Group>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* <OrderProductForm
+                      productList={productList}
+                      setProductList={setProductList}
+                      unpaginate_product={unpaginate_product}
+                    /> */}
+
+                    <div className="hstack gap-2 justify-content-end mt-3 my-2">
+                      <button type="reset" className="btn btn-danger">
+                        Cancel
+                      </button>
+
+                      <button
+                        disabled={
+                          isSubmitting || productList[0].productId === null
+                        }
+                        type="submit"
+                        className="btn btn-success"
+                      >
+                        <i className="ri-printer-line align-bottom me-1"></i>
+                        Save
+                      </button>
+                    </div>
+
+                    <div className="hstack gap-2 flex-wrap justify-content-end d-print-none my-4">
+                      {/* message  */}
+                      {message && (
+                        <h2 className="text-center m-5">{message}</h2>
+                      )}
+                    </div>
+                  </FormikForm>
+                )}
+              </Formik>
             </div>
           </div>
         </div>

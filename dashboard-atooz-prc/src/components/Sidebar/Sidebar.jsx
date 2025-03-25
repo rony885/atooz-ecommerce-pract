@@ -155,6 +155,17 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
                   List View
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/order-add"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive ? "active-submenu-link" : ""
+                  }
+                >
+                  Create Order
+                </NavLink>
+              </li>
             </ul>
           )}
         </li>
