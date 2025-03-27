@@ -10,6 +10,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import { useApiContext } from "../../context/ApiContext";
+import OrderProductForm from "./OrderProductForm";
 
 const initialValues = {
   courier: "",
@@ -87,7 +88,6 @@ const prevSchema = yup.object().shape({
   delivery_charge: yup.string(),
   grand_total_amount: yup.string(),
 });
-
 
 const validate = (values) => {
   let errors = {};
@@ -1051,11 +1051,11 @@ const OrderAdd = () => {
                       </div>
                     </div>
 
-                    {/* <OrderProductForm
+                    <OrderProductForm
                       productList={productList}
                       setProductList={setProductList}
                       unpaginate_product={unpaginate_product}
-                    /> */}
+                    />
 
                     <div className="hstack gap-2 justify-content-end mt-3 my-2">
                       <button type="reset" className="btn btn-danger">
