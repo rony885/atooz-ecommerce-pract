@@ -438,155 +438,6 @@ const OrderAdd = () => {
             <div className="">
               <h2 className="fs-5">Add Order</h2>
 
-              {/* <form className="mt-5">
-                <div className="card_form">
-                  <div className="row mb-4 card_resv">
-                    <div className="col-12">
-                      <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 className="mb-sm-0">Order Details</h4>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row g-3">
-                    <div className="form-outline mb-4 col-lg-3">
-                      <label className="form-label">
-                        Order Date<span>*</span>
-                      </label>
-                      <div className="input-group">
-                        <input
-                          name="order_date"
-                          type="date"
-                          id="order_date"
-                          className="form-control"
-                          value=""
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-outline mb-4 col-lg-3">
-                      <label className="form-label">
-                        Payment Method<span>*</span>
-                      </label>
-                      <div className="input-group">
-                        <select
-                          name="payment_method"
-                          className="form-control form-select"
-                          id="payment_method"
-                        >
-                          <option value="">Select</option>
-                          <option value="Cash">Cash</option>
-                          <option value="Bkash">Bkash</option>
-                          <option value="Nagad">Nagad</option>
-                          <option value="Cash On Delivery">
-                            Cash On Delivery
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="form-outline mb-4 col-lg-3">
-                      <label className="form-label">
-                        Courier<span></span>
-                      </label>
-                      <div className="input-group">
-                        <select
-                          name="courier"
-                          className="form-control form-select"
-                          id="courier"
-                        >
-                          <option value="">Select</option>
-                          <option value="1">Pathao</option>
-                          <option value="2">Stead Fast</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="form-outline mb-4 col-lg-3">
-                      <label className="form-label">
-                        Delivery Status<span></span>
-                      </label>
-                      <div className="input-group ">
-                        <select
-                          name="delivery_status"
-                          className="form-control form-select"
-                          id="delivery_status"
-                        >
-                          <option value="">Select</option>
-                          <option value="New">New</option>
-                          <option value="Pending">Pending</option>
-                          <option value="Approved">Approved</option>
-                          <option value="Packaging">Packaging</option>
-                          <option value="Shipment">Shipment</option>
-                          <option value="Delivered">Delivered</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row g-3">
-                    <div className="form-outline mb-4">
-                      <label className="form-label">
-                        Note<span></span>
-                      </label>
-                      <div className="input-group">
-                        <textarea
-                          name="note"
-                          id="note"
-                          className="form-control"
-                        ></textarea>
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row g-3">
-                    <div className="form-outline mb-4 col-lg-4">
-                      <label className="form-label">
-                        Delivery Type<span></span>
-                      </label>
-                      <div className="input-group has-validation">
-                        <select
-                          name="delivery_type"
-                          className="form-control form-select"
-                          id="delivery_type"
-                        >
-                          <option value="">Select</option>
-                          <option value="1">
-                            Free Shipping&nbsp;-&nbsp;0.00&nbsp;Tk
-                          </option>
-                          <option value="2">
-                            Inside Dhaka&nbsp;-&nbsp;90.00&nbsp;Tk
-                          </option>
-                          <option value="3">
-                            Outside Dhaka&nbsp;-&nbsp;140.00&nbsp;Tk
-                          </option>
-                        </select>
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
-
-                    <div className="form-outline mb-4 col-lg-4">
-                      <label className="form-label">
-                        Customer Type<span></span>
-                      </label>
-                      <div className="input-group has-validation">
-                        <select
-                          name="customer_type"
-                          className="form-control form-select"
-                          id="customer_type"
-                        >
-                          <option value="">Select</option>
-                          <option value="prev">Previous Customer</option>
-                          <option value="new">New Customer</option>
-                        </select>
-                        <div className="invalid-feedback"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form> */}
-
               <Formik
                 initialValues={initialValues}
                 validationSchema={cus_state ? schema : prevSchema}
@@ -618,7 +469,6 @@ const OrderAdd = () => {
                               Order Date<span className="text-danger">*</span>
                             </Form.Label>
                             <InputGroup hasValidation>
-                              {/* <InputGroup.Text>@</InputGroup.Text> */}
                               <Form.Control
                                 type="date"
                                 name="order_date"
@@ -774,7 +624,7 @@ const OrderAdd = () => {
                           <Form.Group className="form-outline mb-4 col-lg-4">
                             <Form.Label>
                               Delivery Type
-                              <span className="text=danger">*</span>
+                              <span className="text-danger">*</span>
                             </Form.Label>
                             <InputGroup hasValidation>
                               <Form.Select
@@ -814,7 +664,7 @@ const OrderAdd = () => {
                           <Form.Group className="form-outline mb-4 col-lg-4 ">
                             <Form.Label>
                               Customer Type
-                              <span className="text=danger">*</span>
+                              <span className="text-danger">*</span>
                             </Form.Label>
                             <InputGroup hasValidation>
                               <Form.Select
@@ -847,7 +697,7 @@ const OrderAdd = () => {
                           {cus_type === "prev" && (
                             <Form.Group className="form-outline mb-4 col-lg-4">
                               <Form.Label>
-                                Customer<span className="text=danger">*</span>
+                                Customer<span className="text-danger">*</span>
                               </Form.Label>
                               <InputGroup hasValidation>
                                 <Form.Select
@@ -885,7 +735,7 @@ const OrderAdd = () => {
                               <Form.Group className="form-outline mb-4">
                                 <Form.Label>
                                   Customer Name
-                                  <span className="text=danger">*</span>
+                                  <span className="text-danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
                                   <Form.Control
@@ -908,7 +758,7 @@ const OrderAdd = () => {
                             <div className="row g-3">
                               <Form.Group className="form-outline mb-4 col-lg-4">
                                 <Form.Label>
-                                  Phone<span className="text=danger">*</span>
+                                  Phone<span className="text-danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
                                   <Form.Control
@@ -931,7 +781,7 @@ const OrderAdd = () => {
 
                               <Form.Group className="form-outline mb-4 col-lg-4">
                                 <Form.Label>
-                                  District<span className="text=danger">*</span>
+                                  District<span className="text-danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
                                   <Form.Select
@@ -972,7 +822,7 @@ const OrderAdd = () => {
 
                               <Form.Group className="form-outline mb-4 col-lg-4">
                                 <Form.Label>
-                                  Upazila<span className="text=danger">*</span>
+                                  Upazila<span className="text-danger">*</span>
                                 </Form.Label>
                                 <InputGroup hasValidation>
                                   <Form.Select
