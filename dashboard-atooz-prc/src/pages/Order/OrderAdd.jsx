@@ -907,6 +907,208 @@ const OrderAdd = () => {
                       unpaginate_product={unpaginate_product}
                     />
 
+                    <div className="row d-flex align-items-center justify-content-end">
+                      <Form.Group className="form-outline mb-4 col-lg-3 ">
+                        <div className="d-flex align-items-center"></div>
+                        <Form.Label>
+                          Sub Total Amount<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="total_amount"
+                            id="total_amount"
+                            value={calculatedTotalAmount}
+                            onChange={handleChange}
+                            isInvalid={
+                              !!touched.total_amount && !!errors.total_amount
+                            }
+                            isValid={
+                              touched.total_amount && !errors.total_amount
+                            }
+                            readOnly
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.total_amount}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="row d-flex align-items-center justify-content-end">
+                      <Form.Group className="form-outline mb-4 col-lg-3 ">
+                        <Form.Label>
+                          Discount<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="discount"
+                            id="discount"
+                            value={calculatedTotalDiscount}
+                            onChange={handleChange}
+                            isInvalid={!!touched.discount && !!errors.discount}
+                            isValid={touched.discount && !errors.discount}
+                            readOnly
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.discount}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="row d-flex align-items-center justify-content-end">
+                      <Form.Group className="form-outline mb-4 col-lg-3 ">
+                        <Form.Label>
+                          Delivery Charge<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="delivery_charge"
+                            id="delivery_charge"
+                            value={deliveryPrice}
+                            onChange={handleChange}
+                            isInvalid={
+                              !!touched.delivery_charge &&
+                              !!errors.delivery_charge
+                            }
+                            isValid={
+                              touched.delivery_charge && !errors.delivery_charge
+                            }
+                            readOnly
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.delivery_charge}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="row d-flex align-items-center justify-content-end">
+                      <Form.Group className="form-outline mb-4 col-lg-3 ">
+                        <Form.Label>
+                          Payable Amount<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="payable_amount"
+                            id="payable_amount"
+                            value={payableAmount}
+                            onChange={handleChange}
+                            isInvalid={
+                              !!touched.payable_amount &&
+                              !!errors.payable_amount
+                            }
+                            isValid={
+                              touched.payable_amount && !errors.payable_amount
+                            }
+                            readOnly
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.payable_amount}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="row d-flex align-items-center justify-content-end">
+                      <Form.Group className="form-outline mb-4 col-lg-3 ">
+                        <Form.Label>
+                          Paid Amount<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="paid_amount"
+                            id="paid_amount"
+                            value={paidAmount}
+                            onChange={(e) => {
+                              if (e && e.target) {
+                                // Null check to ensure e and e.target are defined
+                                const inputValue = parseFloat(e.target.value);
+                                if (!isNaN(inputValue)) {
+                                  setPaidAmount(inputValue);
+                                } else {
+                                  setPaidAmount(0); // or any default value you prefer
+                                }
+                              }
+                            }}
+                            isInvalid={
+                              !!touched.paid_amount && !!errors.paid_amount
+                            }
+                            isValid={touched.paid_amount && !errors.paid_amount}
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.paid_amount}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="row d-flex align-items-center justify-content-end">
+                      <Form.Group className="form-outline mb-4 col-lg-3 ">
+                        <Form.Label>
+                          Due Amount<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="due_amount"
+                            id="due_amount"
+                            value={dueAmount}
+                            onChange={handleChange}
+                            isInvalid={
+                              !!touched.due_amount && !!errors.due_amount
+                            }
+                            isValid={touched.due_amount && !errors.due_amount}
+                            readOnly
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.due_amount}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
+                    <div className="row d-flex align-items-center justify-content-end">
+                      <Form.Group className="form-outline mb-4 col-lg-3 ">
+                        <Form.Label>
+                          Total Amount<span className="text-danger">*</span>
+                        </Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type="text"
+                            name="grand_total_amount"
+                            id="grand_total_amount"
+                            value={grandTotalAmount}
+                            onChange={handleChange}
+                            isInvalid={
+                              !!touched.grand_total_amount &&
+                              !!errors.grand_total_amount
+                            }
+                            isValid={
+                              touched.grand_total_amount &&
+                              !errors.grand_total_amount
+                            }
+                            readOnly
+                            className="form-control mb-0"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.grand_total_amount}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    </div>
+
                     <div className="hstack gap-2 justify-content-end mt-3 my-2">
                       <button type="reset" className="btn btn-danger">
                         Cancel
