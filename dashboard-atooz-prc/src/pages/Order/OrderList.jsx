@@ -229,7 +229,7 @@ const OrderList = () => {
               </div>
             </div>
 
-            <div className="row">
+            {/* <div className="row">
               <div className="d-flex flex-column flex-md-row justify-content-between mb-2 mobile">
                 <div className="mb-2 mb-md-0">
                   <input
@@ -287,9 +287,9 @@ const OrderList = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="row table-header">
+            {/* <div className="row table-header">
               <div className="table-col">
                 <input type="checkbox" className="input_text" />
               </div>
@@ -337,7 +337,7 @@ const OrderList = () => {
                   <div className="ttext">Action</div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <hr />
