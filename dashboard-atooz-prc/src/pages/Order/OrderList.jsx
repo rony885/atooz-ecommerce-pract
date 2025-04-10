@@ -1,22 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TbCirclePlus } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
+import OrderDataTable from "./OrderDataTable";
+import { useApiContext } from "../../context/ApiContext";
 
 const OrderList = () => {
-  // const cardData = [
-  //   { count: 6, label: "New", borderClass: "border-primary" },
-  //   { count: 0, label: "Pending", borderClass: "border-warning" },
-  //   { count: 3, label: "Approved", borderClass: "border-info" },
-  //   { count: 0, label: "Packaging", borderClass: "border-warning" },
-  //   { count: 0, label: "Shipment", borderClass: "border-warning" },
-  //   { count: 1, label: "Delivered", borderClass: "border-success" },
-  //   { count: 0, label: "Return", borderClass: "border-warning" },
-  //   { count: 0, label: "Cancel", borderClass: "border-danger" },
-  //   { count: 0, label: "Wholesale", borderClass: "border-warning" },
-  //   { count: 10, label: "Total", borderClass: "border-secondary" },
-  // ];
+  // data fetching
+  const { order, fetchOrder, unpaginate_courier, fetchUnpaginateCourier } =
+    useApiContext();
+
+  useEffect(() => {
+    fetchOrder();
+    fetchUnpaginateCourier();
+  }, [fetchOrder, fetchUnpaginateCourier]);
 
   return (
     <Wrapper>
@@ -338,6 +336,8 @@ const OrderList = () => {
                 </div>
               </div>
             </div> */}
+
+            <OrderDataTable data={order} />
           </div>
         </div>
         <hr />
