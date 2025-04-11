@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import {
@@ -10,6 +7,7 @@ import {
 } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
+import FractionDigits from "../../components/FractionDigits";
 
 const OrderDataTable = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -90,17 +88,71 @@ const OrderDataTable = ({ data }) => {
                     : "▼"
                   : ""}
               </th>
-              <th className="texxt" onClick={() => handleSort("name")}>
-                Name{" "}
-                {sortConfig.key === "name"
+              <th className="texxt" onClick={() => handleSort("order_date")}>
+                Date{" "}
+                {sortConfig.key === "order_date"
                   ? sortConfig.direction === "ascending"
                     ? "▲"
                     : "▼"
                   : ""}
               </th>
-              <th className="texxt" onClick={() => handleSort("status")}>
-                Status{" "}
-                {sortConfig.key === "status"
+              <th className="texxt" onClick={() => handleSort("order_invoice")}>
+                Order Invoice{" "}
+                {sortConfig.key === "order_invoice"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th className="texxt" onClick={() => handleSort("supplier")}>
+                Courier{" "}
+                {sortConfig.key === "supplier"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th className="texxt" onClick={() => handleSort("customer")}>
+                Customer{" "}
+                {sortConfig.key === "customer"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th className="texxt" onClick={() => handleSort("total_amount")}>
+                Total Amount{" "}
+                {sortConfig.key === "total_amount"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th className="texxt" onClick={() => handleSort("discount")}>
+                discount{" "}
+                {sortConfig.key === "discount"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th
+                className="texxt"
+                onClick={() => handleSort("delivery_charge")}
+              >
+                Delivery Charge{" "}
+                {sortConfig.key === "delivery_charge"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+              <th
+                className="texxt"
+                onClick={() => handleSort("grand_total_amount")}
+              >
+                Grand Total{" "}
+                {sortConfig.key === "grand_total_amount"
                   ? sortConfig.direction === "ascending"
                     ? "▲"
                     : "▼"
@@ -117,8 +169,19 @@ const OrderDataTable = ({ data }) => {
                   <input type="checkbox" aria-label={`select-row-${item.id}`} />
                 </td>
                 <td className="texxt">{item.id}</td>
-                <td className="texxt">{item.name}</td>
-                <td className="texxt">{item.status}</td>
+                <td className="texxt">{item.order_date}</td>
+                <td className="texxt">{item.order_invoice}</td>
+                <td className="texxt">
+                  {item.courier ? item.courier.name : "-"}
+                </td>
+                <td className="texxt">{item.customer.name}</td>
+                <td className="texxt">{FractionDigits(item.total_amount)}</td>
+                <td className="texxt">{FractionDigits(item.discount)}</td>
+                <td className="texxt">{item.delivery_charge}</td>
+                <td className="texxt">
+                  {FractionDigits(item.grand_total_amount)}
+                </td>
+
                 <td>
                   <ul className="d-flex gap-2 list-unstyled mb-0">
                     <li>
@@ -240,7 +303,7 @@ const OrderDataTable = ({ data }) => {
           </div>
         )}
 
-        {/* ===== Delete Confirmation Modal ===== */}
+        {/* ===== Delete Modal ===== */}
         {isDeleteModalOpen && (
           <div className="custom-modal">
             <div className="modal-dialog modal-dialog-centered">
