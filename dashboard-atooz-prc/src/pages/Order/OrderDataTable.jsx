@@ -39,15 +39,13 @@ const OrderDataTable = ({ data }) => {
   });
 
   const filteredData = sortedData.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.order_date.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleEdit = (item) => {

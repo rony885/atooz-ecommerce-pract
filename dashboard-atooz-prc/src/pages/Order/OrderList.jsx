@@ -1,10 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TbCirclePlus } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
+import axios from "axios";
+import * as yup from "yup";
+import { Formik, Form as FormikForm } from "formik";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+
 import Footer from "../../components/Footer";
 import OrderDataTable from "./OrderDataTable";
 import { useApiContext } from "../../context/ApiContext";
+
+const schema = yup.object().shape({
+  courier: yup.string(),
+  delivery_status: yup.string(),
+});
+
+const validate = (values) => {
+  let errors = {};
+
+  return errors;
+};
 
 const OrderList = () => {
   // data fetching
@@ -15,6 +33,53 @@ const OrderList = () => {
     fetchOrder();
     fetchUnpaginateCourier();
   }, [fetchOrder, fetchUnpaginateCourier]);
+
+  const [item, setItem] = useState({});
+  const [message, setMessage] = useState();
+
+  const updateOrder = async (id) => {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/order/${id}/`
+    );
+    setItem(data);
+  };
+
+  const updatedValues = {
+    courier: item.courier ? item.courier.id : "",
+    delivery_status: item.delivery_status ? item.delivery_status : "",
+  };
+
+  const UpdateOrderFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("courier", values.courier);
+    formfield.append("delivery_status", values.delivery_status);
+
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_BASE_URL}/order/${item.id}/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(response.success, "Order is successfully updated...");
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitUpdateOrderForm = async (
+    values,
+    { setErrors, setSubmitting }
+  ) => {
+    try {
+      UpdateOrderFunc(values);
+      setSubmitting(false);
+    } catch (error) {
+      setErrors({ err: error.message });
+    }
+  };
 
   return (
     <Wrapper>
@@ -226,116 +291,6 @@ const OrderList = () => {
                 </div>
               </div>
             </div>
-
-            {/* <div className="row">
-              <div className="d-flex flex-column flex-md-row justify-content-between mb-2 mobile">
-                <div className="mb-2 mb-md-0">
-                  <input
-                    type="text"
-                    placeholder="Search here"
-                    className="w-100 form-control mb-2"
-                    value=""
-                  />
-                </div>
-                <div className="btn-group flex-column flex-md-row">
-                  <button
-                    className="btn btn-primary mb-2 mb-md-0 mx-2 buttn_text"
-                    disabled
-                  >
-                    Print Invoice
-                  </button>
-
-                  <button
-                    className="btn btn-primary mb-2 mb-md-0 mx-2 buttn_text"
-                    disabled
-                  >
-                    Picklist
-                  </button>
-
-                  <button
-                    className="btn btn-primary dropdown-toggle mb-2 mb-md-0 mx-2 buttn_text"
-                    type="button"
-                    id="courierDropdownButton"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    disabled
-                  >
-                    Download Courier CSV
-                  </button>
-                  <ul
-                    className="dropdown-menu w-100"
-                    aria-labelledby="courierDropdownButton"
-                  >
-                    <li>
-                      <button
-                        className="dropdown-item text-danger buttn_text"
-                        type="button"
-                      >
-                        Pathao
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item text-danger buttn_text"
-                        type="button"
-                      >
-                        Stead Fast
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div> */}
-
-            {/* <div className="row table-header">
-              <div className="table-col">
-                <input type="checkbox" className="input_text" />
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div className="ttext">ID</div>
-                  <span className="ttext">▲</span>
-                </div>
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div title="Order Number" className="ttext">
-                    Order Number
-                  </div>
-                  <span className="ttext">▲</span>
-                </div>
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div className="ttext">Customer Info</div>
-                </div>
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div className="ttext">Products Info</div>
-                </div>
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div className="ttext">Amount</div>
-                </div>
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div className="ttext">Activities</div>
-                </div>
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div className="ttext">Note</div>
-                </div>
-              </div>
-              <div className="table-col">
-                <div className="sortable">
-                  <div className="ttext">Action</div>
-                </div>
-              </div>
-            </div> */}
 
             <OrderDataTable data={order} />
           </div>
