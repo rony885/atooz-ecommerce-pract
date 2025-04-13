@@ -80,6 +80,23 @@ const OrderList = () => {
       setErrors({ err: error.message });
     }
   };
+    const newOrder = order && order.filter((o) => o.delivery_status === "New");
+  const pendingOrder =
+    order && order.filter((o) => o.delivery_status === "Pending");
+  const approvedOrder =
+    order && order.filter((o) => o.delivery_status === "Approved");
+  const packagingOrder =
+    order && order.filter((o) => o.delivery_status === "Packaging");
+  const shipmentOrder =
+    order && order.filter((o) => o.delivery_status === "Shipment");
+  const deliveredOrder =
+    order && order.filter((o) => o.delivery_status === "Delivered");
+  const returnOrder =
+    order && order.filter((o) => o.delivery_status === "Return");
+  const cancelOrder =
+    order && order.filter((o) => o.delivery_status === "Cancel");
+  const wholesaleOrder =
+    order && order.filter((o) => o.delivery_status === "Wholesale");
 
   return (
     <Wrapper>
