@@ -80,7 +80,7 @@ const OrderList = () => {
       setErrors({ err: error.message });
     }
   };
-    const newOrder = order && order.filter((o) => o.delivery_status === "New");
+  const newOrder = order && order.filter((o) => o.delivery_status === "New");
   const pendingOrder =
     order && order.filter((o) => o.delivery_status === "Pending");
   const approvedOrder =
@@ -155,7 +155,8 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">6</span>
+                      {/* <span className="text-dark fs-6">6</span> */}
+                      <span className="text-dark fs-6">{newOrder.length}</span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       New
@@ -171,7 +172,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">0</span>
+                      {/* <span className="text-dark fs-6">0</span> */}
+                      <span className="text-dark fs-6">
+                        {pendingOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Pending
@@ -187,7 +191,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">3</span>
+                      {/* <span className="text-dark fs-6">3</span> */}
+                      <span className="text-dark fs-6">
+                        {approvedOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Approved
@@ -203,7 +210,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">0</span>
+                      {/* <span className="text-dark fs-6">0</span> */}
+                      <span className="text-dark fs-6">
+                        {packagingOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Packaging
@@ -219,7 +229,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">0</span>
+                      {/* <span className="text-dark fs-6">0</span> */}
+                      <span className="text-dark fs-6">
+                        {shipmentOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Shipment
@@ -235,7 +248,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">1</span>
+                      {/* <span className="text-dark fs-6">1</span> */}
+                      <span className="text-dark fs-6">
+                        {deliveredOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Delivered
@@ -251,7 +267,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">0</span>
+                      {/* <span className="text-dark fs-6">0</span> */}
+                      <span className="text-dark fs-6">
+                        {returnOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Return
@@ -267,7 +286,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">0</span>
+                      {/* <span className="text-dark fs-6">0</span> */}
+                      <span className="text-dark fs-6">
+                        {cancelOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Cancel
@@ -283,7 +305,10 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">0</span>
+                      {/* <span className="text-dark fs-6">0</span> */}
+                      <span className="text-dark fs-6">
+                        {wholesaleOrder.length}
+                      </span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Wholesale
