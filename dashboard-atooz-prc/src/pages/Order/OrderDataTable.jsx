@@ -9,7 +9,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight, FaTrashAlt } from "react-icons/fa";
 import FractionDigits from "../../components/FractionDigits";
 
-const OrderDataTable = ({ data }) => {
+const OrderDataTable = ({ data, openEditModal, updateOrder }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "id",

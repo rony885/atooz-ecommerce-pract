@@ -34,6 +34,10 @@ const OrderList = () => {
     fetchUnpaginateCourier();
   }, [fetchOrder, fetchUnpaginateCourier]);
 
+  const [isEditModalOpen, setisEditModalOpen] = useState(false);
+  const openEditModal = () => setisEditModalOpen(true);
+  const closeEditModal = () => setisEditModalOpen(false);
+
   const [item, setItem] = useState({});
   const [message, setMessage] = useState();
 
@@ -80,6 +84,7 @@ const OrderList = () => {
       setErrors({ err: error.message });
     }
   };
+
   const newOrder = order && order.filter((o) => o.delivery_status === "New");
   const pendingOrder =
     order && order.filter((o) => o.delivery_status === "Pending");
@@ -324,7 +329,8 @@ const OrderList = () => {
                 >
                   <div className="card-boddy">
                     <h4 className="mb-4">
-                      <span className="text-dark fs-6">10</span>
+                      {/* <span className="text-dark fs-6">10</span> */}
+                      <span className="text-dark fs-6">{order.length}</span>
                     </h4>
                     <p className="text-muted fw-medium text-uppercase mb-0 textt">
                       Total
@@ -334,7 +340,130 @@ const OrderList = () => {
               </div>
             </div>
 
-            <OrderDataTable data={order} />
+            <OrderDataTable
+              data={order}
+              openEditModal={openEditModal}
+              updateOrder={updateOrder}
+            />
+
+            {/* ===== Edit Modal ===== */}
+            {isEditModalOpen && (
+              <div className="custom-modal">
+                <div className="modal-content">
+                  <span className="close" onClick={closeEditModal}>
+                    &times;
+                  </span>
+                  <h2>Update Order</h2>
+
+                  <Formik
+                    enableReinitialize={true}
+                    initialValues={updatedValues}
+                    validationSchema={schema}
+                    onSubmit={submitUpdateOrderForm}
+                    validate={validate}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      values,
+                      touched,
+                      errors,
+                      isSubmitting,
+                      setFieldValue,
+                    }) => (
+                      <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                        <Form.Group className="form-outline mb-3">
+                          <Form.Label>
+                            Courier<span>*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Select
+                              name="courier"
+                              id="courier"
+                              value={values.courier}
+                              onChange={handleChange}
+                              isInvalid={!!touched.courier && !!errors.courier}
+                              isValid={touched.courier && !errors.courier}
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              {unpaginate_courier &&
+                                unpaginate_courier.map((item) => {
+                                  return (
+                                    <option key={item.id} value={item.id}>
+                                      {item.name}
+                                    </option>
+                                  );
+                                })}
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.courier}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="form-outline mb-4">
+                          <Form.Label>
+                            Delivery Status<span>*</span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Select
+                              name="delivery_status"
+                              id="delivery_status"
+                              value={values.delivery_status}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.delivery_status &&
+                                !!errors.delivery_status
+                              }
+                              isValid={
+                                touched.delivery_status &&
+                                !errors.delivery_status
+                              }
+                              className="form-control mb-0"
+                            >
+                              <option value="">Select</option>
+                              <option value="New">New</option>
+                              <option value="Pending">Pending</option>
+                              <option value="Approved">Approved</option>
+                              <option value="Packaging">Packaging</option>
+                              <option value="Shipment">Shipment</option>
+                              <option value="Delivered">Delivered</option>
+                              {/* <option value="Return">Return</option>
+                              <option value="Cancel">Cancel</option>
+                              <option value="Wholesale">Wholesale</option> */}
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                              {errors.delivery_status}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        <div className="modal-actions mt-5">
+                          <button type="reset" className="cancel-btn">
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="add-btn"
+                            disabled={isSubmitting}
+                          >
+                            Edit Order
+                          </button>
+                        </div>
+
+                        {/* message  */}
+                        {message && (
+                          <h2 className="text-center m-5">{message}</h2>
+                        )}
+                      </FormikForm>
+                    )}
+                  </Formik>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <hr />
@@ -446,6 +575,106 @@ const Wrapper = styled.section`
   input:focus {
     outline: none;
     box-shadow: none;
+  }
+
+  /* ===== Modal styles ===== */
+  .custom-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+  }
+  .modal-content h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #000;
+  }
+
+  .modal-content h2 {
+    margin-bottom: 20px;
+  }
+
+  .modal-content form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  .modal-content form input,
+  .modal-content form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: 1px solid #82a8d1 !important;
+  }
+
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-size: 12px;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .modal-actions .cancel-btn,
+  .modal-actions .add-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .modal-actions .cancel-btn {
+    background-color: #ff6e6c;
+    color: #fff;
+  }
+
+  .modal-actions .add-btn {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  .modal-actions .cancel-btn:hover {
+    background-color: #e77b79;
+  }
+
+  .modal-actions .add-btn:hover {
+    background-color: #4497f0;
   }
 `;
 
