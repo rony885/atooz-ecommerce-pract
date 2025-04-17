@@ -1,5 +1,4 @@
-import React from "react";
-// import styled from "styled-components";
+import React, { useEffect } from "react";
 import "./home.css";
 import Footer from "../../components/Footer";
 import {
@@ -12,7 +11,6 @@ import {
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -22,8 +20,36 @@ import {
   LineChart,
   Line,
 } from "recharts";
+import { useApiContext } from "../../context/ApiContext";
 
 const Home = () => {
+  // data fetching
+  const {
+    category,
+    product,
+    all_users,
+    order,
+    purchase,
+    fetchCategory,
+    fetchProduct,
+    fetchAllUsers,
+    fetchOrder,
+    fetchPurchase,
+  } = useApiContext();
+
+  useEffect(() => {
+    fetchCategory();
+    fetchProduct();
+    fetchAllUsers();
+    fetchOrder();
+    fetchPurchase();
+  }, [fetchAllUsers, fetchCategory, fetchOrder, fetchProduct, fetchPurchase]);
+
+  const reversedOrders = [...order].reverse();
+  const reversedPurchase = [...purchase].reverse();
+  const lastFiveOrders = reversedOrders.slice(0, 4);
+  const lastFivePurchase = reversedPurchase.slice(0, 4);
+
   const data = [
     {
       name: "Page A",
@@ -70,7 +96,6 @@ const Home = () => {
   ];
 
   return (
-    // <Wrapper>
     <div className="layout">
       <div className="hone_wrapper">
         <main className="main-container">
@@ -167,50 +192,7 @@ const Home = () => {
       <hr />
       <Footer className="footer" />
     </div>
-    // </Wrapper>
   );
 };
-// const Wrapper = styled.section`
-//   .grid-container {
-//     display: grid;
-//     grid-template-columns: 250px 1fr;
-//     grid-template-rows: 60px 1fr;
-//     grid-template-areas:
-//       "sidebar header"
-//       "sidebar main";
-//     height: 100vh;
-//   }
-//   .layout {
-//     display: flex;
-//     flex-direction: column;
-//     overflow-y: auto;
-//     height: calc(100vh - 60px);
-//   }
-
-//   .hone_wrapper {
-//     flex: 1;
-//   }
-
-//   .footer {
-//     padding: 10px 20px;
-//   }
-//   .main-title h3 {
-//     color: #000 !important;
-//   }
-
-//   @media screen and (max-width: 1024px) {
-//     .card-inner > .card_icon {
-//       font-size: 20px;
-//     }
-//     .card-inner h3 {
-//       font-size: 15px !important;
-//     }
-//   }
-//   @media screen and (max-width: 768px) {
-//     .card-inner h3 {
-//       font-size: 18px !important;
-//     }
-//   }
-// `;
 
 export default Home;
