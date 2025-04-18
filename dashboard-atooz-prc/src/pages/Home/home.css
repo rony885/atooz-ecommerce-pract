@@ -15,6 +15,54 @@
 .main-title h3 {
   color: #000 !important;
 }
+/* ===== table ===== */
+.table_section {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px 0;
+  /* margin-top: 30px !important; */
+}
+
+.table_container {
+  width: 48%;
+  border-radius: 6px;
+  /* overflow: hidden; */
+}
+
+.styled_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.styled_table th,
+.styled_table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.styled_table th {
+  background-color: #f4f4f4;
+}
+
+.styled_table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.view_btn {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.view_btn:hover {
+  background-color: #0056b3;
+}
 
 @media screen and (max-width: 1024px) {
   .card-inner > .card_icon {
@@ -27,5 +75,12 @@
 @media screen and (max-width: 768px) {
   .card-inner h3 {
     font-size: 18px !important;
+  }
+  .table_section {
+    flex-direction: column;
+    margin-top: 25px !important;
+  }
+  .table_container {
+    width: 100% !important;
   }
 }

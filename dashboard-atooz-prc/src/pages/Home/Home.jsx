@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import "./home.css";
-import Footer from "../../components/Footer";
+import { Link } from "react-router-dom";
+
 import {
   BsFillArchiveFill,
   BsFillGrid3X3GapFill,
   BsPeopleFill,
   BsFillBellFill,
 } from "react-icons/bs";
+import { GrView } from "react-icons/gr";
 
 import {
   BarChart,
@@ -20,6 +22,8 @@ import {
   LineChart,
   Line,
 } from "recharts";
+import Footer from "../../components/Footer";
+import FractionDigits from "../../components/FractionDigits";
 import { useApiContext } from "../../context/ApiContext";
 
 const Home = () => {
@@ -109,7 +113,8 @@ const Home = () => {
                 <h3>PRODUCTS</h3>
                 <BsFillArchiveFill className="card_icon" />
               </div>
-              <h1>300</h1>
+              {/* <h1>300</h1> */}
+              <h1>{product && product.length}</h1>
             </div>
 
             <div className="card">
@@ -117,7 +122,8 @@ const Home = () => {
                 <h3>CATEGORIES</h3>
                 <BsFillGrid3X3GapFill className="card_icon" />
               </div>
-              <h1>12</h1>
+              {/* <h1>12</h1> */}
+              <h1>{category && category.length}</h1>
             </div>
 
             <div className="card">
@@ -125,15 +131,17 @@ const Home = () => {
                 <h3>CUSTOMERS</h3>
                 <BsPeopleFill className="card_icon" />
               </div>
-              <h1>33</h1>
+              {/* <h1>33</h1> */}
+              <h1>{all_users && all_users.length}</h1>
             </div>
 
             <div className="card">
               <div className="card-inner ">
-                <h3>ALERTS</h3>
+                <h3>TOTAL ORDER</h3>
                 <BsFillBellFill className="card_icon" />
               </div>
-              <h1>42</h1>
+              {/* <h1>42</h1> */}
+              <h1>{order && order.length}</h1>
             </div>
           </div>
 
@@ -186,6 +194,104 @@ const Home = () => {
                 <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
               </LineChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className="table_section my-5">
+            {/* Orders Table */}
+            <div className="table_container">
+              <table className="styled_table">
+                <thead>
+                  <tr>
+                    <th colSpan="5" className="fs-4">
+                      Order Details
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>Order No</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Grand Total</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {lastFiveOrders.map((item) => {
+                    return (
+                      <tr key={item.id}>
+                        <td>{item.order_no}</td>
+                        <td>{item.order_date}</td>
+                        <td>{item.customer.name}</td>
+                        <td className="text-end">
+                          {FractionDigits(item.grand_total_amount)}
+                        </td>
+                        <td>
+                          <Link to={`/order-view/${item.id}`}>
+                            <GrView className="text-dark" />
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+
+                  <tr>
+                    <td colSpan="5">
+                      <Link to="/orders">
+                        <button className="view_btn">View All Order</button>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Purchases Table */}
+            <div className="table_container">
+              <table className="styled_table">
+                <thead>
+                  <tr>
+                    <th colSpan="5" className="fs-4">
+                      Purchase Details
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>Purchase No</th>
+                    <th>Date</th>
+                    <th>Supplier</th>
+                    <th>Grand Total</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {lastFivePurchase.map((item) => {
+                    return (
+                      <tr key={item.id}>
+                        <td>{item.purchase_no}</td>
+                        <td>{item.purchase_date}</td>
+                        <td>{item.supplier.name}</td>
+                        <td className="text-end">
+                          {FractionDigits(item.grand_total_amount)}
+                        </td>
+                        <td>
+                          <Link to={`/purchase-view/${item.id}`}>
+                            <GrView className="text-dark" />
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+
+                  <tr>
+                    <td colSpan="5">
+                      <Link to="/purchase">
+                        <button className="view_btn">View All Purchase</button>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </main>
       </div>
