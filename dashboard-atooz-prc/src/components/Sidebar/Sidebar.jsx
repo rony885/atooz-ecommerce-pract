@@ -166,6 +166,17 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
                   Create Order
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/login"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive ? "active-submenu-link" : ""
+                  }
+                >
+                  Login
+                </NavLink>
+              </li>
             </ul>
           )}
         </li>

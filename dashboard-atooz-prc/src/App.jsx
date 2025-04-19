@@ -34,6 +34,7 @@ import Delivery from "./pages/Setting/Delivery";
 import Clients from "./pages/Setting/Clients";
 import ManageBalance from "./pages/Setting/ManageBalance";
 import GeneralSetting from "./pages/Setting/GeneralSetting";
+import SignIn from "./pages/SignIn/SignIn";
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -69,6 +70,7 @@ function App() {
 
           <Route path="/orders" element={<OrderList />}></Route>
           <Route path="/order-add" element={<OrderAdd />}></Route>
+          <Route path="/login" element={<SignIn />}></Route>
 
           <Route path="/purchase-add" element={<PurchaseAdd />}></Route>
           <Route path="/purchase" element={<PurchaseList />}></Route>
