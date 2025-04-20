@@ -2,15 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <Wrapper>
       <div className="register-page">
         <div className="card register-card">
-          <h2 className="text-center fs-5">Welcome to Atooz Dashboard</h2>
-          <h4 className="text-muted fs-6 text-center mb-4">
-            Sign in to continue
-          </h4>
+          <h2 className="text-center mb-4">Register</h2>
           <form>
             <div className="mb-3">
               <input
@@ -19,7 +16,13 @@ const SignIn = () => {
                 placeholder="Full Name"
               />
             </div>
-
+            <div className="mb-3">
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Email"
+              />
+            </div>
             <div className="mb-3">
               <input
                 type="password"
@@ -27,13 +30,19 @@ const SignIn = () => {
                 placeholder="Password"
               />
             </div>
-
+            <div className="mb-3">
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Confirm Password"
+              />
+            </div>
             <button type="submit" className="btn btn-primary w-100">
-              Sign In
+              Register
             </button>
           </form>
           <p className="text-center mt-3">
-            Don't have an account? <Link to="/login">Sign Up</Link>
+            Already have an account? <Link to="/">Log In</Link>
           </p>
         </div>
       </div>
@@ -75,4 +84,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default SignIn;
+export default SignUp;
