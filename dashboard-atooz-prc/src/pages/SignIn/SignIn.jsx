@@ -5,7 +5,7 @@ import * as yup from "yup";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   email: "",
@@ -85,7 +85,7 @@ const SignIn = () => {
           <h4 className="text-muted fs-6 text-center mb-4">
             Sign in to continue
           </h4>
-          <form>
+          {/* <form>
             <div className="mb-3">
               <input
                 type="text"
@@ -105,10 +105,77 @@ const SignIn = () => {
             <button type="submit" className="btn btn-primary w-100">
               Sign In
             </button>
-          </form>
-          <p className="text-center mt-3">
+          </form> */}
+
+          <Formik
+            initialValues={initialValues}
+            validationSchema={schema}
+            onSubmit={submitLoginForm}
+            validate={validate}
+          >
+            {({
+              handleSubmit,
+              handleChange,
+              values,
+              errors,
+              touched,
+              isSubmitting,
+            }) => (
+              <FormikForm noValidate onSubmit={handleSubmit}>
+                <Form.Group className="mb-4">
+                  <Form.Label>Username</Form.Label>
+                  <InputGroup hasValidation>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      isInvalid={touched.email && !!errors.email}
+                      placeholder="Enter username"
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.email}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </Form.Group>
+
+                <Form.Group className="mb-4">
+                  <Form.Label>Password</Form.Label>
+                  <InputGroup hasValidation>
+                    <Form.Control
+                      type="password"
+                      name="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      isInvalid={touched.password && !!errors.password}
+                      placeholder="Enter password"
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </Form.Group>
+
+                <button
+                  className="btn btn-primary w-100 mb-4"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Sign In
+                </button>
+
+                {message && (
+                  <div className="alert alert-danger text-center">
+                    {message}
+                  </div>
+                )}
+              </FormikForm>
+            )}
+          </Formik>
+
+          {/* <p className="text-center mt-3">
             Don't have an account? <Link to="/login">Sign Up</Link>
-          </p>
+          </p>  */}
         </div>
       </div>
     </Wrapper>
