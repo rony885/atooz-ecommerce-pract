@@ -85,27 +85,6 @@ const SignIn = () => {
           <h4 className="text-muted fs-6 text-center mb-4">
             Sign in to continue
           </h4>
-          {/* <form>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Full Name"
-              />
-            </div>
-
-            <div className="mb-3">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-              />
-            </div>
-
-            <button type="submit" className="btn btn-primary w-100">
-              Sign In
-            </button>
-          </form> */}
 
           <Formik
             initialValues={initialValues}
@@ -172,10 +151,6 @@ const SignIn = () => {
               </FormikForm>
             )}
           </Formik>
-
-          {/* <p className="text-center mt-3">
-            Don't have an account? <Link to="/login">Sign Up</Link>
-          </p>  */}
         </div>
       </div>
     </Wrapper>

@@ -1,69 +1,8 @@
-import { Formik, Form as FormikForm } from "formik";
+import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import * as yup from "yup";
-import axios from "axios";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-
-const initialValues = {
-  email: "",
-  password: "",
-};
-
-const schema = yup.object().shape({
-  email: yup.string().required("Username is a required field!"),
-  password: yup.string().required("Password is required!"),
-});
-
-const validate = (values) => {
-  let errors = {};
-
-  return errors;
-};
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [message, setMessage] = useState();
-
-  const LoginFunc = async (values) => {
-    let formfield = new FormData();
-
-    // Append individual fields
-    formfield.append("email", values.email);
-    formfield.append("password", values.password);
-
-    await axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_BASE_URL}/custom_user/staff_and_superuser_login/`,
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8; text/plain",
-      },
-      data: formfield,
-    })
-      .then((response) => {
-        localStorage.setItem(
-          "atoozSuperuserandstaffAccessToken",
-          response.data.access
-        );
-        localStorage.setItem(
-          "atoozSuperuserandstaffRefreshToken",
-          response.data.refresh
-        );
-        localStorage.removeItem("atoozAccessToken");
-        localStorage.removeItem("atoozRefreshToken");
-        navigate("/");
-        window.location.reload(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setMessage(
-          error.response.data.non_field_errors ?? error.response.data.error
-        );
-      });
-  };
-
   return (
     <Wrapper>
       <div className="register-page">
@@ -102,6 +41,7 @@ const SignUp = () => {
               Register
             </button>
           </form>
+
           <p className="text-center mt-3">
             Already have an account? <Link to="/login">Log In</Link>
           </p>
