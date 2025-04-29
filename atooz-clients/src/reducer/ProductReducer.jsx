@@ -1,15 +1,3 @@
-// import React from 'react'
-
-// const ProductReducer = () => {
-//   return (
-//     <div>
-
-//     </div>
-//   )
-// }
-
-// export default ProductReducer
-
 const ProductReducer = (state, action) => {
   switch (action.type) {
     case "SET_LOADING":

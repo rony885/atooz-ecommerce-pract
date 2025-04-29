@@ -15,6 +15,15 @@ const initialState = {
   // Product module
   category: [],
   unpaginate_category: [],
+
+  brand: [],
+  unpaginate_brand: [],
+
+  unit: [],
+  unpaginate_unit: [],
+
+  product: [],
+  unpaginate_product: [],
 };
 
 const AppProvider = ({ children }) => {
@@ -29,6 +38,15 @@ const AppProvider = ({ children }) => {
     // Product module
     category: `${process.env.REACT_APP_BASE_URL}/product_api/category/`,
     unpaginateCategory: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_category/`,
+
+    brand: `${process.env.REACT_APP_BASE_URL}/product_api/brand/`,
+    unpaginateBrand: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_brand/`,
+
+    unit: `${process.env.REACT_APP_BASE_URL}/product_api/unit/`,
+    unpaginateUnit: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_unit/`,
+
+    product: `${process.env.REACT_APP_BASE_URL}/product_api/product/`,
+    unpaginateProduct: `${process.env.REACT_APP_BASE_URL}/product_api/unpaginate_product/`,
   };
 
   // Fetch data function with useCallback
@@ -70,6 +88,36 @@ const AppProvider = ({ children }) => {
     [fetchData, urls.unpaginateCategory]
   );
 
+  const fetchBrand = useCallback(
+    () => fetchData(urls.brand, "SET_API_BRAND"),
+    [fetchData, urls.brand]
+  );
+
+  const fetchUnpaginateBrand = useCallback(
+    () => fetchData(urls.unpaginateBrand, "SET_API_UNPAGINATE_BRAND"),
+    [fetchData, urls.unpaginateBrand]
+  );
+
+  const fetchUnit = useCallback(
+    () => fetchData(urls.unit, "SET_API_UNIT"),
+    [fetchData, urls.unit]
+  );
+
+  const fetchUnpaginateUnit = useCallback(
+    () => fetchData(urls.unpaginateUnit, "SET_API_UNPAGINATE_UNIT"),
+    [fetchData, urls.unpaginateUnit]
+  );
+
+  const fetchProduct = useCallback(
+    () => fetchData(urls.product, "SET_API_PRODUCT"),
+    [fetchData, urls.product]
+  );
+
+  const fetchUnpaginateProduct = useCallback(
+    () => fetchData(urls.unpaginateProduct, "SET_API_UNPAGINATE_PRODUCT"),
+    [fetchData, urls.unpaginateProduct]
+  );
+
   return (
     <AppContext.Provider
       value={{
@@ -79,6 +127,12 @@ const AppProvider = ({ children }) => {
 
         fetchCategory,
         fetchUnpaginateCategory,
+        fetchBrand,
+        fetchUnpaginateBrand,
+        fetchUnit,
+        fetchUnpaginateUnit,
+        fetchProduct,
+        fetchUnpaginateProduct,
       }}
     >
       {children}
