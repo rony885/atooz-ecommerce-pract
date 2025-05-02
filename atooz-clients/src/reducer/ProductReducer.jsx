@@ -89,6 +89,39 @@ const ProductReducer = (state, action) => {
         isError: false,
       };
 
+    //Settings Module
+    case "SET_API_SUPPLIER":
+      return {
+        ...state,
+        isLoading: false,
+        supplier: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_SUPPLIER":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_supplier: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_COURIER":
+      return {
+        ...state,
+        isLoading: false,
+        courier: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_COURIER":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_courier: action.payload,
+        isError: false,
+      };
+
     case "API_ERROR":
       return {
         ...state,
