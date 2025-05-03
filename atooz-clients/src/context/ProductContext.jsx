@@ -31,6 +31,15 @@ const initialState = {
 
   courier: [],
   unpaginate_courier: [],
+
+  deliveryType: [],
+  unpaginate_deliveryType: [],
+
+  client: [],
+  unpaginate_client: [],
+
+  general_settings: {},
+  unpaginate_general_settings: {},
 };
 
 const AppProvider = ({ children }) => {
@@ -61,6 +70,15 @@ const AppProvider = ({ children }) => {
 
     courier: `${process.env.REACT_APP_BASE_URL}/settings_api/courier/`,
     unpaginateCourier: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_courier/`,
+
+    deliveryType: `${process.env.REACT_APP_BASE_URL}/settings_api/deliveryType/`,
+    unpaginateDeliveryType: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_deliveryType/`,
+
+    client: `${process.env.REACT_APP_BASE_URL}/settings_api/client/`,
+    unpaginateClient: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_client/`,
+
+    generalSettings: `${process.env.REACT_APP_BASE_URL}/settings_api/generalSettings/1/`,
+    unpaginateGeneralSettings: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_generalSettings/1/`,
   };
 
   // Fetch data function with useCallback
@@ -153,6 +171,41 @@ const AppProvider = ({ children }) => {
     [fetchData, urls.unpaginateCourier]
   );
 
+  const fetchDeliveryType = useCallback(
+    () => fetchData(urls.deliveryType, "SET_API_DELIVERYTYPE"),
+    [fetchData, urls.deliveryType]
+  );
+
+  const fetchUnpaginateDeliveryType = useCallback(
+    () =>
+      fetchData(urls.unpaginateDeliveryType, "SET_API_UNPAGINATE_DELIVERYTYPE"),
+    [fetchData, urls.unpaginateDeliveryType]
+  );
+
+  const fetchClient = useCallback(
+    () => fetchData(urls.client, "SET_API_CLIENT"),
+    [fetchData, urls.client]
+  );
+
+  const fetchUnpaginateClient = useCallback(
+    () => fetchData(urls.unpaginateClient, "SET_API_UNPAGINATE_CLIENT"),
+    [fetchData, urls.unpaginateClient]
+  );
+
+  const fetchGeneralSettings = useCallback(
+    () => fetchData(urls.generalSettings, "SET_API_GENERAL_SETTINGS"),
+    [fetchData, urls.generalSettings]
+  );
+
+  const fetchUnpaginateGeneralSettings = useCallback(
+    () =>
+      fetchData(
+        urls.unpaginateGeneralSettings,
+        "SET_API_UNPAGINATE_GENERAL_SETTINGS"
+      ),
+    [fetchData, urls.unpaginateGeneralSettings]
+  );
+
   return (
     <AppContext.Provider
       value={{
@@ -173,6 +226,12 @@ const AppProvider = ({ children }) => {
         fetchUnpaginateSupplier,
         fetchCourier,
         fetchUnpaginateCourier,
+        fetchDeliveryType,
+        fetchUnpaginateDeliveryType,
+        fetchClient,
+        fetchUnpaginateClient,
+        fetchGeneralSettings,
+        fetchUnpaginateGeneralSettings,
       }}
     >
       {children}
