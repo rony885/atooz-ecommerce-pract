@@ -122,6 +122,54 @@ const ProductReducer = (state, action) => {
         isError: false,
       };
 
+    case "SET_API_DELIVERYTYPE":
+      return {
+        ...state,
+        isLoading: false,
+        deliveryType: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_DELIVERYTYPE":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_deliveryType: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_CLIENT":
+      return {
+        ...state,
+        isLoading: false,
+        client: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_CLIENT":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_client: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_GENERAL_SETTINGS":
+      return {
+        ...state,
+        isLoading: false,
+        general_settings: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_GENERAL_SETTINGS":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_general_settings: action.payload,
+        isError: false,
+      };
+
     case "API_ERROR":
       return {
         ...state,
