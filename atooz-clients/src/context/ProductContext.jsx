@@ -40,6 +40,14 @@ const initialState = {
 
   general_settings: {},
   unpaginate_general_settings: {},
+
+  // Blog Module
+  blog: [],
+  unpaginate_blog: [],
+
+  // order & purchase module
+  purchase: [],
+  order: [],
 };
 
 const AppProvider = ({ children }) => {
@@ -79,6 +87,14 @@ const AppProvider = ({ children }) => {
 
     generalSettings: `${process.env.REACT_APP_BASE_URL}/settings_api/generalSettings/1/`,
     unpaginateGeneralSettings: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_generalSettings/1/`,
+
+    // blog module
+    blog: `${process.env.REACT_APP_BASE_URL}/blog_api/blog/`,
+    unpaginateBlog: `${process.env.REACT_APP_BASE_URL}/blog_api/unpaginate_blog`,
+
+    // order & purchase module
+    purchase: `${process.env.REACT_APP_BASE_URL}/purchase/`,
+    order: `${process.env.REACT_APP_BASE_URL}/order/`,
   };
 
   // Fetch data function with useCallback
@@ -206,6 +222,28 @@ const AppProvider = ({ children }) => {
     [fetchData, urls.unpaginateGeneralSettings]
   );
 
+  // blog module
+  const fetchBlog = useCallback(
+    () => fetchData(urls.blog, "SET_API_BLOG"),
+    [fetchData, urls.blog]
+  );
+
+  const fetchUnpaginateBlog = useCallback(
+    () => fetchData(urls.unpaginateBlog, "SET_API_UNPAGINATE_BLOG"),
+    [fetchData, urls.unpaginateBlog]
+  );
+
+  // order & purchase module
+  const fetchPurchase = useCallback(
+    () => fetchData(urls.purchase, "SET_API_PURCHASE"),
+    [fetchData, urls.purchase]
+  );
+
+  const fetchOrder = useCallback(
+    () => fetchData(urls.order, "SET_API_ORDER"),
+    [fetchData, urls.order]
+  );
+
   return (
     <AppContext.Provider
       value={{
@@ -232,6 +270,12 @@ const AppProvider = ({ children }) => {
         fetchUnpaginateClient,
         fetchGeneralSettings,
         fetchUnpaginateGeneralSettings,
+
+        fetchBlog,
+        fetchUnpaginateBlog,
+
+        fetchPurchase,
+        fetchOrder,
       }}
     >
       {children}

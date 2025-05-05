@@ -170,6 +170,40 @@ const ProductReducer = (state, action) => {
         isError: false,
       };
 
+    //Blog Module
+    case "SET_API_BLOG":
+      return {
+        ...state,
+        isLoading: false,
+        blog: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_UNPAGINATE_BLOG":
+      return {
+        ...state,
+        isLoading: false,
+        unpaginate_blog: action.payload,
+        isError: false,
+      };
+
+    // order & purchase module
+    case "SET_API_PURCHASE":
+      return {
+        ...state,
+        isLoading: false,
+        purchase: action.payload,
+        isError: false,
+      };
+
+    case "SET_API_ORDER":
+      return {
+        ...state,
+        isLoading: false,
+        order: action.payload,
+        isError: false,
+      };
+
     case "API_ERROR":
       return {
         ...state,
