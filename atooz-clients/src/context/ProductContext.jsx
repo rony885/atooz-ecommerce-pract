@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useCallback,
+  useEffect,
+} from "react";
 import ApiReducer from "../reducer/ProductReducer";
 
 const AppContext = createContext();
@@ -243,6 +249,35 @@ const AppProvider = ({ children }) => {
     () => fetchData(urls.order, "SET_API_ORDER"),
     [fetchData, urls.order]
   );
+
+  // User / Customer module
+  const fetchAllUsers = useCallback(
+    () => fetchData(urls.allUsers, "SET_ALL_USERS"),
+    [fetchData, urls.allUsers]
+  );
+
+  const fetchCurrentUser = useCallback(async () => {
+    const aT = localStorage.getItem("atoozAccessToken");
+    if (aT) {
+      try {
+        const response = await fetch(urls.currentUser, {
+          headers: {
+            Authorization: `Bearer ${aT}`,
+          },
+        });
+        const data = await response.json();
+        dispatch({ type: "SET_CURRENT_USER_API", payload: data });
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+        dispatch({ type: "API_ERROR" });
+      }
+    }
+  }, [urls.currentUser]);
+
+  // Fetch current user every time
+  useEffect(() => {
+    fetchCurrentUser();
+  }, [fetchCurrentUser]);
 
   return (
     <AppContext.Provider
