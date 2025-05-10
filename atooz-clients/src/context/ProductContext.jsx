@@ -311,6 +311,8 @@ const AppProvider = ({ children }) => {
 
         fetchPurchase,
         fetchOrder,
+
+        fetchAllUsers,
       }}
     >
       {children}
