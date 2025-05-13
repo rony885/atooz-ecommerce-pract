@@ -90,6 +90,32 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "SET_INCREMENT", payload: id });
   };
 
+  // to add the data in localstorage
+  useEffect(() => {
+    dispatch({ type: "CART_TOTAL_ITEM" });
+    dispatch({ type: "CART_TOTAL_PRICE" });
+    dispatch({ type: "CART_DISCOUNT" });
+    dispatch({ type: "CART_TOTAL_SPECIAL_PRICE" });
+    localStorage.setItem("atoozCart", JSON.stringify(state.cart));
+    localStorage.setItem("atoozWishlist", JSON.stringify(state.wishlist));
+  }, [state.cart, state.wishlist]);
+
+  // add to order
+  const addToOrder = (id, amount, product) => {
+    dispatch({ type: "ADD_TO_ORDER", payload: { id, amount, product } });
+  };
+
+  const clearOrder = () => {
+    dispatch({ type: "CLEAR_ORDER" });
+  };
+
+  useEffect(() => {
+    dispatch({ type: "ORDER_TOTAL_PRICE" });
+    dispatch({ type: "ORDER_DISCOUNT" });
+    localStorage.setItem("atoozOrder", JSON.stringify(state.order));
+  }, [state.order]);
+
+
   return (
     <CartContext.Provider
       value={{
