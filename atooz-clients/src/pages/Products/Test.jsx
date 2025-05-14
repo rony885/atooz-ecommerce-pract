@@ -41,7 +41,7 @@ const Products = () => {
                     type="text"
                     id="searchbar-item"
                     placeholder="Search Products"
-                    onkeyup="searchbar()"
+                    // onkeyup="searchbar()"
                   />
                 </form>
               </div>

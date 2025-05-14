@@ -28,15 +28,15 @@ const getLocalOrderData = () => {
 };
 
 const initialState = {
-  wishlist: getLocalWislistData(),
+  // wishlist: getLocalWislistData(),
 
-  cart: getLocalCartData(),
+  // cart: getLocalCartData(),
   total_item: "",
   total_price: "",
   total_discount: "",
   total_special_price: "",
 
-  order: getLocalOrderData(),
+  // order: getLocalOrderData(),
   order_total_price: "",
   order_total_discount: "",
 
@@ -120,6 +120,19 @@ const CartProvider = ({ children }) => {
     <CartContext.Provider
       value={{
         ...state,
+
+        addToWishlist,
+        removeWishlistItem,
+        clearWishlist,
+
+        addToCart,
+        removeItem,
+        clearCart,
+        setDecrement,
+        setIncrement,
+
+        addToOrder,
+        clearOrder,
       }}
     >
       {children}

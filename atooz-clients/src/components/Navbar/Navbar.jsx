@@ -114,7 +114,7 @@ const Navbar = () => {
                 type="text"
                 id="searchbar-item"
                 placeholder="Search Products"
-                onkeyup="searchbar()"
+                // onkeyup="searchbar()"
                 className="placeholder"
               />
             </form>
@@ -417,7 +417,7 @@ const Navbar = () => {
                 type="text"
                 id="searchbar-item"
                 placeholder="Search Products"
-                onkeyup="searchbar()"
+                // onkeyup="searchbar()"
               />
             </form>
           </div>
