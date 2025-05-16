@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import "./wishlist.css";
+
 import wishlistImg from "../../images/categoryImg-1.jpg";
 const Wishlist = () => {
   return (
