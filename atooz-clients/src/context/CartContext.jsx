@@ -1,7 +1,3 @@
-
-
-
-
 import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer from "../reducer/CartReducer";
 

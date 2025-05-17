@@ -1,5 +1,4 @@
-
-const CartReducer = ({ state, action }) => {
+const CartReducer = (state, action) => {
   //   wishlist
   if (action.type === "ADD_TO_WISHLIST") {
     let { id, product } = action.payload;
@@ -48,8 +47,7 @@ const CartReducer = ({ state, action }) => {
     };
   }
 
-
-    //   cart
+  //   cart
   if (action.type === "ADD_TO_CART") {
     let { id, amount, size, color, product } = action.payload;
 
@@ -221,7 +219,54 @@ const CartReducer = ({ state, action }) => {
     };
   }
 
-  return state;
-}
+  // // order
+  if (action.type === "ADD_TO_ORDER") {
+    let { id, amount, product } = action.payload;
+    // Always create a new order object with the current item
+    let orderProduct = {
+      id: id,
+      name: product.name,
+      amount: amount,
+      image: product.image,
+      price: Number(product.selling_price),
+      max: Number(product.initial_stock),
+      discount: Number(product.discount),
+    };
+    return {
+      ...state,
+      order: orderProduct,
+    };
+  }
 
-export default CartReducer
+  if (action.type === "ORDER_TOTAL_PRICE") {
+    let totalItemPrice = 0;
+    const { price, amount } = state.order;
+    totalItemPrice += price * amount;
+    return {
+      ...state,
+      order_total_price: totalItemPrice,
+    };
+  }
+
+  if (action.type === "ORDER_DISCOUNT") {
+    let totalDiscount = 0;
+    const { discount, amount } = state.order;
+    totalDiscount += discount * amount;
+    return {
+      ...state,
+      order_total_discount: totalDiscount,
+    };
+  }
+
+  if (action.type === "CLEAR_ORDER") {
+    // Clear the order data
+    return {
+      ...state,
+      order: {},
+    };
+  }
+
+  return state;
+};
+
+export default CartReducer;
