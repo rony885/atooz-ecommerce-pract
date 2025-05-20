@@ -31,7 +31,7 @@ const GeneralSetting = () => {
               </div>
             </div>
 
-            <div className="row">
+            {/* <div className="row">
               <div className="col-lg-12">
                 <div className="table-responsive">
                   <header align="left" className="headerr">
@@ -47,7 +47,175 @@ const GeneralSetting = () => {
                   <p className="text-center">There are no records to display</p>
                 </div>
               </div>
-            </div>
+            </div> */}
+
+            <form>
+              <div className="form-outline mb-4 col-lg-12">
+                <label className="form-label">
+                  Product Name<span>*</span>
+                </label>
+                <div className="input-group">
+                  <input
+                    name="name"
+                    type="text"
+                    id="name"
+                    className="form-control"
+                    value=""
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Category<span></span>
+                  </label>
+                  <div className="input-group">
+                    <select className="form-control">
+                      <option value="">Select</option>
+                      <option value="1">Gift</option>
+                      <option value="2">Table 02</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Status<span></span>
+                  </label>
+                  <div className="input-group">
+                    <select className="form-control">
+                      <option value="">Select</option>
+                      <option value="true">Active</option>
+                      <option value="false">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Feature<span></span>
+                  </label>
+                  <div className="input-group">
+                    <select className="form-control">
+                      <option value="">Select</option>
+                      <option value="true">Active</option>
+                      <option value="false">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-outline mb-4 col-lg-6">
+                  <label className="form-label">
+                    Unit<span>*</span>
+                  </label>
+                  <div className="input-group">
+                    <select className="form-control">
+                      <option value="">Select</option>
+                      <option value="1">Piece</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-6">
+                  <label className="form-label">
+                    Initial Stock<span></span>
+                  </label>
+                  <div className="input-group">
+                    <input type="text" className="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-outline mb-4 col-lg-12">
+                  <label className="form-label">Description</label>
+                  <div className="input-group">
+                    <textarea className="form-control"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-outline mb-4 col-lg-6">
+                  <label className="form-label">
+                    Image<span></span>
+                  </label>
+                  <input type="file" className="form-control" />
+                </div>
+
+                <div className="form-outline mb-4 col-lg-6">
+                  <label className="form-label">
+                    Gallery Images<span></span>
+                  </label>
+                  <input
+                    name="gal_image"
+                    multiple
+                    type="file"
+                    id="gal_image"
+                    className="form-control"
+                  />
+                  <div
+                    id="image-container"
+                    style={{
+                      marginTop: "10px",
+                      display: "flex",
+                      flexWrap: "wrap",
+                    }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Buying Price<span>*</span>
+                  </label>
+                  <div className="input-group has-validation">
+                    <span className="input-group-text">BDT</span>
+                    <input
+                      type="text"
+                      id="buying_price"
+                      className="form-control"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Selling Price<span>*</span>
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">BDT</span>
+                    <input
+                      name="selling_price"
+                      type="text"
+                      id="selling_price"
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Discount<span></span>
+                  </label>
+                  <div className="input-group">
+                    <span className="input-group-text">BDT</span>
+                    <input
+                      name="discount"
+                      type="text"
+                      id="discount"
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
 
             {/* ====== Add Modal ====== */}
             {isModalOpen && (

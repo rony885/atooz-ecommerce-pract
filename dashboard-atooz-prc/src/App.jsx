@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
+import Loader from "./components/Loader";
 import TopUp from "./components/TopUp";
 import Top from "./components/Top";
 import ErrorPages from "./ErrorPages";
@@ -36,63 +37,76 @@ import ManageBalance from "./pages/Setting/ManageBalance";
 import GeneralSetting from "./pages/Setting/GeneralSetting";
 import SignIn from "./pages/SignIn/SignIn";
 
+
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="grid-container">
-      <BrowserRouter>
-        <Top />
-        <Header OpenSidebar={OpenSidebar} />
-        <Sidebar
-          openSidebarToggle={openSidebarToggle}
-          OpenSidebar={OpenSidebar}
-        />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/product-category" element={<CategoryProd />}></Route>
-          <Route path="/brand" element={<Brand />}></Route>
-          <Route path="/unit" element={<Unit />}></Route>
-          <Route path="/products" element={<ProductLists />}></Route>
-          <Route
-            path="/product-update/:productId"
-            element={<ProductsUpdate />}
-          ></Route>
-          <Route path="/product-add" element={<ProductsAdd />}></Route>
-          <Route
-            path="/product-price-stock/:productId"
-            element={<ProductPriceStock />}
-          ></Route>
+      {isLoading ? (<Loader />) : (
+        <BrowserRouter>
+          <Top />
+          <Header OpenSidebar={OpenSidebar} />
+          <Sidebar
+            openSidebarToggle={openSidebarToggle}
+            OpenSidebar={OpenSidebar}
+          />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/product-category" element={<CategoryProd />}></Route>
+            <Route path="/brand" element={<Brand />}></Route>
+            <Route path="/unit" element={<Unit />}></Route>
+            <Route path="/products" element={<ProductLists />}></Route>
+            <Route
+              path="/product-update/:productId"
+              element={<ProductsUpdate />}
+            ></Route>
+            <Route path="/product-add" element={<ProductsAdd />}></Route>
+            <Route
+              path="/product-price-stock/:productId"
+              element={<ProductPriceStock />}
+            ></Route>
 
-          <Route path="/orders" element={<OrderList />}></Route>
-          <Route path="/order-add" element={<OrderAdd />}></Route>
-          <Route path="/login" element={<SignIn />}></Route>
+            <Route path="/orders" element={<OrderList />}></Route>
+            <Route path="/order-add" element={<OrderAdd />}></Route>
+            <Route path="/login" element={<SignIn />}></Route>
 
-          <Route path="/purchase-add" element={<PurchaseAdd />}></Route>
-          <Route path="/purchase" element={<PurchaseList />}></Route>
-          <Route path="/purchase-view/:id" element={<PurchaseView />}></Route>
+            <Route path="/purchase-add" element={<PurchaseAdd />}></Route>
+            <Route path="/purchase" element={<PurchaseList />}></Route>
+            <Route path="/purchase-view/:id" element={<PurchaseView />}></Route>
 
-          <Route path="/blogs" element={<BlogListView />}></Route>
-          <Route path="/blog-add" element={<CreateBlogs />}></Route>
-          <Route path="/blog-update/:blogId" element={<BlogUpdate />}></Route>
+            <Route path="/blogs" element={<BlogListView />}></Route>
+            <Route path="/blog-add" element={<CreateBlogs />}></Route>
+            <Route path="/blog-update/:blogId" element={<BlogUpdate />}></Route>
 
-          <Route path="/supplier" element={<Supplier />}></Route>
-          <Route path="/customers" element={<Customers />}></Route>
-          <Route path="/courier" element={<Courier />}></Route>
-          <Route path="/delivery-type" element={<Delivery />}></Route>
-          <Route path="/clients" element={<Clients />}></Route>
-          <Route path="/manage-balance" element={<ManageBalance />}></Route>
-          <Route path="/general-setting" element={<GeneralSetting />}></Route>
-          <Route path="*" element={<ErrorPages />}></Route>
-        </Routes>
-        {/* Adding more content to ensure the page is scrollable */}
-        {/* <div style={{ height: "1500px" }}>Extra Content for Scroll</div> */}
-        <TopUp />
-      </BrowserRouter>
+            <Route path="/supplier" element={<Supplier />}></Route>
+            <Route path="/customers" element={<Customers />}></Route>
+            <Route path="/courier" element={<Courier />}></Route>
+            <Route path="/delivery-type" element={<Delivery />}></Route>
+            <Route path="/clients" element={<Clients />}></Route>
+            <Route path="/manage-balance" element={<ManageBalance />}></Route>
+            <Route path="/general-setting" element={<GeneralSetting />}></Route>
+            <Route path="*" element={<ErrorPages />}></Route>
+          </Routes>
+          {/* Adding more content to ensure the page is scrollable */}
+          {/* <div style={{ height: "1500px" }}>Extra Content for Scroll</div> */}
+          <TopUp />
+        </BrowserRouter>
+      )}
+
     </div>
   );
 }
