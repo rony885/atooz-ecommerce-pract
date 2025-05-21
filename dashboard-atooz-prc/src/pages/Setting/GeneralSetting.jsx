@@ -2,6 +2,49 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
 import Footer from "../../components/Footer";
+import { Link } from "react-router-dom";
+import { ImHome } from "react-icons/im";
+
+import JoditEditor from "jodit-react";
+import { Formik, Form as FormikForm } from "formik";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import * as yup from "yup";
+import axios from "axios";
+
+const schema = yup.object().shape({
+  company_name: yup.string(),
+  company_phone: yup.string(),
+  company_email: yup.string(),
+  company_address: yup.string(),
+  map_url: yup.string(),
+  facebook_url: yup.string(),
+  instagram_url: yup.string(),
+  twitter_url: yup.string(),
+  linkedin_url: yup.string(),
+  receipt_header: yup.string(),
+  receipt_footer: yup.string(),
+  // theme: yup.string(),
+  company_logo: yup.mixed(),
+  homeBannerImage1: yup.mixed(),
+  homeBannerImage2: yup.mixed(),
+  homeBannerImage3: yup.mixed(),
+  homeBannerCoverImage: yup.mixed(),
+});
+
+const validate = (values) => {
+  let errors = {};
+
+  if (!values.company_phone) {
+    errors.company_phone = "Phone is required!";
+  } else if (/^[0-9\b]+$/.test(values.company_phone) === false) {
+    errors.company_phone = "Only number!";
+  } else if (values.company_phone.length !== 11) {
+    errors.company_phone = "Mobile Number contains 11 digit!";
+  }
+
+  return errors;
+};
 
 const GeneralSetting = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
