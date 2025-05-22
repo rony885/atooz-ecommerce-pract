@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
 import Footer from "../../components/Footer";
@@ -51,6 +51,47 @@ const GeneralSetting = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const [message, setMessage] = useState();
+  const [item, setItem] = useState({});
+
+  // for image
+  const [showLogo, setShowLogo] = useState(null);
+  const [showImage1, setShowImage1] = useState(null);
+  const [showImage2, setShowImage2] = useState(null);
+  const [showImage3, setShowImage3] = useState(null);
+  const [showCoverImage, setShowCoverImage] = useState(null);
+
+  const onLogoChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowLogo(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+  const onImage1Change = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage1(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+  const onImage2Change = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage2(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+  const onImage3Change = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowImage3(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+  const onCoverImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setShowCoverImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const [contentHeader, setContentHeader] = useState("");
+  const [contentFooter, setContentFooter] = useState("");
+  const editorHeader = useRef(null);
+  const editorFooter = useRef(null);
 
   return (
     <Wrapper>
