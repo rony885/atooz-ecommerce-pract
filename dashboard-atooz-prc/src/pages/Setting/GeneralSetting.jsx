@@ -93,6 +93,60 @@ const GeneralSetting = () => {
   const editorHeader = useRef(null);
   const editorFooter = useRef(null);
 
+  // update
+  const updatedValues = {
+    company_name: item.company_name ? item.company_name : "",
+    company_phone: item.company_phone ? item.company_phone : "",
+    company_email: item.company_email ? item.company_email : "",
+    company_address: item.company_address ? item.company_address : "",
+    map_url: item.map_url ? item.map_url : "",
+    facebook_url: item.facebook_url ? item.facebook_url : "",
+    instagram_url: item.instagram_url ? item.instagram_url : "",
+    twitter_url: item.twitter_url ? item.twitter_url : "",
+    linkedin_url: item.linkedin_url ? item.linkedin_url : "",
+    receipt_header: item.receipt_header ? item.receipt_header : "",
+    receipt_footer: item.receipt_footer ? item.receipt_footer : "",
+    // theme: item.theme ? item.theme : "",
+    company_logo: item.company_logo ? item.company_logo : "",
+    homeBannerImage1: item.homeBannerImage1 ? item.homeBannerImage1 : "",
+    homeBannerImage2: item.homeBannerImage2 ? item.homeBannerImage2 : "",
+    homeBannerImage3: item.homeBannerImage3 ? item.homeBannerImage3 : "",
+    homeBannerCoverImage: item.homeBannerCoverImage ? item.homeBannerCoverImage : "",
+  }
+
+  const UpdateGeneralSettingFunc = async (values) => {
+    let formfield = new FormData();
+
+    formfield.append("company_name", values.company_name);
+    formfield.append("company_phone", values.company_phone);
+    formfield.append("company_email", values.company_email);
+    formfield.append("company_address", values.company_address);
+    formfield.append("map_url", values.map_url);
+    formfield.append("facebook_url", values.facebook_url);
+    formfield.append("instagram_url", values.instagram_url);
+    formfield.append("twitter_url", values.twitter_url);
+    formfield.append("linkedin_url", values.linkedin_url);
+
+    formfield.append("receipt_header", contentHeader);
+    formfield.append("receipt_footer", contentFooter);
+    // formfield.append("theme", values.theme);
+
+    if (values.company_logo !== item.company_logo) {
+      formfield.append("company_logo", values.company_logo);
+    }
+    if (values.homeBannerImage1 !== item.homeBannerImage1) {
+      formfield.append("homeBannerImage1", values.homeBannerImage1);
+    }
+    if (values.homeBannerImage2 !== item.homeBannerImage2) {
+      formfield.append("homeBannerImage2", values.homeBannerImage2);
+    }
+    if (values.homeBannerImage3 !== item.homeBannerImage3) {
+      formfield.append("homeBannerImage3", values.homeBannerImage3);
+    }
+    if (values.homeBannerCoverImage !== item.homeBannerCoverImage) {
+      formfield.append("homeBannerCoverImage", values.homeBannerCoverImage);
+    }
+
   return (
     <Wrapper>
       <div className="layout">
