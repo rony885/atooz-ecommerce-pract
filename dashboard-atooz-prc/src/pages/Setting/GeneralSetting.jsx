@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { TbCirclePlus } from "react-icons/tb";
 import Footer from "../../components/Footer";
@@ -116,6 +116,7 @@ const GeneralSetting = () => {
 
   const UpdateGeneralSettingFunc = async (values) => {
     let formfield = new FormData();
+    console.log(formfield)
 
     formfield.append("company_name", values.company_name);
     formfield.append("company_phone", values.company_phone);
@@ -146,6 +147,55 @@ const GeneralSetting = () => {
     if (values.homeBannerCoverImage !== item.homeBannerCoverImage) {
       formfield.append("homeBannerCoverImage", values.homeBannerCoverImage);
     }
+
+
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_generalSettings/1/`,
+      data: formfield,
+    })
+      .then((response) => {
+        setMessage(
+          response.success,
+          "General setting is successfuly updated..."
+        );
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        setMessage(error.message, "Error");
+      });
+  };
+
+  const submitGeneralSettingForm = async (
+    values,
+    { setErrors, setSubmitting, resetForm }
+  ) => {
+    try {
+      UpdateGeneralSettingFunc(values);
+      setSubmitting(false);
+      // resetForm();
+    } catch (error) {
+      setErrors({ error: error.message });
+    }
+  };
+
+  const updateGeneralSetting = async () => {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/settings_api/unpaginate_generalSettings/1/`
+    );
+    setItem(data && data);
+    setContentHeader(data.receipt_header);
+    setContentFooter(data.receipt_footer);
+    setShowLogo(data.company_logo);
+    setShowImage1(data.homeBannerImage1);
+    setShowImage2(data.homeBannerImage2);
+    setShowImage3(data.homeBannerImage3);
+    setShowCoverImage(data.homeBannerCoverImage);
+  };
+
+  useEffect(() => {
+    updateGeneralSetting();
+  }, []);
 
   return (
     <Wrapper>
