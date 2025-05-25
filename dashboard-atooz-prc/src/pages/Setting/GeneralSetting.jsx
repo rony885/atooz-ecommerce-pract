@@ -256,40 +256,46 @@ const GeneralSetting = () => {
               <div className="row">
                 <div className="form-outline mb-4 col-lg-4">
                   <label className="form-label">
-                    Category<span></span>
+                    Product Name<span></span>
                   </label>
                   <div className="input-group">
-                    <select className="form-control">
-                      <option value="">Select</option>
-                      <option value="1">Gift</option>
-                      <option value="2">Table 02</option>
-                    </select>
+                    <input
+                      name="name"
+                      type="text"
+                      id="name"
+                      className="form-control"
+                      value=""
+                    />
                   </div>
                 </div>
 
                 <div className="form-outline mb-4 col-lg-4">
                   <label className="form-label">
-                    Status<span></span>
+                    Company Phone<span></span>
                   </label>
                   <div className="input-group">
-                    <select className="form-control">
-                      <option value="">Select</option>
-                      <option value="true">Active</option>
-                      <option value="false">Inactive</option>
-                    </select>
+                    <input
+                      name="phone"
+                      type="phone"
+                      id="phone"
+                      className="form-control"
+                      value=""
+                    />
                   </div>
                 </div>
 
                 <div className="form-outline mb-4 col-lg-4">
                   <label className="form-label">
-                    Feature<span></span>
+                    Company Email<span></span>
                   </label>
                   <div className="input-group">
-                    <select className="form-control">
-                      <option value="">Select</option>
-                      <option value="true">Active</option>
-                      <option value="false">Inactive</option>
-                    </select>
+                    <input
+                      name="email"
+                      type="email"
+                      id="email"
+                      className="form-control"
+                      value=""
+                    />
                   </div>
                 </div>
               </div>
@@ -297,19 +303,16 @@ const GeneralSetting = () => {
               <div className="row">
                 <div className="form-outline mb-4 col-lg-6">
                   <label className="form-label">
-                    Unit<span>*</span>
+                    Company Address<span></span>
                   </label>
                   <div className="input-group">
-                    <select className="form-control">
-                      <option value="">Select</option>
-                      <option value="1">Piece</option>
-                    </select>
+                    <textarea type="text" className="form-control" />
                   </div>
                 </div>
 
                 <div className="form-outline mb-4 col-lg-6">
                   <label className="form-label">
-                    Initial Stock<span></span>
+                    Company Logo<span></span>
                   </label>
                   <div className="input-group">
                     <input type="text" className="form-control" />
@@ -318,10 +321,103 @@ const GeneralSetting = () => {
               </div>
 
               <div className="row">
-                <div className="form-outline mb-4 col-lg-12">
-                  <label className="form-label">Description</label>
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Map Url<span></span>
+                  </label>
                   <div className="input-group">
-                    <textarea className="form-control"></textarea>
+                    <input
+                      name=""
+                      type=""
+                      id=""
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Facebook Url<span></span>
+                  </label>
+                  <div className="input-group">
+                    <input
+                      name=""
+                      type=""
+                      id=""
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Instagram Url<span></span>
+                  </label>
+                  <div className="input-group">
+                    <input
+                      name=""
+                      type=""
+                      id=""
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Twitter Url<span></span>
+                  </label>
+                  <div className="input-group">
+                    <input
+                      name=""
+                      type=""
+                      id=""
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                  <label className="form-label">
+                    Linkedin Url<span></span>
+                  </label>
+                  <div className="input-group">
+                    <input
+                      name=""
+                      type=""
+                      id=""
+                      className="form-control"
+                      value=""
+                    />
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-4">
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-outline mb-4 col-lg-6">
+                  <label className="form-label">
+                    Text in the Receipt Header<span></span>
+                  </label>
+                  <div className="input-group">
+                    <textarea type="text" className="form-control" />
+                  </div>
+                </div>
+
+                <div className="form-outline mb-4 col-lg-6">
+                  <label className="form-label">
+                    Text in the Receipt Footer<span></span>
+                  </label>
+                  <div className="input-group">
+                    <input type="text" className="form-control" />
                   </div>
                 </div>
               </div>
@@ -329,14 +425,14 @@ const GeneralSetting = () => {
               <div className="row">
                 <div className="form-outline mb-4 col-lg-6">
                   <label className="form-label">
-                    Image<span></span>
+                    Home Banner Image1<span></span>
                   </label>
                   <input type="file" className="form-control" />
                 </div>
 
                 <div className="form-outline mb-4 col-lg-6">
                   <label className="form-label">
-                    Gallery Images<span></span>
+                    Home Banner Image2<span></span>
                   </label>
                   <input
                     name="gal_image"
@@ -357,50 +453,32 @@ const GeneralSetting = () => {
               </div>
 
               <div className="row">
-                <div className="form-outline mb-4 col-lg-4">
+                <div className="form-outline mb-4 col-lg-6">
                   <label className="form-label">
-                    Buying Price<span>*</span>
+                    Home Banner Image3<span></span>
                   </label>
-                  <div className="input-group has-validation">
-                    <span className="input-group-text">BDT</span>
-                    <input
-                      type="text"
-                      id="buying_price"
-                      className="form-control"
-                    />
-                  </div>
+                  <input type="file" className="form-control" />
                 </div>
 
-                <div className="form-outline mb-4 col-lg-4">
+                <div className="form-outline mb-4 col-lg-6">
                   <label className="form-label">
-                    Selling Price<span>*</span>
+                    Home Banner Cover Image<span></span>
                   </label>
-                  <div className="input-group">
-                    <span className="input-group-text">BDT</span>
-                    <input
-                      name="selling_price"
-                      type="text"
-                      id="selling_price"
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Discount<span></span>
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">BDT</span>
-                    <input
-                      name="discount"
-                      type="text"
-                      id="discount"
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
+                  <input
+                    name="gal_image"
+                    multiple
+                    type="file"
+                    id="gal_image"
+                    className="form-control"
+                  />
+                  <div
+                    id="image-container"
+                    style={{
+                      marginTop: "10px",
+                      display: "flex",
+                      flexWrap: "wrap",
+                    }}
+                  ></div>
                 </div>
               </div>
             </form>
