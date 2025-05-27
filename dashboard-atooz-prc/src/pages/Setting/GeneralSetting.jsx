@@ -219,269 +219,259 @@ const GeneralSetting = () => {
               </div>
             </div>
 
-            {/* <div className="row">
-              <div className="col-lg-12">
-                <div className="table-responsive">
-                  <header align="left" className="headerr">
-                    <input
-                      type="text"
-                      placeholder="Search here"
-                      className="w-100 form-control"
-                      value=""
-                    />
-                  </header>
-                </div>
-                <div style={{ padding: "24px" }}>
-                  <p className="text-center">There are no records to display</p>
-                </div>
-              </div>
-            </div> */}
 
-            <form>
-              <div className="form-outline mb-4 col-lg-12">
-                <label className="form-label">
-                  Product Name<span>*</span>
-                </label>
-                <div className="input-group">
-                  <input
-                    name="name"
-                    type="text"
-                    id="name"
-                    className="form-control"
-                    value=""
-                  />
-                </div>
-              </div>
 
-              <div className="row">
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Product Name<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name="name"
-                      type="text"
-                      id="name"
-                      className="form-control"
-                      value=""
-                    />
+            <Formik
+              enableReinitialize={true}
+              initialValues={updatedValues}
+              validationSchema={schema}
+              onSubmit={submitGeneralSettingForm}
+              validate={validate}
+            >
+              {({
+                handleSubmit,
+                handleChange,
+                values,
+                touched,
+                errors,
+                isSubmitting,
+                setFieldValue,
+              }) => (
+                <FormikForm noValidate onSubmit={(e) => handleSubmit(e)}>
+                  <div className="">
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Product Name<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name="name"
+                            type="text"
+                            id="name"
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Company Phone<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name="phone"
+                            type="phone"
+                            id="phone"
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Company Email<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name="email"
+                            type="email"
+                            id="email"
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Company Address<span></span>
+                        </label>
+                        <div className="input-group">
+                          <textarea type="text" className="form-control" />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Company Logo<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Map Url<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name=""
+                            type=""
+                            id=""
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Facebook Url<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name=""
+                            type=""
+                            id=""
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Instagram Url<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name=""
+                            type=""
+                            id=""
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Twitter Url<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name=""
+                            type=""
+                            id=""
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-4">
+                        <label className="form-label">
+                          Linkedin Url<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input
+                            name=""
+                            type=""
+                            id=""
+                            className="form-control"
+                            value=""
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-4">
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Text in the Receipt Header<span></span>
+                        </label>
+                        <div className="input-group">
+                          <textarea type="text" className="form-control" />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Text in the Receipt Footer<span></span>
+                        </label>
+                        <div className="input-group">
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Home Banner Image1<span></span>
+                        </label>
+                        <input type="file" className="form-control" />
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Home Banner Image2<span></span>
+                        </label>
+                        <input
+                          name="gal_image"
+                          multiple
+                          type="file"
+                          id="gal_image"
+                          className="form-control"
+                        />
+                        <div
+                          id="image-container"
+                          style={{
+                            marginTop: "10px",
+                            display: "flex",
+                            flexWrap: "wrap",
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Home Banner Image3<span></span>
+                        </label>
+                        <input type="file" className="form-control" />
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-6">
+                        <label className="form-label">
+                          Home Banner Cover Image<span></span>
+                        </label>
+                        <input
+                          name="gal_image"
+                          multiple
+                          type="file"
+                          id="gal_image"
+                          className="form-control"
+                        />
+                        <div
+                          id="image-container"
+                          style={{
+                            marginTop: "10px",
+                            display: "flex",
+                            flexWrap: "wrap",
+                          }}
+                        ></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </FormikForm>
+              )}
+            </Formik>
 
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Company Phone<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name="phone"
-                      type="phone"
-                      id="phone"
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Company Email<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name="email"
-                      type="email"
-                      id="email"
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Company Address<span></span>
-                  </label>
-                  <div className="input-group">
-                    <textarea type="text" className="form-control" />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Company Logo<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input type="text" className="form-control" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Map Url<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name=""
-                      type=""
-                      id=""
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Facebook Url<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name=""
-                      type=""
-                      id=""
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Instagram Url<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name=""
-                      type=""
-                      id=""
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Twitter Url<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name=""
-                      type=""
-                      id=""
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-4">
-                  <label className="form-label">
-                    Linkedin Url<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input
-                      name=""
-                      type=""
-                      id=""
-                      className="form-control"
-                      value=""
-                    />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-4">
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Text in the Receipt Header<span></span>
-                  </label>
-                  <div className="input-group">
-                    <textarea type="text" className="form-control" />
-                  </div>
-                </div>
-
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Text in the Receipt Footer<span></span>
-                  </label>
-                  <div className="input-group">
-                    <input type="text" className="form-control" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Home Banner Image1<span></span>
-                  </label>
-                  <input type="file" className="form-control" />
-                </div>
-
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Home Banner Image2<span></span>
-                  </label>
-                  <input
-                    name="gal_image"
-                    multiple
-                    type="file"
-                    id="gal_image"
-                    className="form-control"
-                  />
-                  <div
-                    id="image-container"
-                    style={{
-                      marginTop: "10px",
-                      display: "flex",
-                      flexWrap: "wrap",
-                    }}
-                  ></div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Home Banner Image3<span></span>
-                  </label>
-                  <input type="file" className="form-control" />
-                </div>
-
-                <div className="form-outline mb-4 col-lg-6">
-                  <label className="form-label">
-                    Home Banner Cover Image<span></span>
-                  </label>
-                  <input
-                    name="gal_image"
-                    multiple
-                    type="file"
-                    id="gal_image"
-                    className="form-control"
-                  />
-                  <div
-                    id="image-container"
-                    style={{
-                      marginTop: "10px",
-                      display: "flex",
-                      flexWrap: "wrap",
-                    }}
-                  ></div>
-                </div>
-              </div>
-            </form>
 
             {/* ====== Add Modal ====== */}
             {isModalOpen && (
