@@ -93,6 +93,7 @@ const GeneralSetting = () => {
   const editorHeader = useRef(null);
   const editorFooter = useRef(null);
 
+
   // update
   const updatedValues = {
     company_name: item.company_name ? item.company_name : "",
@@ -241,7 +242,7 @@ const GeneralSetting = () => {
                   <div className="">
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
+                        {/* <label className="form-label">
                           Product Name<span></span>
                         </label>
                         <div className="input-group">
@@ -252,11 +253,35 @@ const GeneralSetting = () => {
                             className="form-control"
                             value=""
                           />
-                        </div>
+                        </div> */}
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Company Name<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="company_name"
+                              id="company_name"
+                              value={values.company_name}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.company_name && !!errors.company_name
+                              }
+                              isValid={
+                                touched.company_name && !errors.company_name
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.company_name}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
+                        {/* <label className="form-label">
                           Company Phone<span></span>
                         </label>
                         <div className="input-group">
@@ -267,7 +292,33 @@ const GeneralSetting = () => {
                             className="form-control"
                             value=""
                           />
-                        </div>
+                        </div> */}
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Company Phone<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            {/* <InputGroup.Text>@</InputGroup.Text> */}
+                            <Form.Control
+                              type="text"
+                              name="company_phone"
+                              id="company_phone"
+                              value={values.company_phone}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.company_phone &&
+                                !!errors.company_phone
+                              }
+                              isValid={
+                                touched.company_phone && !errors.company_phone
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.company_phone}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
@@ -468,6 +519,24 @@ const GeneralSetting = () => {
                       </div>
                     </div>
                   </div>
+
+                  <div className="d-flex justify-content-end align-items-center text-left">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="bbttnn add-btn"
+                    >
+                      {/* Save */}
+                      {isSubmitting ? 'Submitting...' : 'Save'}
+                    </button>
+                  </div>
+
+                  {/* message  */}
+                  {message && (
+                    <h2 className="text-center m-5 text-capitalize">
+                      {message}
+                    </h2>
+                  )}
                 </FormikForm>
               )}
             </Formik>
