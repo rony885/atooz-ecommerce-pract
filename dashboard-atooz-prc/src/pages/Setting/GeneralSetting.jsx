@@ -220,8 +220,6 @@ const GeneralSetting = () => {
               </div>
             </div>
 
-
-
             <Formik
               enableReinitialize={true}
               initialValues={updatedValues}
@@ -242,18 +240,6 @@ const GeneralSetting = () => {
                   <div className="">
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-4">
-                        {/* <label className="form-label">
-                          Product Name<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name="name"
-                            type="text"
-                            id="name"
-                            className="form-control"
-                            value=""
-                          />
-                        </div> */}
                         <Form.Group className="form-outline mb-0">
                           <Form.Label className="labelText">
                             Company Name<span></span>
@@ -281,18 +267,6 @@ const GeneralSetting = () => {
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
-                        {/* <label className="form-label">
-                          Company Phone<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name="phone"
-                            type="phone"
-                            id="phone"
-                            className="form-control"
-                            value=""
-                          />
-                        </div> */}
                         <Form.Group className="form-outline mb-0">
                           <Form.Label className="labelText">
                             Company Phone<span></span>
@@ -322,38 +296,105 @@ const GeneralSetting = () => {
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
-                          Company Email<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name="email"
-                            type="email"
-                            id="email"
-                            className="form-control"
-                            value=""
-                          />
-                        </div>
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Company Email<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="company_email"
+                              id="company_email"
+                              value={values.company_email}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.company_email &&
+                                !!errors.company_email
+                              }
+                              isValid={
+                                touched.company_email && !errors.company_email
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.company_email}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
                     </div>
 
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Company Address<span></span>
-                        </label>
-                        <div className="input-group">
-                          <textarea type="text" className="form-control" />
-                        </div>
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Company Address<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="company_address"
+                              id="company_address"
+                              value={values.company_address}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.company_address &&
+                                !!errors.company_address
+                              }
+                              isValid={
+                                touched.company_address && !errors.company_address
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.company_address}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Company Logo<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input type="text" className="form-control" />
-                        </div>
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Company Logo<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="company_logo"
+                              id="company_logo"
+                              value={values.company_logo}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.company_logo &&
+                                !!errors.company_logo
+                              }
+                              isValid={
+                                touched.company_logo && !errors.company_logo
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.company_logo}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+
+                        {showLogo && (
+                          <div className="d-flex justify-content-end align-items-center">
+                            <img
+                              src={showLogo}
+                              alt=""
+                              style={{
+                                width: "50px",
+                                height: "60px",
+                                // border: "1px solid black",
+                                // borderRadius: "50%",
+                                // background: "green",
+                              }}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -747,6 +788,56 @@ const Wrapper = styled.section`
     border-radius: 4px;
     cursor: pointer;
   }
+   //formik css
+  .invalid-feedback {
+    font-size: 10px;
+    color: red;
+  }
+
+  input,
+  select,
+  textarea {
+    background-color: white;
+    color: black;
+    font-size: 12px;
+    box-sizing: border-box;
+    border: 1px solid gray;
+    border-radius: 3px;
+
+    &:focus {
+      outline: none;
+      border-color: #000;
+    }
+  }
+
+  option {
+    font-size: 12px;
+  }
+
+  label {
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin: 5px 0;
+
+    span {
+      color: red;
+    }
+  }
+
+  .imgDiv {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  section,
+  .divv,
+  .css-b62m3t-container,
+  .css-3iigni-container {
+    width: 100%;
+  }
+  //formik css
 `;
 
 export default GeneralSetting;
