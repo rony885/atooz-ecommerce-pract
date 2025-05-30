@@ -400,69 +400,121 @@ const GeneralSetting = () => {
 
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
-                          Map Url<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name=""
-                            type=""
-                            id=""
-                            className="form-control"
-                            value=""
-                          />
-                        </div>
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Map Url<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="map_url"
+                              id="map_url"
+                              value={values.map_url}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.map_url &&
+                                !!errors.map_url
+                              }
+                              isValid={
+                                touched.map_url && !errors.map_url
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.map_url}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
-                          Facebook Url<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name=""
-                            type=""
-                            id=""
-                            className="form-control"
-                            value=""
-                          />
-                        </div>
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Facebook Url<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="facebook_url"
+                              id="facebook_url"
+                              value={values.facebook_url}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.facebook_url &&
+                                !!errors.facebook_url
+                              }
+                              isValid={
+                                touched.facebook_url && !errors.facebook_url
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.facebook_url}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
-                          Instagram Url<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name=""
-                            type=""
-                            id=""
-                            className="form-control"
-                            value=""
-                          />
-                        </div>
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Instagram Url<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="instagram_url"
+                              id="instagram_url"
+                              value={values.instagram_url}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.instagram_url &&
+                                !!errors.instagram_url
+                              }
+                              isValid={
+                                touched.instagram_url && !errors.instagram_url
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.instagram_url}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
                     </div>
 
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
-                          Twitter Url<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name=""
-                            type=""
-                            id=""
-                            className="form-control"
-                            value=""
-                          />
-                        </div>
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Twitter Url<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="twitter_url"
+                              id="twitter_url"
+                              value={values.twitter_url}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.twitter_url &&
+                                !!errors.twitter_url
+                              }
+                              isValid={
+                                touched.twitter_url && !errors.twitter_url
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.twitter_url}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
-                        <label className="form-label">
+                        {/* <label className="form-label">
                           Linkedin Url<span></span>
                         </label>
                         <div className="input-group">
@@ -473,7 +525,32 @@ const GeneralSetting = () => {
                             className="form-control"
                             value=""
                           />
-                        </div>
+                        </div> */}
+                        <Form.Group className="form-outline mb-0">
+                          <Form.Label className="labelText">
+                            Linkedin Url<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type="text"
+                              name="linkedin_url"
+                              id="linkedin_url"
+                              value={values.linkedin_url}
+                              onChange={handleChange}
+                              isInvalid={
+                                !!touched.linkedin_url &&
+                                !!errors.linkedin_url
+                              }
+                              isValid={
+                                touched.linkedin_url && !errors.linkedin_url
+                              }
+                              className="form-control mb-0"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.linkedin_url}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
