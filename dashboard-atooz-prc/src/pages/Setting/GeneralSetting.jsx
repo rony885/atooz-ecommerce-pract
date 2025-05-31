@@ -326,7 +326,7 @@ const GeneralSetting = () => {
 
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-6">
-                        <Form.Group className="form-outline mb-0">
+                        {/* <Form.Group className="form-outline mb-0">
                           <Form.Label className="labelText">
                             Company Address<span></span>
                           </Form.Label>
@@ -350,7 +350,49 @@ const GeneralSetting = () => {
                               {errors.company_address}
                             </Form.Control.Feedback>
                           </InputGroup>
-                        </Form.Group>
+                        </Form.Group> */}
+                         <Form.Group className="form-outline mb-2 imgDiv divv">
+                            <Form.Label className="labelText">
+                              Company Logo<span></span>
+                            </Form.Label>
+                            <Form.Control
+                              type="file"
+                              name="company_logo"
+                              id="company_logo"
+                              onChange={(event) => {
+                                setFieldValue(
+                                  "company_logo",
+                                  event.currentTarget.files[0]
+                                );
+                                onLogoChange(event);
+                              }}
+                              isInvalid={
+                                !!touched.company_logo && !!errors.company_logo
+                              }
+                              isValid={
+                                touched.company_logo && !errors.company_logo
+                              }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.company_logo}
+                            </Form.Control.Feedback>
+                          </Form.Group>
+
+                          {showLogo && (
+                            <div className="d-flex justify-content-end align-items-center">
+                              <img
+                                src={showLogo}
+                                alt=""
+                                style={{
+                                  width: "50px",
+                                  height: "60px",
+                                  // border: "1px solid black",
+                                  // borderRadius: "50%",
+                                  // background: "green",
+                                }}
+                              />
+                            </div>
+                          )}
                       </div>
 
                       <div className="form-outline mb-4 col-lg-6">
@@ -514,18 +556,6 @@ const GeneralSetting = () => {
                       </div>
 
                       <div className="form-outline mb-4 col-lg-4">
-                        {/* <label className="form-label">
-                          Linkedin Url<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input
-                            name=""
-                            type=""
-                            id=""
-                            className="form-control"
-                            value=""
-                          />
-                        </div> */}
                         <Form.Group className="form-outline mb-0">
                           <Form.Label className="labelText">
                             Linkedin Url<span></span>
@@ -559,81 +589,235 @@ const GeneralSetting = () => {
 
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Text in the Receipt Header<span></span>
-                        </label>
-                        <div className="input-group">
-                          <textarea type="text" className="form-control" />
-                        </div>
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label className="labelText">
+                            Text in the Receipt Header<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <JoditEditor
+                              name="receipt_header"
+                              id="receipt_header"
+                              ref={editorHeader}
+                              value={contentHeader}
+                              onChange={(newContent) =>
+                                setContentHeader(newContent)
+                              }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.receipt_header}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Text in the Receipt Footer<span></span>
-                        </label>
-                        <div className="input-group">
-                          <input type="text" className="form-control" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Home Banner Image1<span></span>
-                        </label>
-                        <input type="file" className="form-control" />
-                      </div>
-
-                      <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Home Banner Image2<span></span>
-                        </label>
-                        <input
-                          name="gal_image"
-                          multiple
-                          type="file"
-                          id="gal_image"
-                          className="form-control"
-                        />
-                        <div
-                          id="image-container"
-                          style={{
-                            marginTop: "10px",
-                            display: "flex",
-                            flexWrap: "wrap",
-                          }}
-                        ></div>
+                        <Form.Group className="form-outline mb-2">
+                          <Form.Label className="labelText">
+                            Text in the Receipt Footer<span></span>
+                          </Form.Label>
+                          <InputGroup hasValidation>
+                            <JoditEditor
+                              name="receipt_footer"
+                              id="receipt_footer"
+                              ref={editorFooter}
+                              value={contentFooter}
+                              onChange={(newContent) =>
+                                setContentFooter(newContent)
+                              }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors.receipt_footer}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
                       </div>
                     </div>
 
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Home Banner Image3<span></span>
-                        </label>
-                        <input type="file" className="form-control" />
+                        <Form.Group className="form-outline mb-3 imgDiv divv">
+                          <Form.Label>
+                            Home Banner Image1<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="homeBannerImage1"
+                            id="homeBannerImage1"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "homeBannerImage1",
+                                event.currentTarget.files[0]
+                              );
+                              onImage1Change(event);
+                            }}
+                            isInvalid={
+                              !!touched.homeBannerImage1 &&
+                              !!errors.homeBannerImage1
+                            }
+                            isValid={
+                              touched.homeBannerImage1 &&
+                              !errors.homeBannerImage1
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.homeBannerImage1}
+                          </Form.Control.Feedback>
+
+                          {showImage1 && (
+                            <div>
+                              <img
+                                alt="product preview img"
+                                style={{
+                                  width: "150px",
+                                  height: "150px",
+                                  marginTop: "20px",
+                                  borderRadius: "50%",
+                                }}
+                                src={showImage1}
+                              />
+                            </div>
+                          )}
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-6">
-                        <label className="form-label">
-                          Home Banner Cover Image<span></span>
-                        </label>
-                        <input
-                          name="gal_image"
-                          multiple
-                          type="file"
-                          id="gal_image"
-                          className="form-control"
-                        />
-                        <div
-                          id="image-container"
-                          style={{
-                            marginTop: "10px",
-                            display: "flex",
-                            flexWrap: "wrap",
-                          }}
-                        ></div>
+                        <Form.Group className="form-outline mb-3 imgDiv divv">
+                          <Form.Label>
+                            Home Banner Image2<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="homeBannerImage2"
+                            id="homeBannerImage2"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "homeBannerImage2",
+                                event.currentTarget.files[0]
+                              );
+                              onImage2Change(event);
+                            }}
+                            isInvalid={
+                              !!touched.homeBannerImage2 &&
+                              !!errors.homeBannerImage2
+                            }
+                            isValid={
+                              touched.homeBannerImage2 &&
+                              !errors.homeBannerImage2
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.homeBannerImage2}
+                          </Form.Control.Feedback>
+
+                          {showImage2 && (
+                            <div>
+                              <img
+                                alt="product preview img"
+                                style={{
+                                  width: "150px",
+                                  height: "150px",
+                                  marginTop: "20px",
+                                  borderRadius: "50%",
+                                }}
+                                src={showImage2}
+                              />
+                            </div>
+                          )}
+                        </Form.Group>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="form-outline mb-4 col-lg-6">
+                        <Form.Group className="form-outline mb-3 imgDiv divv">
+                          <Form.Label>
+                            Home Banner Image3<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="homeBannerImage3"
+                            id="homeBannerImage3"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "homeBannerImage3",
+                                event.currentTarget.files[0]
+                              );
+                              onImage3Change(event);
+                            }}
+                            isInvalid={
+                              !!touched.homeBannerImage3 &&
+                              !!errors.homeBannerImage3
+                            }
+                            isValid={
+                              touched.homeBannerImage3 &&
+                              !errors.homeBannerImage3
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.homeBannerImage3}
+                          </Form.Control.Feedback>
+
+                          {showImage3 && (
+                            <div>
+                              <img
+                                alt="product preview img"
+                                style={{
+                                  width: "150px",
+                                  height: "150px",
+                                  marginTop: "20px",
+                                  borderRadius: "50%",
+                                }}
+                                src={showImage3}
+                              />
+                            </div>
+                          )}
+                        </Form.Group>
+                      </div>
+
+                      <div className="form-outline mb-4 col-lg-6">
+                        <Form.Group className="form-outline mb-3 imgDiv divv">
+                          <Form.Label>
+                            Home Banner Image4<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="homeBannerCoverImage"
+                            id="homeBannerCoverImage"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "homeBannerCoverImage",
+                                event.currentTarget.files[0]
+                              );
+                              onCoverImageChange(event);
+                            }}
+                            isInvalid={
+                              !!touched.homeBannerCoverImage &&
+                              !!errors.homeBannerCoverImage
+                            }
+                            isValid={
+                              touched.homeBannerCoverImage &&
+                              !errors.homeBannerCoverImage
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.homeBannerImage3}
+                          </Form.Control.Feedback>
+
+                          {showCoverImage && (
+                            <div>
+                              <img
+                                alt="product preview img"
+                                style={{
+                                  width: "150px",
+                                  height: "150px",
+                                  marginTop: "20px",
+                                  borderRadius: "50%",
+                                }}
+                                src={showCoverImage}
+                              />
+                            </div>
+                          )}
+                        </Form.Group>
                       </div>
                     </div>
                   </div>
