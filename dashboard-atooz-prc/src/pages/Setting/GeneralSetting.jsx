@@ -326,7 +326,7 @@ const GeneralSetting = () => {
 
                     <div className="row">
                       <div className="form-outline mb-4 col-lg-6">
-                        {/* <Form.Group className="form-outline mb-0">
+                        <Form.Group className="form-outline mb-0">
                           <Form.Label className="labelText">
                             Company Address<span></span>
                           </Form.Label>
@@ -350,53 +350,11 @@ const GeneralSetting = () => {
                               {errors.company_address}
                             </Form.Control.Feedback>
                           </InputGroup>
-                        </Form.Group> */}
-                         <Form.Group className="form-outline mb-2 imgDiv divv">
-                            <Form.Label className="labelText">
-                              Company Logo<span></span>
-                            </Form.Label>
-                            <Form.Control
-                              type="file"
-                              name="company_logo"
-                              id="company_logo"
-                              onChange={(event) => {
-                                setFieldValue(
-                                  "company_logo",
-                                  event.currentTarget.files[0]
-                                );
-                                onLogoChange(event);
-                              }}
-                              isInvalid={
-                                !!touched.company_logo && !!errors.company_logo
-                              }
-                              isValid={
-                                touched.company_logo && !errors.company_logo
-                              }
-                            />
-                            <Form.Control.Feedback type="invalid">
-                              {errors.company_logo}
-                            </Form.Control.Feedback>
-                          </Form.Group>
-
-                          {showLogo && (
-                            <div className="d-flex justify-content-end align-items-center">
-                              <img
-                                src={showLogo}
-                                alt=""
-                                style={{
-                                  width: "50px",
-                                  height: "60px",
-                                  // border: "1px solid black",
-                                  // borderRadius: "50%",
-                                  // background: "green",
-                                }}
-                              />
-                            </div>
-                          )}
+                        </Form.Group>
                       </div>
 
                       <div className="form-outline mb-4 col-lg-6">
-                        <Form.Group className="form-outline mb-0">
+                        {/* <Form.Group className="form-outline mb-0">
                           <Form.Label className="labelText">
                             Company Logo<span></span>
                           </Form.Label>
@@ -420,6 +378,49 @@ const GeneralSetting = () => {
                               {errors.company_logo}
                             </Form.Control.Feedback>
                           </InputGroup>
+                        </Form.Group>
+
+                        {showLogo && (
+                          <div className="d-flex justify-content-end align-items-center">
+                            <img
+                              src={showLogo}
+                              alt=""
+                              style={{
+                                width: "50px",
+                                height: "60px",
+                                // border: "1px solid black",
+                                // borderRadius: "50%",
+                                // background: "green",
+                              }}
+                            />
+                          </div>
+                        )} */}
+                        
+                        <Form.Group className="form-outline mb-2 imgDiv divv">
+                          <Form.Label className="labelText">
+                            Company Logo<span></span>
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="company_logo"
+                            id="company_logo"
+                            onChange={(event) => {
+                              setFieldValue(
+                                "company_logo",
+                                event.currentTarget.files[0]
+                              );
+                              onLogoChange(event);
+                            }}
+                            isInvalid={
+                              !!touched.company_logo && !!errors.company_logo
+                            }
+                            isValid={
+                              touched.company_logo && !errors.company_logo
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors.company_logo}
+                          </Form.Control.Feedback>
                         </Form.Group>
 
                         {showLogo && (

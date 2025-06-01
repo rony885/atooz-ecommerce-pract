@@ -36,11 +36,38 @@ import Clients from "./pages/Setting/Clients";
 import ManageBalance from "./pages/Setting/ManageBalance";
 import GeneralSetting from "./pages/Setting/GeneralSetting";
 import SignIn from "./pages/SignIn/SignIn";
+import { useApiContext } from "./context/ApiContext";
 
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { c_user } = useApiContext();
+  const aT = localStorage.getItem("atoozSuperuserandstaffAccessToken");
+  const rT = localStorage.getItem("atoozSuperuserandstaffRefreshToken");
+
+  const dhandleLogout = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/custom_user/logout/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${aT}`,
+          },
+          body: JSON.stringify({
+            refresh_token: rT,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log("Logout response:", data);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
@@ -59,7 +86,7 @@ function App() {
       {isLoading ? (<Loader />) : (
         <BrowserRouter>
           <Top />
-          <Header OpenSidebar={OpenSidebar} />
+          <Header OpenSidebar={OpenSidebar} c_user={c_user} dhandleLogout={dhandleLogout} />
           <Sidebar
             openSidebarToggle={openSidebarToggle}
             OpenSidebar={OpenSidebar}
