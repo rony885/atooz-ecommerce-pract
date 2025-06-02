@@ -9,7 +9,7 @@ import {
   BsJustify,
 } from "react-icons/bs";
 
-const Header = ({ OpenSidebar }) => {
+const Header = ({ OpenSidebar, c_user, dhandleLogout }) => {
   const [acDropdownOpen, setAcDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -53,8 +53,27 @@ const Header = ({ OpenSidebar }) => {
             onClick={toggleDropdown}
             className="d-flex justify-content-center align-items-center"
           >
-            <BsPersonCircle className="icon" />
-            <span>Admin</span>
+            {c_user.image !== null && c_user.image ? (
+              <div className="d-flex align-items-center justify-content-center gap-3">
+                <img
+                  className="rounded-circle header-profile-user"
+                  src={`${process.env.REACT_APP_BASE_URL_2}${c_user.image}`}
+                  alt="Header Avatar"
+                  width={35}
+                  height={35}
+                />
+                <div className="d-flex flex-column">
+                  <span style={{ fontSize: "12px" }}>{c_user.name}</span>
+                  <span style={{ fontSize: "12px" }}>
+                    Admin&nbsp;/&nbsp;Staff
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <BsPersonCircle className="icon" />
+            )}
+            {/* <BsPersonCircle className="icon" />
+            <span>Admin</span> */}
           </div>
 
           {acDropdownOpen && (
