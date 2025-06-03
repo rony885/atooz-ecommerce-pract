@@ -12,7 +12,7 @@ import {
 const Header = ({ OpenSidebar, c_user, dhandleLogout }) => {
   const [acDropdownOpen, setAcDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  console.log(c_user.image)
   const toggleDropdown = () => {
     setAcDropdownOpen(!acDropdownOpen);
   };
@@ -57,7 +57,7 @@ const Header = ({ OpenSidebar, c_user, dhandleLogout }) => {
               <div className="d-flex align-items-center justify-content-center gap-3">
                 <img
                   className="rounded-circle header-profile-user"
-                  src={`${process.env.REACT_APP_BASE_URL_2}${c_user.image}`}
+                  src={`${process.env.REACT_APP_BASE_URL}${c_user.image}`}
                   alt="Header Avatar"
                   width={35}
                   height={35}
