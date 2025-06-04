@@ -121,14 +121,14 @@ const OrderView = () => {
                           <h6 className="card-title mb-0 flex-grow-1">
                             Product Items
                           </h6>
-                          {/* <div className="flex-shrink-0">
+                          <div className="flex-shrink-0">
                             <button
                               type="button"
                               className="btn btn-danger btn-sm"
                             >
                               <i className="ph-x align-middle"></i> Cancel Order
                             </button>
-                          </div> */}
+                          </div>
                         </div>
 
                         <div className="card-body">
@@ -607,19 +607,13 @@ const Wrapper = styled.section`
     height: calc(100vh - 60px);
   }
   .product_wrapper {
-    /* Take available height */
     flex: 1;
-    /* Scroll only the blog layout */
-    /* overflow-y: auto; */
   }
   .footer {
     padding: 10px 20px;
   }
   .categoryProd {
-    /* grid-area: main; */
-    /* overflow-y: auto; */
     padding: 20px 20px;
-    /* height: calc(100vh - 60px); */
   }
   .catry_row .catry_title h4 {
     font-size: 15px;
@@ -683,21 +677,17 @@ const Wrapper = styled.section`
     color: #333;
     cursor: pointer;
   }
-
   .close:hover {
     color: #000;
   }
-
   .modal-content h2 {
     margin-bottom: 20px;
   }
-
   .modal-content form label {
     display: block;
     margin-bottom: 8px;
     font-size: 12px;
   }
-
   .modal-content form input,
   .modal-content form select {
     width: 100%;
@@ -714,12 +704,10 @@ const Wrapper = styled.section`
   textarea {
     font-size: 12px;
   }
-
   .modal-actions {
     display: flex;
     justify-content: flex-end;
   }
-
   .modal-actions .cancel-btn,
   .modal-actions .add-btn {
     padding: 10px 20px;
@@ -728,7 +716,6 @@ const Wrapper = styled.section`
     cursor: pointer;
     margin-left: 10px;
   }
-
   .modal-actions .cancel-btn {
     background-color: #ff6e6c;
     color: #fff;
@@ -738,15 +725,12 @@ const Wrapper = styled.section`
     background-color: #007bff;
     color: #fff;
   }
-
   .modal-actions .cancel-btn:hover {
     background-color: #e77b79;
   }
-
   .modal-actions .add-btn:hover {
     background-color: #4497f0;
   }
-
   /* ===== Delete Modal ===== */
   .close_btn {
     border: none;
