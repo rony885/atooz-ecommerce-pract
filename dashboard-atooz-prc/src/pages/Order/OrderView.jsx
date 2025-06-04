@@ -14,7 +14,14 @@ import Footer from "../../components/Footer";
 import { useApiContext } from "../../context/ApiContext";
 
 const OrderView = () => {
- 
+  const { general_settings, fetchGeneralSettings } = useApiContext();
+
+  useEffect(() => {
+    fetchGeneralSettings();
+  }, [fetchGeneralSettings]);
+
+  const [item, setItem] = useState({});
+  const { id } = useParams();
 
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
@@ -25,7 +32,39 @@ const OrderView = () => {
   const closeInvoiceModal = () => setIsInvoiceModalOpen(false);
   const closeReceiptModal = () => setIsReceiptModalOpen(false);
 
- 
+  useEffect(() => {
+    const loadProducts = async () => {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/order/${id}/`
+      );
+      setItem(data);
+    };
+
+    loadProducts();
+  }, [id]);
+
+  // for time
+  const dateString = item.created_at;
+  const dateObject = new Date(dateString);
+  const timeString = dateObject.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const stages = [
+    "New",
+    "Pending",
+    "Approved",
+    "Packaging",
+    "Shipment",
+    "Delivered",
+  ];
+
+  const isStageActive = (index) => {
+    const deliveryStatusIndex = stages.indexOf(item.delivery_status);
+    return deliveryStatusIndex >= index;
+  };
 
   return (
     <Wrapper>
@@ -76,7 +115,7 @@ const OrderView = () => {
                             {/* <h6 className="fs-md mb-0">{item.order_no}</h6> */}
                           </div>
 
-                         
+
                         </div>
                       </div>
                     </div>
@@ -88,7 +127,7 @@ const OrderView = () => {
                         <div className="card-body d-flex gap-3">
                           <div className="flex-grow-1">
                             <h6 className="card-title mb-3">Customer Info</h6>
-                            
+
                           </div>
                         </div>
                       </div>
@@ -100,13 +139,13 @@ const OrderView = () => {
                           <div className="flex-grow-1">
                             <h6 className="card-title mb-3">Payment Info</h6>
                             <p className="fw-medium fs-md mb-1">
-                              Order Number: 
+                              Order Number:
                             </p>
                             <p className="text-muted mb-1">
-                              Invoice Nummber: 
+                              Invoice Nummber:
                             </p>
                             <p className="text-muted mb-0">
-                              Payment Method: 
+                              Payment Method:
                             </p>
                           </div>
                         </div>
@@ -146,7 +185,7 @@ const OrderView = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                               
+
                               </tbody>
                             </table>
                           </div>
@@ -180,7 +219,7 @@ const OrderView = () => {
                             <div className="col-sm-6 col-lg-6 col-xl-3">
                               <div className="text-center border border-dashed p-3 rounded">
                                 <p className="text-muted mb-2">Delivery Type</p>
-                               
+
                               </div>
                             </div>
                           </div>
@@ -206,14 +245,14 @@ const OrderView = () => {
                                         Sub Total :
                                       </td>
                                       <td className="text-end">
-                                        
+
                                       </td>
                                     </tr>
                                     <tr>
                                       <td className="text-start">Discount :</td>
                                       <td className="text-end">
                                         (-) &nbsp;
-                                        
+
                                       </td>
                                     </tr>
                                     <tr>
@@ -221,7 +260,7 @@ const OrderView = () => {
                                         Delivery Charge :
                                       </td>
                                       <td className="text-end">
-                                        (+) 
+                                        (+)
                                       </td>
                                     </tr>
                                     <tr className="border-top border-top-dashed">
@@ -229,7 +268,7 @@ const OrderView = () => {
                                         Payable Amount :
                                       </td>
                                       <td className="text-end">
-                                       
+
                                       </td>
                                     </tr>
                                     <tr>
@@ -237,7 +276,7 @@ const OrderView = () => {
                                         Paid Amount :
                                       </td>
                                       <td className="text-end">
-                                       
+
                                       </td>
                                     </tr>
                                     <tr>
@@ -245,7 +284,7 @@ const OrderView = () => {
                                         Due Amount :
                                       </td>
                                       <td className="text-end">
-                                      
+
                                       </td>
                                     </tr>
 
@@ -254,7 +293,7 @@ const OrderView = () => {
                                         Total (BDT) :
                                       </th>
                                       <th className="text-end">
-                                       
+
                                       </th>
                                     </tr>
                                   </tbody>
@@ -269,7 +308,7 @@ const OrderView = () => {
                             <div className="card-body border-top border-dashed">
                               <div>
                                 <h6 className="text-muted float-end mb-0">
-                                 
+
                                 </h6>
 
                                 <p className="text-muted mb-2 mb-md-0">
@@ -278,7 +317,7 @@ const OrderView = () => {
 
                                 <div className="text-center p-3 pb-0">
                                   <BarcodeGenerator
-                                    // value={item.order_no && item.order_no}
+                                  // value={item.order_no && item.order_no}
                                   />
                                 </div>
                               </div>
@@ -317,7 +356,7 @@ const OrderView = () => {
                             ))} */}
                           </div>
 
-                    
+
                         </div>
                       </div>
                     </div>
@@ -369,7 +408,7 @@ const OrderView = () => {
                             style={{ lineHeight: "5px", padding: "0px 0px" }}
                           >
                             <p>
-                              Customer: 
+                              Customer:
                             </p>
                           </div>
                           <div
@@ -378,7 +417,7 @@ const OrderView = () => {
                           >
                             <p>
                               Date:{" "}
-                            
+
                             </p>
                           </div>
                         </Col>
@@ -412,7 +451,7 @@ const OrderView = () => {
                               <h6 className="text-end">SubTotal</h6>
                             </div>
                           </div>
-                          
+
                           <div
                             style={{
                               display: "flex",
@@ -442,7 +481,7 @@ const OrderView = () => {
                                 >
                                   <p className="mt-2">
                                     Total{" "}
-                                   
+
                                   </p>
                                   <p></p>
                                 </div>
@@ -558,7 +597,7 @@ const OrderView = () => {
                   <h2 className="hideprint">Order Receipt</h2>
 
                   <div className="modal-body receiptModal-body">
-                    
+
                   </div>
 
                   <div className="modal-footer mt-5">
