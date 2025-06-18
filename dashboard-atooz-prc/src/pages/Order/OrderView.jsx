@@ -66,6 +66,24 @@ const OrderView = () => {
     return deliveryStatusIndex >= index;
   };
 
+  const handleInvoicePDF = (invoice_no) => {
+    const element = document.querySelector(".invoiceModal-body"); // Selecting modal body
+    const currentDate = new Date();
+    const fileName = `${invoice_no}_${currentDate
+      .toLocaleDateString()
+      .replaceAll("/", "_")}_${currentDate
+        .toLocaleTimeString()
+        .replace(/:/g, "-")}_invoice.pdf`;
+    const opt = {
+      margin: 1,
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+    html2pdf().from(element).set(opt).save(); // Generating PDF from modal body
+  };
+
   return (
     <Wrapper>
       <div className="layout">
