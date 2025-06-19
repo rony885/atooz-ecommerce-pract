@@ -19,6 +19,7 @@ import ProductPriceStock from "./pages/Products/ProductPriceStock";
 
 import OrderList from "./pages/Order/OrderList";
 import OrderAdd from "./pages/Order/OrderAdd";
+import OrderView from "./pages/Order/OrderView";
 
 import PurchaseAdd from "./pages/Purchase/PurchaseAdd";
 import PurchaseList from "./pages/Purchase/PurchaseList";
@@ -37,6 +38,7 @@ import ManageBalance from "./pages/Setting/ManageBalance";
 import GeneralSetting from "./pages/Setting/GeneralSetting";
 import SignIn from "./pages/SignIn/SignIn";
 import { useApiContext } from "./context/ApiContext";
+
 
 
 function App() {
@@ -109,6 +111,7 @@ function App() {
 
             <Route path="/orders" element={<OrderList />}></Route>
             <Route path="/order-add" element={<OrderAdd />}></Route>
+            <Route path="/order-view/:id" element={<OrderView />}></Route>
             <Route path="/login" element={<SignIn />}></Route>
 
             <Route path="/purchase-add" element={<PurchaseAdd />}></Route>
