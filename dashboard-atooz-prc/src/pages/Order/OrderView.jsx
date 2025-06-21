@@ -84,6 +84,28 @@ const OrderView = () => {
     html2pdf().from(element).set(opt).save(); // Generating PDF from modal body
   };
 
+  const handleReceiptPDF = (invoice_no) => {
+    const element = document.querySelector(".receiptModal-body"); // Selecting modal body
+    const currentDate = new Date();
+    const fileName = `${invoice_no}_${currentDate
+      .toLocaleDateString()
+      .replaceAll("/", "_")}_${currentDate
+        .toLocaleTimeString()
+        .replace(/:/g, "-")}_receipt.pdf`;
+    const opt = {
+      margin: 1,
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+    html2pdf().from(element).set(opt).save(); // Generating PDF from modal body
+  };
+
+  const handlePrint = () => {
+    window.print(); // Print the current page
+  };
+
   return (
     <Wrapper>
       <div className="layout">
