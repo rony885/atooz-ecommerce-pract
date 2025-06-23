@@ -152,9 +152,20 @@ const OrderView = () => {
                         <div className="card-body d-flex align-items-center flex-wrap gap-3">
                           <div className="flex-grow-1">
                             <p className="text-muted mb-2">Order Number</p>
-                            {/* <h6 className="fs-md mb-0">{item.order_no}</h6> */}
+                            <h6 className="fs-md mb-0">{item.order_no}</h6>
                           </div>
+                          <div className="flex-shrink-0 text-end">
+                            <h6 className="fs-md mb-2">
+                              {item.order_date}
+                              <i className="bi bi-calendar4-event align-baseline ms-1"></i>
+                            </h6>
 
+                            <p className="text-muted mb-0">
+                              {timeString}
+                              {/* {item.order_date_time} */}
+                              <i className="bi bi-clock align-baseline ms-1"></i>
+                            </p>
+                          </div>
 
                         </div>
                       </div>
@@ -200,14 +211,14 @@ const OrderView = () => {
                           <h6 className="card-title mb-0 flex-grow-1">
                             Product Items
                           </h6>
-                          <div className="flex-shrink-0">
+                          {/* <div className="flex-shrink-0">
                             <button
                               type="button"
                               className="btn btn-danger btn-sm"
                             >
                               <i className="ph-x align-middle"></i> Cancel Order
                             </button>
-                          </div>
+                          </div> */}
                         </div>
 
                         <div className="card-body">
@@ -235,7 +246,7 @@ const OrderView = () => {
                               <div className="text-center border border-dashed p-3 rounded">
                                 <p className="text-muted mb-2">Order Date</p>
                                 <h6 className="fs-md mb-0">
-                                  {/* {item.order_date} */}
+                                  {item.order_date}
                                 </h6>
                               </div>
                             </div>
@@ -243,7 +254,7 @@ const OrderView = () => {
                             <div className="col-sm-6 col-lg-6 col-xl-3">
                               <div className="text-center border border-dashed p-3 rounded">
                                 <p className="text-muted mb-2">Order Time</p>
-                                {/* <h6 className="fs-md mb-0">{timeString}</h6> */}
+                                <h6 className="fs-md mb-0">{timeString}</h6>
                               </div>
                             </div>
 
@@ -251,7 +262,7 @@ const OrderView = () => {
                               <div className="text-center border border-dashed p-3 rounded">
                                 <p className="text-muted mb-2">Order Status</p>
                                 <span className="badge bg-danger-subtle text-danger mb-0">
-                                  {/* {item.delivery_status} */}
+                                  {item.delivery_status}
                                 </span>
                               </div>
                             </div>
@@ -259,7 +270,7 @@ const OrderView = () => {
                             <div className="col-sm-6 col-lg-6 col-xl-3">
                               <div className="text-center border border-dashed p-3 rounded">
                                 <p className="text-muted mb-2">Delivery Type</p>
-
+                                {item.delivery_type ? item.delivery_type.name : '-'}
                               </div>
                             </div>
                           </div>
