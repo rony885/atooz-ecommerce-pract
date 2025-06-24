@@ -162,7 +162,6 @@ const OrderView = () => {
 
                             <p className="text-muted mb-0">
                               {timeString}
-                              {/* {item.order_date_time} */}
                               <i className="bi bi-clock align-baseline ms-1"></i>
                             </p>
                           </div>
@@ -178,7 +177,13 @@ const OrderView = () => {
                         <div className="card-body d-flex gap-3">
                           <div className="flex-grow-1">
                             <h6 className="card-title mb-3">Customer Info</h6>
-
+                            <p className="fw-medium fs-md mb-1">
+                              {item.customer && item.customer.name}
+                            </p>
+                            <p className="text-muted mb-1">
+                              {item.customer && item.customer.email}
+                            </p>
+                            <p className="text-muted mb-0">{item.customer && item.customer.address}</p>
                           </div>
                         </div>
                       </div>
@@ -190,13 +195,13 @@ const OrderView = () => {
                           <div className="flex-grow-1">
                             <h6 className="card-title mb-3">Payment Info</h6>
                             <p className="fw-medium fs-md mb-1">
-                              Order Number:
+                              Order Number: {item.order_no}
                             </p>
                             <p className="text-muted mb-1">
-                              Invoice Nummber:
+                              Invoice Nummber: {item.invoice_no}
                             </p>
                             <p className="text-muted mb-0">
-                              Payment Method:
+                              Payment Method: {item.payment_method}
                             </p>
                           </div>
                         </div>
@@ -231,12 +236,62 @@ const OrderView = () => {
                                   <th>Color</th>
                                   <th className="text-end">Item Price</th>
                                   <th>Quantity</th>
-
                                   <th className="text-end">Amount</th>
                                 </tr>
                               </thead>
                               <tbody>
+                                {item.order_details &&
+                                  item.order_details.map((item, index) => {
+                                    return (
+                                      <tr key={index}>
+                                        <td>
+                                          <div className="product-item d-flex  align-items-center gap-2">
+                                            <div className="avatar-sm flex-shrink-0">
+                                              <div className="avatar-title bg-light rounded">
+                                                <img
+                                                  src={
+                                                    item.product.mainImage &&
+                                                    `${process.env
+                                                      .REACT_APP_BASE_URL
+                                                    }${item.product.mainImage.replace(
+                                                      "server/",
+                                                      ""
+                                                    )}`
+                                                  }
+                                                  alt={item.product.name}
+                                                  className="avatar-xs"
+                                                  width={50}
+                                                  height={50}
+                                                />
+                                              </div>
+                                            </div>
 
+                                            <div className="flex-grow-1">
+                                              <h6 className="fs-md text-start">
+
+                                              </h6>
+
+                                              <p className="text-muted mb-0 text-start">
+                                                #
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td></td>
+                                        <td className="text-capitalize">
+
+                                        </td>
+                                        <td className="text-end">
+
+                                        </td>
+                                        <td>{item.quantity}</td>
+
+                                        <td className="fw-medium text-end">
+
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
                               </tbody>
                             </table>
                           </div>
