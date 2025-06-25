@@ -268,26 +268,28 @@ const OrderView = () => {
 
                                             <div className="flex-grow-1">
                                               <h6 className="fs-md text-start">
-
+                                                {item.product.name}
                                               </h6>
 
                                               <p className="text-muted mb-0 text-start">
-                                                #
+                                                # {item.product.product_id}
                                               </p>
                                             </div>
                                           </div>
                                         </td>
-                                        <td></td>
-                                        <td className="text-capitalize">
 
+                                        <td>{item.sizes ? item.sizes : "-"}</td>
+
+                                        <td className="text-capitalize">
+                                          {item.colors ? item.colors : "-"}
                                         </td>
                                         <td className="text-end">
-
+                                          {FractionDigits(item.bdtRate)}
                                         </td>
                                         <td>{item.quantity}</td>
 
                                         <td className="fw-medium text-end">
-
+                                          {FractionDigits(item.linePrice)}
                                         </td>
                                       </tr>
                                     );
