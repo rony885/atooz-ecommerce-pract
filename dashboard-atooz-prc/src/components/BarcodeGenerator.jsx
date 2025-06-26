@@ -6,7 +6,7 @@ const BarcodeGenerator = ({ value }) => {
   const barcodeOptions = {
     width: 1, // Set the width of the bars
     height: 40, // Set the height of the barcode
-    fontSize: 4, // Set the font size for the text (if applicable)
+    fontSize: 8, // Set the font size for the text (if applicable)
   };
 
   return (

@@ -353,14 +353,14 @@ const OrderView = () => {
                                         Sub Total :
                                       </td>
                                       <td className="text-end">
-
+                                        {item.total_amount}
                                       </td>
                                     </tr>
                                     <tr>
                                       <td className="text-start">Discount :</td>
                                       <td className="text-end">
                                         (-) &nbsp;
-
+                                        {item.discount}
                                       </td>
                                     </tr>
                                     <tr>
@@ -368,7 +368,7 @@ const OrderView = () => {
                                         Delivery Charge :
                                       </td>
                                       <td className="text-end">
-                                        (+)
+                                        (+) &nbsp;{item.delivery_charge}
                                       </td>
                                     </tr>
                                     <tr className="border-top border-top-dashed">
@@ -376,7 +376,7 @@ const OrderView = () => {
                                         Payable Amount :
                                       </td>
                                       <td className="text-end">
-
+                                        {item.payable_amount}
                                       </td>
                                     </tr>
                                     <tr>
@@ -384,7 +384,7 @@ const OrderView = () => {
                                         Paid Amount :
                                       </td>
                                       <td className="text-end">
-
+                                        {item.paid_amount}
                                       </td>
                                     </tr>
                                     <tr>
@@ -392,7 +392,7 @@ const OrderView = () => {
                                         Due Amount :
                                       </td>
                                       <td className="text-end">
-
+                                        {item.due_amount}
                                       </td>
                                     </tr>
 
@@ -401,7 +401,7 @@ const OrderView = () => {
                                         Total (BDT) :
                                       </th>
                                       <th className="text-end">
-
+                                        {item.grand_total_amount}
                                       </th>
                                     </tr>
                                   </tbody>
@@ -415,9 +415,7 @@ const OrderView = () => {
                           <div className="card bg-white">
                             <div className="card-body border-top border-dashed">
                               <div>
-                                <h6 className="text-muted float-end mb-0">
-
-                                </h6>
+                                <h6 className="text-muted float-end mb-0">{item.order_no}</h6>
 
                                 <p className="text-muted mb-2 mb-md-0">
                                   Scan barcode to track
@@ -425,7 +423,7 @@ const OrderView = () => {
 
                                 <div className="text-center p-3 pb-0">
                                   <BarcodeGenerator
-                                  // value={item.order_no && item.order_no}
+                                  value={item.order_no && item.order_no}
                                   />
                                 </div>
                               </div>
