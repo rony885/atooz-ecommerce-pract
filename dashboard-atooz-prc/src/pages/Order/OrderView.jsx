@@ -444,7 +444,7 @@ const OrderView = () => {
                         </div>
                         <div className="card-body">
                           <div className="progress progress-step-arrow progress-info mb-4">
-                            {/* {stages.map((stage, index) => (
+                            {stages.map((stage, index) => (
                               <Link
                                 to=""
                                 key={stage}
@@ -459,7 +459,7 @@ const OrderView = () => {
                               >
                                 {stage}
                               </Link>
-                            ))} */}
+                            ))}
                           </div>
 
 
