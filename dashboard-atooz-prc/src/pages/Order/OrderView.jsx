@@ -106,6 +106,29 @@ const OrderView = () => {
     window.print(); // Print the current page
   };
 
+  //  ************************* formatDateTime*********************
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    // Format the date as "23-08-24"
+    const formattedDate = date
+      .toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      })
+      .replace(/\//g, "-");
+    // Format the time as "11:47 am"
+    const formattedTime = date
+      .toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+      .toLowerCase();
+    // Combine date and time with a comma and space
+    return `${formattedDate}, ${formattedTime}`;
+  };
+
   return (
     <Wrapper>
       <div className="layout">
@@ -423,7 +446,7 @@ const OrderView = () => {
 
                                 <div className="text-center p-3 pb-0">
                                   <BarcodeGenerator
-                                  value={item.order_no && item.order_no}
+                                    value={item.order_no && item.order_no}
                                   />
                                 </div>
                               </div>
@@ -448,9 +471,8 @@ const OrderView = () => {
                               <Link
                                 to=""
                                 key={stage}
-                                className={`progress-bar ${
-                                  isStageActive(index) ? "active " : ""
-                                }`}
+                                className={`progress-bar ${isStageActive(index) ? "active " : ""
+                                  }`}
                                 role="progressbar"
                                 style={{ width: "100%" }}
                                 aria-valuenow="100"
@@ -514,7 +536,7 @@ const OrderView = () => {
                             style={{ lineHeight: "5px", padding: "0px 0px" }}
                           >
                             <p>
-                              Customer:
+                              Customer: {item.customer && item.customer.name}
                             </p>
                           </div>
                           <div
@@ -522,7 +544,7 @@ const OrderView = () => {
                             style={{ lineHeight: "5px", padding: "0px 0px" }}
                           >
                             <p>
-                              Date:{" "}
+                              Date: 
 
                             </p>
                           </div>
