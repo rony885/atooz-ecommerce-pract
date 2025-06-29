@@ -106,6 +106,15 @@ const OrderView = () => {
     window.print(); // Print the current page
   };
 
+  // receipt date format
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   //  ************************* formatDateTime*********************
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
@@ -544,8 +553,7 @@ const OrderView = () => {
                             style={{ lineHeight: "5px", padding: "0px 0px" }}
                           >
                             <p>
-                              Date: 
-
+                              Date: {item.order_date ? formatDate(item.order_date) : "Loading..."}
                             </p>
                           </div>
                         </Col>
@@ -580,6 +588,42 @@ const OrderView = () => {
                             </div>
                           </div>
 
+                          {item.order_details &&
+                            item.order_details.map((data, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    textAlign: "center",
+                                    // marginBottom: "20px",
+                                    padding: "0px 10px",
+                                  }}
+                                >
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-start">{index + 1}</p>
+                                  </div>
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-start">
+                                      {data.product && data.product.name}
+                                    </p>
+                                  </div>
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-center">
+                                      {data.quantity}
+                                    </p>
+                                  </div>
+                                  <div style={{ width: "100%" }}>
+                                    <p className="text-end">
+                                      {FractionDigits(data.linePrice)}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+
                           <div
                             style={{
                               display: "flex",
@@ -608,17 +652,19 @@ const OrderView = () => {
                                   style={{ width: "100%" }}
                                 >
                                   <p className="mt-2">
-                                    Total{" "}
-
+                                    Total  {item.total_item > 1 ? "Items" : "Item"} :{" "}
                                   </p>
-                                  <p></p>
+                                  <p >
+                                    {item.total_item}
+                                  </p>
                                 </div>
                                 <div
+
                                   className="d-flex justify-content-between align-items-center gap-3"
                                   style={{ width: "100%" }}
                                 >
                                   <p>Total:</p>
-                                  <p> BDT</p>
+                                  <p>{item.total_amount} BDT</p>
                                 </div>
                                 <div
                                   className="d-flex justify-content-between align-items-center gap-3"
@@ -659,6 +705,7 @@ const OrderView = () => {
                               </div>
                             </div>
                           </div>
+
                           <div
                             style={{
                               width: "100%",
