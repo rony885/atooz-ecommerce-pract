@@ -671,14 +671,14 @@ const OrderView = () => {
                                   style={{ width: "100%" }}
                                 >
                                   <p>Discount: </p>
-                                  <p> BDT</p>
+                                  <p>{item.discount} BDT</p>
                                 </div>
                                 <div
                                   className="d-flex justify-content-between align-items-center gap-3"
                                   style={{ width: "100%" }}
                                 >
                                   <p>Delivery Charge: </p>
-                                  <p> BDT</p>
+                                  <p>{item.delivery_charge} BDT</p>
                                 </div>
                               </div>
                               <div
@@ -700,7 +700,7 @@ const OrderView = () => {
                                   }}
                                 >
                                   {" "}
-                                  BDT
+                                 {item.grand_total_amount} BDT
                                 </p>
                               </div>
                             </div>
@@ -743,14 +743,14 @@ const OrderView = () => {
                         Cancel
                       </button>
                       <button
-                        // onClick={() => handleInvoicePDF(item.invoice_no)}
+                        onClick={() => handleInvoicePDF(item.invoice_no)}
                         type="submit"
                         className="btn btn-primary"
                       >
                         PDf
                       </button>
                       <button
-                        // onClick={() => handlePrint()}
+                        onClick={() => handlePrint()}
                         type="submit"
                         className="btn btn-primary"
                       >
