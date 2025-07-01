@@ -522,7 +522,7 @@ const OrderView = () => {
                             <p>Tel: 123456789</p>
                           </div>
                           <div style={{ lineHeight: "0px", fontSize: "18px" }}>
-                            <p>#</p>
+                            <p>#{item.invoice_no}</p>
                           </div>
                           <div
                             className="d-flex justify-content-center align-items-center"
@@ -700,7 +700,7 @@ const OrderView = () => {
                                   }}
                                 >
                                   {" "}
-                                 {item.grand_total_amount} BDT
+                                  {item.grand_total_amount} BDT
                                 </p>
                               </div>
                             </div>
@@ -772,7 +772,49 @@ const OrderView = () => {
                   <h2 className="hideprint">Order Receipt</h2>
 
                   <div className="modal-body receiptModal-body">
+                    <div className="modal-body invoiceModal-body">
+                      <Container>
+                        <Row>
+                        <div
+                          className=" align-items-center text-center my-0 mb-2 receiptHead"
+                          style={{ lineHeight: "5px" }}
+                        >
+                          <div style={{ textAlign: "justify" }}>
+                            <div
+                              // dangerouslySetInnerHTML={{
+                              //   __html:
+                              //     general_settings &&
+                              //     general_settings.receipt_header,
+                              // }}
+                            ></div>
+                          </div>
 
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                          <h6 style={{ fontSize: "12px" }} className="my-1">
+                            Invoice: 
+                            {/* {item && item.invoice_no} */}
+                          </h6>
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                        </div>
+                      </Row>
+                      </Container>
+                    </div>
                   </div>
 
                   <div className="modal-footer mt-5">
