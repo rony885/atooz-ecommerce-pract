@@ -781,11 +781,11 @@ const OrderView = () => {
                         >
                           <div style={{ textAlign: "justify" }}>
                             <div
-                              // dangerouslySetInnerHTML={{
-                              //   __html:
-                              //     general_settings &&
-                              //     general_settings.receipt_header,
-                              // }}
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  general_settings &&
+                                  general_settings.receipt_header,
+                              }}
                             ></div>
                           </div>
 
@@ -800,7 +800,7 @@ const OrderView = () => {
                           />
                           <h6 style={{ fontSize: "12px" }} className="my-1">
                             Invoice: 
-                            {/* {item && item.invoice_no} */}
+                            {item && item.invoice_no}
                           </h6>
                           <hr
                             style={{
@@ -811,6 +811,47 @@ const OrderView = () => {
                               margin: "0 auto",
                             }}
                           />
+                        </div>
+                      </Row>
+                       <Row className="receptInfo">
+                        <div>
+                          <p className="mb-0">
+                            Date :{" "}
+                            {item && item.order_date_time
+                              ? formatDateTime(item.order_date_time)
+                              : "Loading..."}
+                            .
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            lineHeight: "4px",
+                            margin: "10px 0",
+                            fontSize: "14px",
+                          }}
+                        >
+                          <div>
+                            <p>
+                              Customer{" "}
+                              <span style={{ marginLeft: "1px" }}>: </span>
+                              {item && item.customer && item.customer.name}
+                            </p>
+                          </div>
+
+                          {/* <div>
+                            <p>
+                              Bill Creator :{" "}
+                              {item &&
+                                item.creator &&
+                                (item && item.creator.f_name !== null
+                                  ? item && item.creator.f_name
+                                  : "") +
+                                  " " +
+                                  (item && item.creator.l_name !== null
+                                    ? item && item.creator.l_name
+                                    : "")}
+                            </p>
+                          </div> */}
                         </div>
                       </Row>
                       </Container>
