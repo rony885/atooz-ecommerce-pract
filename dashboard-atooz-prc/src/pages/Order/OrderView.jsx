@@ -775,70 +775,70 @@ const OrderView = () => {
                     <div className="modal-body invoiceModal-body">
                       <Container>
                         <Row>
-                        <div
-                          className=" align-items-center text-center my-0 mb-2 receiptHead"
-                          style={{ lineHeight: "5px" }}
-                        >
-                          <div style={{ textAlign: "justify" }}>
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  general_settings &&
-                                  general_settings.receipt_header,
-                              }}
-                            ></div>
-                          </div>
+                          <div
+                            className=" align-items-center text-center my-0 mb-2 receiptHead"
+                            style={{ lineHeight: "5px" }}
+                          >
+                            <div style={{ textAlign: "justify" }}>
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    general_settings &&
+                                    general_settings.receipt_header,
+                                }}
+                              ></div>
+                            </div>
 
-                          <hr
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "100%",
-                              margin: "0 auto",
-                            }}
-                          />
-                          <h6 style={{ fontSize: "12px" }} className="my-1">
-                            Invoice: 
-                            {item && item.invoice_no}
-                          </h6>
-                          <hr
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "100%",
-                              margin: "0 auto",
-                            }}
-                          />
-                        </div>
-                      </Row>
-                       <Row className="receptInfo">
-                        <div>
-                          <p className="mb-0">
-                            Date :{" "}
-                            {item && item.order_date_time
-                              ? formatDateTime(item.order_date_time)
-                              : "Loading..."}
-                            .
-                          </p>
-                        </div>
-                        <div
-                          style={{
-                            lineHeight: "4px",
-                            margin: "10px 0",
-                            fontSize: "14px",
-                          }}
-                        >
+                            <hr
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                width: "100%",
+                                margin: "0 auto",
+                              }}
+                            />
+                            <h6 style={{ fontSize: "12px" }} className="my-1">
+                              Invoice:
+                              {item && item.invoice_no}
+                            </h6>
+                            <hr
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                width: "100%",
+                                margin: "0 auto",
+                              }}
+                            />
+                          </div>
+                        </Row>
+                        <Row className="receptInfo">
                           <div>
-                            <p>
-                              Customer{" "}
-                              <span style={{ marginLeft: "1px" }}>: </span>
-                              {item && item.customer && item.customer.name}
+                            <p className="mb-0">
+                              Date :{" "}
+                              {item && item.order_date_time
+                                ? formatDateTime(item.order_date_time)
+                                : "Loading..."}
+                              .
                             </p>
                           </div>
+                          <div
+                            style={{
+                              lineHeight: "4px",
+                              margin: "10px 0",
+                              fontSize: "14px",
+                            }}
+                          >
+                            <div>
+                              <p>
+                                Customer{" "}
+                                <span style={{ marginLeft: "1px" }}>: </span>
+                                {item && item.customer && item.customer.name}
+                              </p>
+                            </div>
 
-                          {/* <div>
+                            {/* <div>
                             <p>
                               Bill Creator :{" "}
                               {item &&
@@ -852,7 +852,94 @@ const OrderView = () => {
                                     : "")}
                             </p>
                           </div> */}
+                          </div>
+                        </Row>
+                        <Row className="productDetails">
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: "10px",
+                            justifyContent: "space-between",
+                            color: "#050505",
+                            padding: "5px 10px",
+                            textAlign: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <div style={{ width: "5%", textAlign: "start" }}>
+                            <h6>SL</h6>
+                          </div>
+                          <div style={{ width: "35%", textAlign: "start" }}>
+                            <h6>Product</h6>
+                          </div>
+                          <div style={{ width: "10%", textAlign: "start" }}>
+                            <h6>Qty</h6>
+                          </div>
+                          <div style={{ width: "25%", textAlign: "right" }}>
+                            <h6>Price</h6>
+                          </div>
+                          <div style={{ width: "25%", textAlign: "right" }}>
+                            <h6>Total</h6>
+                          </div>
                         </div>
+                        <hr
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            margin: "0 auto",
+                          }}
+                        />
+                        {item &&
+                          item.order_details &&
+                          item &&
+                          item.order_details.map((data, index) => {
+                            return (
+                              <div
+                                key={index}
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  gap: "10px",
+                                  justifyContent: "space-between",
+                                  // backgroundColor: "#555555",
+                                  color: "#050505",
+                                  padding: "4px 10px",
+                                  textAlign: "center",
+                                  alignItems: "center",
+                                  // lineHeight: "4px",
+                                }}
+                              >
+                                <div
+                                  style={{ width: "5%", textAlign: "start" }}
+                                >
+                                  <p>{index + 1}</p>
+                                </div>
+                                <div
+                                  style={{ width: "35%", textAlign: "start" }}
+                                >
+                                  <p>{data.product && data.product.name}</p>
+                                </div>
+                                <div
+                                  style={{ width: "10%", textAlign: "start" }}
+                                >
+                                  <p>{data.quantity}</p>
+                                </div>
+                                <div
+                                  style={{ width: "25%", textAlign: "right" }}
+                                >
+                                  <p>{FractionDigits(data.bdtRate)}</p>
+                                </div>
+                                <div
+                                  style={{ width: "25%", textAlign: "right" }}
+                                >
+                                  <p>{FractionDigits(data.linePrice)}</p>
+                                </div>
+                              </div>
+                            );
+                          })}
                       </Row>
                       </Container>
                     </div>
