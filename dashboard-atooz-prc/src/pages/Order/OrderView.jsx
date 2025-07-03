@@ -855,92 +855,279 @@ const OrderView = () => {
                           </div>
                         </Row>
                         <Row className="productDetails">
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            gap: "10px",
-                            justifyContent: "space-between",
-                            color: "#050505",
-                            padding: "5px 10px",
-                            textAlign: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div style={{ width: "5%", textAlign: "start" }}>
-                            <h6>SL</h6>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              gap: "10px",
+                              justifyContent: "space-between",
+                              color: "#050505",
+                              padding: "5px 10px",
+                              textAlign: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <div style={{ width: "5%", textAlign: "start" }}>
+                              <h6>SL</h6>
+                            </div>
+                            <div style={{ width: "35%", textAlign: "start" }}>
+                              <h6>Product</h6>
+                            </div>
+                            <div style={{ width: "10%", textAlign: "start" }}>
+                              <h6>Qty</h6>
+                            </div>
+                            <div style={{ width: "25%", textAlign: "right" }}>
+                              <h6>Price</h6>
+                            </div>
+                            <div style={{ width: "25%", textAlign: "right" }}>
+                              <h6>Total</h6>
+                            </div>
                           </div>
-                          <div style={{ width: "35%", textAlign: "start" }}>
-                            <h6>Product</h6>
-                          </div>
-                          <div style={{ width: "10%", textAlign: "start" }}>
-                            <h6>Qty</h6>
-                          </div>
-                          <div style={{ width: "25%", textAlign: "right" }}>
-                            <h6>Price</h6>
-                          </div>
-                          <div style={{ width: "25%", textAlign: "right" }}>
-                            <h6>Total</h6>
-                          </div>
-                        </div>
-                        <hr
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                            margin: "0 auto",
-                          }}
-                        />
-                        {item &&
-                          item.order_details &&
-                          item &&
-                          item.order_details.map((data, index) => {
-                            return (
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                          {item &&
+                            item.order_details &&
+                            item &&
+                            item.order_details.map((data, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: "10px",
+                                    justifyContent: "space-between",
+                                    // backgroundColor: "#555555",
+                                    color: "#050505",
+                                    padding: "4px 10px",
+                                    textAlign: "center",
+                                    alignItems: "center",
+                                    // lineHeight: "4px",
+                                  }}
+                                >
+                                  <div
+                                    style={{ width: "5%", textAlign: "start" }}
+                                  >
+                                    <p>{index + 1}</p>
+                                  </div>
+                                  <div
+                                    style={{ width: "35%", textAlign: "start" }}
+                                  >
+                                    <p>{data.product && data.product.name}</p>
+                                  </div>
+                                  <div
+                                    style={{ width: "10%", textAlign: "start" }}
+                                  >
+                                    <p>{data.quantity}</p>
+                                  </div>
+                                  <div
+                                    style={{ width: "25%", textAlign: "right" }}
+                                  >
+                                    <p>{FractionDigits(data.bdtRate)}</p>
+                                  </div>
+                                  <div
+                                    style={{ width: "25%", textAlign: "right" }}
+                                  >
+                                    <p>{FractionDigits(data.linePrice)}</p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </Row>
+                        <Row className="receiptTotalcost">
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                              marginBottom: "0px",
+                            }}
+                          />
+                          <div
+                            style={{
+                              lineHeight: "15px",
+                              // marginTop: "8px",
+                            }}
+                          >
+                            <div
+                              className="d-flex justify-content-between align-items-center gap-3 "
+                              style={{ width: "100%" }}
+                            >
                               <div
-                                key={index}
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  gap: "10px",
-                                  justifyContent: "space-between",
-                                  // backgroundColor: "#555555",
-                                  color: "#050505",
-                                  padding: "4px 10px",
-                                  textAlign: "center",
-                                  alignItems: "center",
-                                  // lineHeight: "4px",
-                                }}
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ width: "35%" }}
                               >
-                                <div
-                                  style={{ width: "5%", textAlign: "start" }}
-                                >
-                                  <p>{index + 1}</p>
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <p className="mt-2">
+                                    Subtotal ({item && item.total_item}{" "}
+                                    {item && item.total_item > 1
+                                      ? "items"
+                                      : "item"}
+                                    )
+                                  </p>
                                 </div>
-                                <div
-                                  style={{ width: "35%", textAlign: "start" }}
-                                >
-                                  <p>{data.product && data.product.name}</p>
-                                </div>
-                                <div
-                                  style={{ width: "10%", textAlign: "start" }}
-                                >
-                                  <p>{data.quantity}</p>
-                                </div>
-                                <div
-                                  style={{ width: "25%", textAlign: "right" }}
-                                >
-                                  <p>{FractionDigits(data.bdtRate)}</p>
-                                </div>
-                                <div
-                                  style={{ width: "25%", textAlign: "right" }}
-                                >
-                                  <p>{FractionDigits(data.linePrice)}</p>
+                                <div className="d-flex justify-content-end align-items-center">
+                                  <p className="mt-2">:</p>
                                 </div>
                               </div>
-                            );
-                          })}
-                      </Row>
+                              <p className="mt-2">
+                                {FractionDigits(item && item.total_amount)}
+                              </p>
+                            </div>
+                            <div
+                              className="d-flex justify-content-between align-items-center gap-3"
+                              style={{ width: "100%" }}
+                            >
+                              <div
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ width: "35%" }}
+                              >
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <p>Discount</p>
+                                </div>
+                                <div className="d-flex justify-content-end align-items-center">
+                                  <p>:</p>
+                                </div>
+                              </div>
+                              <p>
+                                (-)&nbsp;
+                                {FractionDigits(item && item.discount)}{" "}
+                              </p>
+                            </div>
+                            <div
+                              className="d-flex justify-content-between align-items-center gap-3"
+                              style={{ width: "100%" }}
+                            >
+                              {/* <p>Service Charge :</p> */}
+                              <div
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ width: "35%" }}
+                              >
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <p>Delivery Charge</p>
+                                </div>
+                                <div className="d-flex justify-content-end align-items-center">
+                                  <p>:</p>
+                                </div>
+                              </div>
+                              <p>
+                                (+)&nbsp;
+                                {item && item.delivery_charge}{" "}
+                              </p>
+                            </div>
+                            <hr
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                width: "100%",
+                                margin: "3px auto",
+                              }}
+                            />
+                            <div
+                              className="d-flex justify-content-between align-items-center gap-3"
+                              style={{ width: "100%" }}
+                            >
+                              <div
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ width: "35%" }}
+                              >
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <p className="mt-2">Total</p>
+                                </div>
+                                <div className="d-flex justify-content-end align-items-center">
+                                  <p className="mt-2">:</p>
+                                </div>
+                              </div>
+                              <p className="mt-2">
+                                {FractionDigits(item && item.grand_total_amount)}{" "}
+                              </p>
+                            </div>
+                            <div
+                              className="d-flex justify-content-between align-items-center gap-3"
+                              style={{ width: "100%" }}
+                            >
+                              <div
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ width: "35%" }}
+                              >
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <p className="text-capitalize">
+                                    Paid Amount (
+                                    {item &&
+                                      item.payment_details &&
+                                      item &&
+                                      item.payment_details[0].payment_method}
+                                    ){" "}
+                                  </p>
+                                </div>
+                                <div className="d-flex justify-content-end align-items-center">
+                                  <p>:</p>
+                                </div>
+                              </div>
+                              <p>{FractionDigits(item && item.paid_amount)} </p>
+                            </div>
+
+                            <div
+                              className="d-flex justify-content-between align-items-center gap-3"
+                              style={{ width: "100%" }}
+                            >
+                              <div
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ width: "35%" }}
+                              >
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <p>Due Amount</p>
+                                </div>
+                                <div className="d-flex justify-content-end align-items-center">
+                                  <p>:</p>
+                                </div>
+                              </div>
+                              <p>{FractionDigits(item && item.due_amount)} </p>
+                            </div>
+                            <div
+                              className="d-flex justify-content-between align-items-center gap-3"
+                              style={{ width: "100%" }}
+                            >
+                              <div
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ width: "35%" }}
+                              >
+                                <div className="d-flex justify-content-start align-items-center">
+                                  <p>Grand Total</p>
+                                </div>
+                                <div className="d-flex justify-content-end align-items-center">
+                                  <p>:</p>
+                                </div>
+                              </div>
+                              <p>
+                                <b>
+                                  {FractionDigits(
+                                    item && item.grand_total_amount
+                                  )}{" "}
+                                </b>
+                              </p>
+                            </div>
+                          </div>
+                          <hr
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "100%",
+                              margin: "0 auto",
+                            }}
+                          />
+                        </Row>
                       </Container>
                     </div>
                   </div>
