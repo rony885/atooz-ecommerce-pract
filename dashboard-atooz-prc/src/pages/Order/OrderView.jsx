@@ -1128,6 +1128,17 @@ const OrderView = () => {
                             }}
                           />
                         </Row>
+                        <Row className="text-center">
+                          <BarcodeGenerator value={item && item.order_no} />
+                        </Row>
+                        <Row>
+                          <p
+                            className="text-center fw-semibold mb-0"
+                            style={{ fontSize: "10px" }}
+                          >
+                            Developed by EKATTOR iT
+                          </p>
+                        </Row>
                       </Container>
                     </div>
                   </div>
@@ -1142,14 +1153,14 @@ const OrderView = () => {
                         Cancel
                       </button>
                       <button
-                        // onClick={}
+                        onClick={() => handleReceiptPDF(item.invoice_no)}
                         type="submit"
                         className="btn btn-primary"
                       >
                         PDF
                       </button>
                       <button
-                        // onClick={() => handlePrint()}
+                        onClick={() => handlePrint()}
                         type="submit"
                         className="btn btn-primary"
                       >
