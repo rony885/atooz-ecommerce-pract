@@ -10,8 +10,16 @@ import bannerImg1 from "../../../images/atooz-img-1.jpg";
 import bannerImg2 from "../../../images/atooz-img-2.jpg";
 import bannerImg3 from "../../../images/atooz-img-3.jpg";
 import bannerImg from "../../../images/atooz-sell-img.jpg";
+import { useEffect } from "react";
+import { useProductContext } from "../../../context/ProductContext";
 
 const Banner = () => {
+  const { general_settings, fetchGeneralSettings } = useProductContext();
+
+  useEffect(() => {
+    fetchGeneralSettings();
+  }, [fetchGeneralSettings]);
+
   return (
     <Wrapper>
       <div className=" mb-4 banner">
@@ -35,7 +43,8 @@ const Banner = () => {
             >
               <SwiperSlide className="swiper-slide">
                 <img
-                  src={bannerImg1}
+                  // src={bannerImg1}
+                  src={general_settings && general_settings.homeBannerImage1}
                   alt=""
                   className="img-fluid"
                   style={{ height: "448px", width: "100%" }}
@@ -44,7 +53,7 @@ const Banner = () => {
 
               <SwiperSlide className="swiper-slide">
                 <img
-                  src={bannerImg2}
+                  src={general_settings && general_settings.homeBannerImage2}
                   alt=""
                   className="img-fluid"
                   style={{ height: "448px", width: "100%" }}
@@ -53,7 +62,7 @@ const Banner = () => {
 
               <SwiperSlide className="swiper-slide">
                 <img
-                  src={bannerImg3}
+                  src={general_settings && general_settings.homeBannerImage3}
                   alt=""
                   className="img-fluid"
                   style={{ height: "448px", width: "100%" }}
@@ -64,7 +73,7 @@ const Banner = () => {
 
           <div style={{ width: "27%" }} className="tShirtImg">
             <img
-              src={bannerImg}
+              src={general_settings && general_settings.homeBannerCoverImage}
               className="w-100 mt-0 imggg"
               style={{ height: "448px" }}
               alt=""

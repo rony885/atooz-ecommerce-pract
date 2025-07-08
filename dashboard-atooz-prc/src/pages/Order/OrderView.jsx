@@ -115,7 +115,7 @@ const OrderView = () => {
     return `${day}-${month}-${year}`;
   };
 
-  //  ************************* formatDateTime*********************
+  //  ************************* formatDateTime *********************
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
     // Format the date as "23-08-24"
