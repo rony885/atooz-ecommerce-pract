@@ -39,7 +39,7 @@ const Navbar = () => {
                 width={170}
                 src={logo}
                 className="logoImage"
-                alt=""
+                alt="logo"
               />
             </Link>
           </div>

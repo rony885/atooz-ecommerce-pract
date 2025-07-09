@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -6,16 +7,17 @@ import styled from "styled-components";
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
-import bannerImg1 from "../../../images/atooz-img-1.jpg";
-import bannerImg2 from "../../../images/atooz-img-2.jpg";
-import bannerImg3 from "../../../images/atooz-img-3.jpg";
-import bannerImg from "../../../images/atooz-sell-img.jpg";
-import { useEffect } from "react";
+// import bannerImg1 from "../../../images/atooz-img-1.jpg";
+// import bannerImg2 from "../../../images/atooz-img-2.jpg";
+// import bannerImg3 from "../../../images/atooz-img-3.jpg";
+// import bannerImg from "../../../images/atooz-sell-img.jpg";
+
 import { useProductContext } from "../../../context/ProductContext";
 
 const Banner = () => {
   const { general_settings, fetchGeneralSettings } = useProductContext();
-
+  // console.log(general_settings)
+  
   useEffect(() => {
     fetchGeneralSettings();
   }, [fetchGeneralSettings]);

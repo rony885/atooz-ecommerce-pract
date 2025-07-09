@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -14,8 +14,16 @@ import CategoryImg5 from "../../../images/categoryImg-watch.jpeg";
 import CategoryImg6 from "../../../images/categoryImg-Cemeras.jpg";
 import CategoryImg7 from "../../../images/categoryImg-shoes.png";
 import CategoryImg8 from "../../../images/categoryImg-headPhone.jpg";
+import { useProductContext } from "../../../context/ProductContext";
 
 const Category = () => {
+  // data fetching
+  const { category: categories, fetchCategory } = useProductContext();
+
+  useEffect(() => {
+    fetchCategory();
+  }, [fetchCategory]);
+
   return (
     <>
       <Wrapper>
@@ -72,7 +80,17 @@ const Category = () => {
                   },
                 }}
               >
-                <SwiperSlide className="swiper-slide">
+                {
+                  categories.map((category) => {
+                    return (
+                      <SwiperSlide key={category.id} className="swiper-slide">
+                        <img src={category.name} alt="" />
+                        <h5 className="text-center  text_size">T-Shirt</h5>
+                      </SwiperSlide>
+                    )
+                  })
+                }
+                {/* <SwiperSlide className="swiper-slide">
                   <img src={CategoryImg2} alt="" />
                   <h5 className="text-center  text_size">T-Shirt</h5>
                 </SwiperSlide>
@@ -105,7 +123,7 @@ const Category = () => {
                 <SwiperSlide className="swiper-slide">
                   <img src={CategoryImg8} alt="" />
                   <h5 className="text-center  text_size">HeadPhone</h5>
-                </SwiperSlide>
+                </SwiperSlide> */}
               </Swiper>
             </div>
           </div>
