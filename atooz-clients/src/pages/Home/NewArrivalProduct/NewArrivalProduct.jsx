@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -12,7 +12,21 @@ import phoneImg from "../../../images/product-phoneImg.jpg";
 import shoeImg from "../../../images/product-shoeImg.jpeg";
 import televisonImg from "../../../images/prodect-tvImg.jpg";
 import SingleProd from "../../../components/SingleProd/SingleProd";
+import { useProductContext } from "../../../context/ProductContext";
+
 const NewArrivalProduct = () => {
+    // data fetching
+  const { unpaginate_product, fetchUnpaginateProduct } = useProductContext();
+
+  useEffect(() => {
+    fetchUnpaginateProduct();
+  }, [fetchUnpaginateProduct]);
+
+  const allNewArrivalProducs =
+    unpaginate_product &&
+    unpaginate_product.filter((prod) => prod.isNewArrivalProducts === true);
+
+
   return (
     <Wrapper>
       <div
@@ -63,7 +77,17 @@ const NewArrivalProduct = () => {
                   },
                 }}
               >
-                <SwiperSlide className="swiper-slide">
+                  {allNewArrivalProducs.map((product, index) => (
+                  <SwiperSlide key={index} className="swiper-slide">
+                    <SingleProd
+                      id={product.id}
+                      img={product.mainImage}
+                      name={product.name}
+                      price={`${product.specialPrice}BDT`}
+                    />
+                  </SwiperSlide>
+                ))}
+                {/* <SwiperSlide className="swiper-slide">
                   <SingleProd
                     img={televisonImg}
                     name={"Black T-Shirt"}
@@ -118,7 +142,7 @@ const NewArrivalProduct = () => {
                     name={"Black T-Shirt"}
                     price={"6000Tk."}
                   />
-                </SwiperSlide>
+                </SwiperSlide> */}
               </Swiper>
             </div>
           </div>

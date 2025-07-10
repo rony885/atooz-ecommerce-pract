@@ -80,17 +80,17 @@ const Category = () => {
                   },
                 }}
               >
-                {
-                  categories.map((category) => {
+                {/* {
+                  categories && categories.map((category) => {
                     return (
                       <SwiperSlide key={category.id} className="swiper-slide">
-                        <img src={category.name} alt="" />
+                        <img src={category.image} alt="" />
                         <h5 className="text-center  text_size">T-Shirt</h5>
                       </SwiperSlide>
                     )
                   })
-                }
-                {/* <SwiperSlide className="swiper-slide">
+                } */}
+                <SwiperSlide className="swiper-slide">
                   <img src={CategoryImg2} alt="" />
                   <h5 className="text-center  text_size">T-Shirt</h5>
                 </SwiperSlide>
@@ -123,7 +123,7 @@ const Category = () => {
                 <SwiperSlide className="swiper-slide">
                   <img src={CategoryImg8} alt="" />
                   <h5 className="text-center  text_size">HeadPhone</h5>
-                </SwiperSlide> */}
+                </SwiperSlide>
               </Swiper>
             </div>
           </div>
